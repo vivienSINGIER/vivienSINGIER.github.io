@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css"/>
+<title>Vivien Singier - C++ Developer</title>
+</head>
+
+<body>
+
+<nav class="nav">
+    <div class="nav-inner">
+        <div class="nav-logo"> vivien_singier<span>.dev</span></div>
+        <ul class="nav-links">
+            <li><a href="#hero">Home</a></li>
+            <li><a href="#engine">Engine</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </div>
+</nav>
+
+<header class="hero" id="hero">
+    <div class="container">
+        <div class="section-tag">system_status : introducing...</div>
+        <h1> Chercher Comprendre Construire </h1>
+        <p> En tant que développeur C++ spécialisé en moteurs de jeu, je ne me contente 
+            pas que du fonctionnement d'un projet, mais de chercher <em>pourquoi</em> et surtout <em>comment</em> ?</p>
+        <div class="hero-links">
+            <a href="#engine" class="btn primary">Mon moteur de jeu</a>
+            <a href="https://github.com/vivienSINGIER" class="btn">Mon GitHub</a>
+        </div>
+    </div>
+</header>
+
+<section class="section" id="engine">
+    <div class="container">
+        <div class="section-tag">system_status : building...</div>
+        <div class="section-head reveal">
+            <h2>Mon moteur de jeu</h2>
+            <span class="eyebrow"> [ongoing] </span>
+        </div>
+
+        <div class="engine-feature reveal">
+            <div class="viewport">
+                <span class="vp-label">// IDLE_ENGINE_MAIN</span>
+                <span class="vp-status active">● active dev</span>
+                <video class="vp-video" autoplay muted loop playsinline poster="assets/images/engine_poster.png">
+                    <source src="assets/videos/engine.mp4" type="video/mp4">
+                </video>
+            </div>
+
+            <div class="engine-desc">
+                <h3>Moteur de jeu personnalisé - Rendu, Math & Architecture</h3>
+                <p>Un moteur de jeu construit entierèrement par mes soins : Une librairie de rendu avec DirectX12 et bientôt Vulkan, 
+                    une bibliothèque de mathématiques custom, un début de détection de collisions et un ECS en cours de développement. 
+                    Tout cela construit par pièces pour en comprendre le fonctionnement au lieu de simplement l'utiliser.</p>
+                <div class="engine-tag-row">
+                    <span class="engine-tag">C++</span>
+                    <span class="engine-tag">DirectX12</span>
+                    <span class="engine-tag">HLSL</span>
+                    <span class="engine-tag">Algèbre linéaires</span>
+                    <span class="engine-tag">ECS</span>
+                </div>
+                <a href="engine.html" class="btn primary">En savoir plus →</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="projects">
+    <div class="container">
+        <div class="projects-head reveal">
+            <div class="projects-tag">system_status : exploring...</div>
+            <h2>Mes autres projets - Jeux & Outils</h2>
+            <p class="section-desc">Voici une sélection de mes projets personnels,
+                allant des jeux vidéo aux outils de développement.</p>
+        </div>
+
+        <div class="projects-filters reveal">
+            <button class="filter-btn active" data-filter="all">Tous</button>
+            <button class="filter-btn" data-filter="engine">Moteur</button>
+            <button class="filter-btn" data-filter="game">Jeux</button>
+            <button class="filter-btn" data-filter="tool">Outils</button>
+            <button class="filter-btn" data-filter="other">Autres</button>
+        </div>
+
+        <div class="projects-grid">
+            <!-- Project items will be inserted here -->
+
+            <article class="project-item reveal" data-category="engine">
+                <div class="viewport">
+                    <span class="vp-label">// PROJECT_MAIN</span>
+                    <span class="vp-status">[stable]</span>
+                    <video autoplay muted loop poster="assets/images/game_poster.png">
+                        <source src="assets/videos/engine.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="project-desc">
+                    <h4>Nom de Projet</h4>
+                    <p>Une description du projet faite en une phrase, expliquant les enjeux et technologies du projets</p>
+                </div>
+            </article>
+
+            <article class="project-item reveal" data-category="engine">
+                <div class="viewport">
+                    <span class="vp-label">// PROJECT_MAIN</span>
+                    <span class="vp-status">[stable]</span>
+                    <video autoplay muted loop poster="assets/images/game_poster.png">
+                        <source src="assets/videos/engine.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="project-desc">
+                    <h4>Nom de Projet</h4>
+                    <p>Une description du projet faite en une phrase, expliquant les enjeux et technologies du projets</p>
+                </div>
+            </article>
+
+            <article class="project-item reveal" data-category="engine">
+                <div class="viewport">
+                    <span class="vp-label">// PROJECT_MAIN</span>
+                    <span class="vp-status">[stable]</span>
+                    <video autoplay muted loop poster="assets/images/game_poster.png">
+                        <source src="assets/videos/engine.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="project-desc">
+                    <h4>Nom de Projet</h4>
+                    <p>Une description du projet faite en une phrase, expliquant les enjeux et technologies du projets</p>
+                </div>
+            </article>
+
+        </div>
+    </div>
+</section>
+
+<section class="section" id="skills">
+    <div class="container">
+        <div class="skills-head reveal">
+            <h2>Mes Compétences</h2>
+        </div>
+        <div class="skills-list reveal">
+            <span class="tag">C++</span>
+            <span class="tag">DirectX 12</span>
+            <span class="tag">HLSL</span>
+            <span class="tag">Algèbre Linéaire</span>
+            <span class="tag">Quaternions</span>
+            <span class="tag">Architecture Moteur</span>
+            <span class="tag">Git</span>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="contact" style="border-bottom: none;">
+    <div class="container">
+        <h2>Contactez-moi</h2>
+    </div>
+    <div class="contact-row reveal">
+        <a href="mailto:vivien.singier@gmail.com">vivien.singier@gmail.com</a>
+        <a href="https://github.com/vivienSINGIER" class="btn">GitHub</a>
+        <a href="https://linkedin.com/in/VivienSingier">linkedin.com/in/VivienSingier</a>
+    </div>
+</section>
+
+<footer class="page-footer">
+    Construit pièce par pièce, comme tout le reste
+</footer>
+</body>
+</html>
