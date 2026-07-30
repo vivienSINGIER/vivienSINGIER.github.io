@@ -297,6 +297,7 @@ h1, h2, h3, h4 {
     letter-spacing: 0.07em;
     padding: 0.25rem 0.5rem;
     border: 1px solid var(--line-bright);
+    transition: 0.2s ease;
 }
 
 .vp-status.active
@@ -304,6 +305,12 @@ h1, h2, h3, h4 {
     border-color: var(--accent);
     color: var(--accent);
 }
+
+.vp-status .status-dot
+{
+    animation: blink 1s infinite;
+}
+
 
 .viewport video
 {
@@ -362,6 +369,11 @@ h1, h2, h3, h4 {
     padding: 0.25rem 0.5rem
 }
 
+.engine-tag:hover {
+    transform: scale(1.05);
+    color: var(--text);
+}
+
 /*#endregion*/
 
 /*#region Projects*/
@@ -403,6 +415,32 @@ h1, h2, h3, h4 {
     gap: 0.5rem;
 }
 
+.project-item {
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    padding-bottom: 2rem;
+}
+
+.project-item .viewport .vp-status
+{
+    .status-running {
+        display: none;
+    }
+    .status-dot {
+        display: none;
+    }
+}
+
+.project-item.viewport video
+{
+    aspect-ratio: 4 / 3;
+}
+
+@keyframes blink {
+    0%   { opacity: 1; }
+    50%  { opacity: 0; }
+    100% { opacity: 1; }
+}
+
 .project-item .viewport:hover
 {
     .vp-label {
@@ -416,12 +454,15 @@ h1, h2, h3, h4 {
     {
         border-color: var(--accent);
         color: var(--accent);
+        
+        .status-stable { display: none; }
+        .status-running { display: initial; }
+        .status-dot {
+            display: initial;
+        }
     }
-}
-
-.project-item.viewport video
-{
-    aspect-ratio: 4 / 3;
+    
+    
 }
 
 @media (max-width: 900px) {
@@ -454,10 +495,10 @@ h1, h2, h3, h4 {
 }
 
 .project-desc a {
-    padding: 0 0.0rem 0;
     font-size: 0.75rem;
     text-decoration: none;
-    color: var(--accent)
+    color: var(--accent);
+    font-family: var(--mono);
 }
 
 .project-desc a:hover {
