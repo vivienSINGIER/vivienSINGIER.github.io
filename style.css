@@ -420,6 +420,10 @@ h1, h2, h3, h4 {
     padding-bottom: 2rem;
 }
 
+.project-item.hidden {
+    display: none;
+}
+
 .project-item .viewport .vp-status
 {
     .status-running {
@@ -610,3 +614,20 @@ h1, h2, h3, h4 {
 }
 
 /*#endregion*/
+
+/*#region Reveal*/
+
+.reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.in-view {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/*#endregion*/
+
+
