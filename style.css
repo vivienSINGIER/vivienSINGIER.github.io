@@ -51,10 +51,10 @@ a {
     color: var(--accent);
 }
 
-/*:focus-visible {*/
-/*    outline: 2px solid var(--accent);*/
-/*    outline-offset: 3px;*/
-/*}*/
+:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+}
 
 h1, h2, h3, h4 {
     font-family: var(--mono);
@@ -544,19 +544,55 @@ h1, h2, h3, h4 {
     gap: 1rem;
 }
 
-.contact-row a {
+.contact-row a,
+.contact-row button {
     font-family: var(--mono);
     color: var(--accent);
     font-size: 0.85rem;
     text-decoration: none;
+    position: relative;
+    
+    .copy-tooltip {
+        visibility: hidden;
+    }
 }
 
-.contact-row a:hover {
+.contact-row button {
+    background: none;
+    border: none;
+}
+
+.contact-row a:hover,
+.contact-row button:hover {
     text-shadow:
             0 0 4px var(--accent),
             0 0 10px var(--accent),
             0 0 20px var(--accent);
     text-decoration: underline;
+    
+    .copy-tooltip {
+        text-decoration: none;
+        text-shadow: none;
+        visibility: visible;
+    }
+}
+
+.contact-row button:focus-visible {
+    .copy-tooltip {
+        visibility: visible;
+    }
+}
+
+.copy-tooltip {
+    padding: 5px 5px;
+    border: 1px solid var(--line-bright);
+    color: var(--text);
+    position: absolute;
+    z-index: 1;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 10px;
 }
 
 /*#endregion*/

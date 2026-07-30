@@ -6,6 +6,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css"/>
+<script type="text/javascript" src="script.js" defer></script>
 <title>Vivien Singier - C++ Developer</title>
 </head>
 
@@ -15,7 +16,7 @@
     <div class="nav-inner">
         <div class="nav-logo"> vivien_singier<span>.dev</span></div>
         <ul class="nav-links">
-            <li><a href="#hero">Home</a></li>
+            <li><a class="active" href="#hero">Home</a></li>
             <li><a href="#engine">Engine</a></li>
             <li><a href="#projects">Projects</a></li>
             <li><a href="#contact">Contact</a></li>
@@ -180,7 +181,9 @@
             <h2>Contactez-moi</h2>
         </div>
         <div class="contact-row reveal">
-            <a href="mailto:vivien.singier@gmail.com">vivien.singier@gmail.com</a>
+            <button class="copy-email" id="copy-email" >vivien.singier@gmail.com
+                <span class="copy-tooltip" id="copy-tooltip">copier</span>
+            </button>
             <a href="https://github.com/vivienSINGIER">github.com/vivienSINGIER</a>
             <a href="https://linkedin.com/in/VivienSingier">linkedin.com/in/VivienSingier</a>
         </div>
