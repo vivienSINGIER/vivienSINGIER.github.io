@@ -14,11 +14,15 @@ function copyEmail() {
     }, 2000);
 }
 
-document.querySelector('.copy-email').addEventListener('click', copyEmail);
+const copyEmailEl = document.querySelector(".copy-email");
+if (copyEmailEl) {
+    copyEmailEl.addEventListener("click", copyEmail);
+}
 
 const revealObs = new IntersectionObserver(
     (entries) => {
         entries.forEach((entry) => {
+            console.log(entry.target, entry.isIntersecting);
             if (entry.isIntersecting) {
                 entry.target.classList.add("in-view");
             } else {
