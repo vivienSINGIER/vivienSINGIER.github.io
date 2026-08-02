@@ -24,18 +24,70 @@
     </div>
 </nav>
 
-<section class="hero" id="hero">
+<section class="intro" id="intro">
     <div class="container">
-        <div class="section-link"><< Retour à la page d'accueil</div>
+        <a href="index.html/#hero" class="section-link">Retour à la page d'accueil</a>
         <div class="section-tag reveal">system_status : active development - started February 2026</div>
         <div class="section-head reveal">
             <h1>Idle Engine</h1>
             <p>Ce moteur représente mon plus grand projet, et mon seul projet à long terme. 
-                C'est l'opportunité pour moi de m'intéresser à énormément de sujet et technologies varriés tout 
+                C'est l'opportunité pour moi de m'intéresser à énormément de sujets et technologies variés tout
                 en les maitrisant en les intégrant au projet.</p>
         </div>
     </div>
 </section>
+
+<section class="section" id="demo">
+    <div class="container">
+        <div class="viewport">
+            <span class="vp-label active">// IDLE_ENGINE_MAIN</span>
+            <div class="vp-status active">
+                <span class="status-dot">●</span>
+                <span class="status-dev"> active dev</span>
+            </div>
+            <video class="vp-video" autoplay muted loop playsinline poster="assets/images/engine_poster.png">
+                <source src="assets/videos/engine.mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="systems">
+    <div class="container">
+        <div class="section-tag reveal">system_status : dissecting...</div>
+        <div class="section-head reveal">
+            <h2>Fonctionnalités</h2>
+            <p class="section-desc">Une liste de toutes les fonctionnalités intégrées au moteur ou en cours d'intégration</p>
+        </div>
+
+        <div class="systems-grid">
+
+            <article class="systems-item reveal">
+                <div class="viewport">
+                    <span class="vp-label">// PROJECT_MAIN</span>
+                    <div class="vp-status">
+                        <span class="status-stable">[stable]</span>
+                        <span class="status-dot">●</span>
+                        <span class="status-running"> running</span>
+                    </div>
+                    <video autoplay muted loop poster="assets/images/game_poster.png">
+                        <source src="assets/videos/engine.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="system-desc">
+                    <h4>Nom de Projet</h4>
+                    <p>Une description du projet faite en une phrase, expliquant les enjeux et technologies du projets</p>
+                </div>
+            </article>
+
+        </div>
+        
+    </div>
+</section>
+
+<footer class="page-footer reveal">
+    Construit pièce par pièce, comme tout le reste
+</footer>
 
 </body>
 </html>
