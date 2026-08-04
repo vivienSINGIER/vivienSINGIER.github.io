@@ -1,0 +1,152 @@
+/*#region EngineIntro*/
+
+.intro {
+    padding: clamp(4rem, 12vw, 8rem) 0 clamp(2rem, 4vw, 3rem);
+    border-bottom: 1px solid var(--line-bright);
+}
+
+.intro h1 {
+    font-size: clamp(2.2rem, 6vw, 4rem);
+    line-height: 1.05;
+    width: 1100px;
+}
+
+.intro p {
+    max-width: 52ch;
+    color: var(--text-dim);
+    font-size: 1.05rem;
+    margin-top: 1.5rem;
+}
+
+/*#endregion*/
+
+/*#region Systems*/
+
+.systems-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+@media (max-width: 800px) {
+    .systems-grid {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+.systems-item {
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    padding-bottom: 2rem;
+}
+
+.system-desc {
+    padding: 0.2rem +0.2rem 0;
+}
+
+.system-desc h4 {
+    font-family: var(--mono);
+    font-size: 1rem;
+    margin: 0 0 0.3rem;
+    font-weight: 500;
+}
+
+.system-desc p {
+    color: var(--text-dim);
+    font-size: 0.9rem;
+    margin: 0 0 0.5rem;
+}
+
+/*#endregion*/
+
+/*#region Roadmap*/
+
+.roadmap-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+@media (max-width: 1100px) {
+    .roadmap-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 800px) {
+    .roadmap-grid {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+.roadmap-list
+{
+    border-left: 3px solid var(--line-bright);
+    padding-left: 1.5rem;
+}
+
+.roadmap-list h4 {
+    text-transform: uppercase;
+    font-family: var(--mono);
+    color: var(--text-dim);
+    letter-spacing: 0.15rem;
+    padding-bottom: 1.5rem;
+}
+
+.roadmap-item
+{
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    gap: 1rem;
+    border-bottom: 1px solid var(--line);
+    padding: 0.5rem 0 0.5rem;
+}
+
+.roadmap-item.closing {
+    border-bottom: none;
+}
+
+.roadmap-item-ongoing
+{
+    color: var(--accent);
+}
+
+.roadmap-item-planned
+{
+    color: var(--text-dim);
+}
+
+.roadmap-item span
+{
+    font-family: var(--mono);
+    font-size: 0.8rem;
+}
+
+.roadmap-item span:before
+{
+    content: "[";
+}
+.roadmap-item span:after
+{
+    content: "]";
+}
+
+/*#endregion*/
+
+/*#region Info*/
+
+.about-title {
+    padding-bottom: 3rem;
+}
+
+.about-link {
+    color: var(--accent);
+    text-decoration: none;
+}
+
+.about-link:hover {
+    text-shadow: var(--shadow);
+    text-decoration: underline;
+}
+
+/*#endregion*/
