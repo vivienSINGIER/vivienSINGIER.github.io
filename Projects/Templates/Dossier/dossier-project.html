@@ -18,7 +18,7 @@
     <div class="nav-inner">
         <div class="nav-logo"> vivien_singier<span>.dev</span></div>
         <ul class="nav-links">
-            <li><a class="active" href="../../../Index/index.html/#hero">Home</a></li>
+            <li><a href="../../../Index/index.html/#hero">Home</a></li>
             <li><a href="../../../Index/index.html/#engine">Engine</a></li>
             <li><a href="../../../Index/index.html/#projects">Projects</a></li>
             <li><a href="../../../Index/index.html/#skills">Skills</a></li>
@@ -27,8 +27,9 @@
     </div>
 </nav>
 
-<section>
+<section class="section" style="padding-top: 2.5rem; border-bottom: none;">
     <div class="container">
+
         <a href="../../../Index/index.html/#projects" class="section-link reveal">Retour aux projets</a>
 
         <div class="dossier-grid reveal">
@@ -73,7 +74,7 @@
                             <div class="collab-tooltip">
                                 <div class="collab-tooltip-name">Nom du collaborateur</div>
                                 <ul class="collab-tooltip-contacts">
-                                    <li>nom@mail.com</li>
+                                    <li><a>nom@mail.com</a></li>
                                     <li><a>lien/n1.com</a></li>
                                     <li><a>lien/n2.com</a></li>
                                 </ul>
@@ -86,7 +87,7 @@
                             <div class="collab-tooltip">
                                 <div class="collab-tooltip-name">Nom du collaborateur</div>
                                 <ul class="collab-tooltip-contacts">
-                                    <li>nom@mail.com</li>
+                                    <li><a>nom@mail.com</a></li>
                                     <li><a>lien/n1.com</a></li>
                                     <li><a>lien/n2.com</a></li>
                                 </ul>
@@ -98,9 +99,44 @@
                 </div>
                 
             </aside>
+            
+            <div class="dossier-head reveal">
+                <div class="section-tag">tag intro</div>
+                <h1 class="project-name">Nom du Projet</h1>
+                <p class="project-intro">Une phrase ou deux pour introduire le projet, ses enjeux et les technologies utilisées.</p>
+                
+                <div class="project-tags">
+                    <span class="skill-tag">skill n1</span>
+                    <span class="skill-tag">skill n2</span>
+                    <span class="skill-tag">skill n3</span>
+                    <span class="skill-tag">skill n4</span>
+                </div>
+                
+                <div class="project-links">
+                    <a class="btn primary" href="https://github.com/vivienSINGIER/projectRepo">ProjectRepo →</a>
+                    <a class="btn" href="https://github.com/vivienSINGIER/projectRepo/release">Essayer la démo →</a>
+                </div>
+
+                <div class="dossier-desc reveal">
+                    <h2>A propos</h2>
+                    
+                    <p class="project-desc">Un paragraphe expliquant dans un premier temps l'objectif du projet et ses attentes. 
+                        En listant tous les gros points du cahier des charges s'il y en a un.</p>
+                    <p class="project-desc">Un second paragraphe expliquant et justifiant toutes les décisions prises sur l'architecture du projet
+                        ou sur son gameplay.</p>
+                    <p class="project-desc">Un dernier paragraphe servant de conclusion, il décrit le ressenti sur ce projet, les points à améliorer. 
+                        Il peut servir aussi à faire le lien avec d'autres <a href="../../ProjectName/project.html">projets</a>. </p>
+                    
+                    <a class="btn primary" href="../../ProjectName/project.html">Voir projet liés →</a>
+                </div>
+            </div>
         </div>
     </div>
 </section>
+
+<footer class="page-footer reveal">
+    Construit pièce par pièce, comme tout le reste
+</footer>
 
 </body>
 </html>

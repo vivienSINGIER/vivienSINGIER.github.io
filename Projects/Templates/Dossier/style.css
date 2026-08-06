@@ -1,4 +1,33 @@
 
+.dossier-grid {
+    margin-top: 2.54rem;
+    display: grid;
+    grid-template-columns: 450px 1fr;
+    gap: var(--gap);
+    align-items: start;
+}
+
+@media (max-width: 860px) {
+    .dossier-grid { grid-template-columns: 1fr; }
+    .dossier-sidebar { position: static !important; }
+}
+
+.dossier-sidebar {
+    position: sticky;
+    top: 88px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+}
+
+.dossier-sidebar h3 {
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 0.9rem;
+}
+
 /*#region Carousel*/
 
 .viewport:hover {
@@ -18,26 +47,39 @@
 
 .carousel-slide {
     display: none;
+    
+    transition: background 0.2s ease;
 }
 
 .carousel-slide.active {
-    display: initial;
+    display: block;
+    animation: carouselFadeIn 0.25s ease;
+}
+
+@keyframes carouselFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 .carousel-btn {
     position: absolute;
-    
-    width: 2rem;
-    height: 2rem;
-    
-    font-size: 1rem;
-    background: none;
-    color: var(--text);
-    border: 1px solid var(--line-bright);
-    border-radius: 60px;
-    
     top: 50%;
     transform: translateY(-50%);
+    z-index: 5;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--line-bright);
+    background: rgba(13, 15, 18, 0.7);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 1.3rem;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: border-color 0.15s ease, color 0.15s ease;
 }
 
 .carousel-btn:hover {
@@ -65,6 +107,7 @@
     padding: 0.2rem 0.4rem 0.1rem 0.4rem;
     
     border: 1px solid var(--line-bright);
+    background: var(--bg-panel);
 }
 
 .carousel-dots {
@@ -75,7 +118,6 @@
     left: 50%;
     transform: translateX(-50%);
     bottom: 10px;
-    transition: background 0.5s ease;
 }
 
 .carousel-dot {
@@ -88,6 +130,7 @@
     padding: 0;
     border-radius: 50%;
     background: var(--line-bright);
+    transition: background 0.5s ease;
 }
 
 .carousel-dot.active {
@@ -103,6 +146,7 @@
     display: flex;
     flex-wrap: wrap;
     gap : 1rem;
+    flex-direction: column;
 }
 
 .collaborator {
@@ -116,6 +160,7 @@
     background: var(--bg-panel);
     cursor: pointer;
     transition: border-color 0.2s ease, color 0.2s ease;
+    width: 100%;
 }
 
 .collaborator:hover,
@@ -163,4 +208,113 @@
     pointer-events: auto;
 }
 
+.collab-tooltip-name {
+    font-size: 0.8rem;
+    color: var(--text);
+    margin-bottom: 0.6rem;
+}
+
+.collab-tooltip-contacts {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.collab-tooltip-contacts a {
+    font-size: 0.78rem;
+    font-family: var(--sans);
+    color: var(--text-dim);
+    align-items: center;
+    display: flex;
+    gap: 0.4rem;
+}
+
+.collab-tooltip-contacts a:hover {
+    text-shadow: var(--shadow);
+    color: var(--accent);
+}
+
+.collab-tooltip-contacts a:before {
+    content: "→";
+    color: var(--accent);
+    font-size: 0.7rem;
+    font-family: var(--mono);
+}
+
 /*#endregion*/
+
+/*#region Intro*/
+
+.project-name {
+    font-family: var(--mono);
+    font-size: 250%;
+    padding-bottom: 0.6rem;
+}
+
+.project-intro {
+    color: var(--text-dim);
+    max-width: 45ch;
+}
+
+.project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    padding-bottom: 1.5rem;
+}
+
+.skill-tag {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    border: 1px solid var(--line-bright);
+    border-radius: var(--radius);
+    padding: 0.25rem 0.5rem;
+    
+    cursor: default;
+    
+    transition: color 0.15s ease, transform 0.15s ease;
+}
+
+.skill-tag:hover {
+    transform: scale(1.05);
+    color: var(--text);
+}
+
+.project-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    
+    font-size: 0.9rem;
+    font-family: var(--mono);
+    margin-bottom: 3rem;
+}
+
+/*#endregion*/
+
+/*#region Description*/
+
+.dossier-desc h2 {
+    font-family: var(--mono);
+    font-size: 190%
+}
+
+.dossier-desc p {
+    max-width: 60ch;
+    color: var(--text-dim);
+}
+
+.dossier-desc p a {
+    text-decoration: none;
+    color: var(--accent);
+}
+.dossier-desc p a:hover {
+    text-shadow: var(--shadow);
+}
+
+/*#ednregion*/
