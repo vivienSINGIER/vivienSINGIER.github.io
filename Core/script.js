@@ -19,9 +19,6 @@ revealElements.forEach((rEl) => revealObs.observe(rEl));
 const sections = document.querySelectorAll("section[id]");
 const navLinks = document.querySelectorAll(".nav-links a");
 
-console.log(sections.length);
-console.log(navLinks.length);
-
 if (sections.length !== 0 && navLinks.length !== 0) {
     const navObs = new IntersectionObserver(
         (entries) => {

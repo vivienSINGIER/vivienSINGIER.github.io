@@ -1,18 +1,16 @@
 
-const cBtns    = document.querySelectorAll(".carousel-btn");
+const cBtnPrev    = document.querySelector(".prev");
+const cBtnNext    = document.querySelector(".carousel-btn.next");
 const cDots    = document.querySelectorAll(".carousel-dot")
 const cSlide   = document.querySelectorAll(".carousel-slide");
-const cCounter = document.querySelectorAll(".carousel-counter")
+const cCounter = document.querySelector(".carousel-counter")
 
 function getActiveIndex() {
-    let count = 0;
-    cDots.forEach(d => {
-        if (d.classList.contains("active")) {
-            return count;
-        }
-        count = count + 1;
-    })
-    return count;
+    for ( let i = 0; i < cDots.length; i++ ) {
+        if ( cDots[i].classList.contains("active"))
+            return i;
+    }
+    return -1;
 }
 
 function switchSlide(index) {
@@ -24,11 +22,13 @@ function switchSlide(index) {
     if (index >= count)
         return;
     
-    cDots.values()[i].classList.remove("active");
-    cDots.values()[index].classList.add("active");
+    cDots[i].classList.remove("active");
+    cDots[index].classList.add("active");
 
-    cSlide.values()[i].classList.remove("active");
-    cSlide.values()[index].classList.add("active");
+    cSlide[i].classList.remove("active");
+    cSlide[index].classList.add("active");
+    
+    cCounter.firstChild.textContent = `${index + 1} / ${count}`
 }
 
 function buttonToggle(isNext) {
@@ -38,16 +38,37 @@ function buttonToggle(isNext) {
     if (isNext) { index = index + 1; }
     else        { index = index - 1; }
 
-    if ( index >= count ) return;
-    if ( index < 0 ) return;
+    if ( index < 0 )
+        index += count;
+    
+    index = index % count;
 
     switchSlide(index);
 }
 
 function dotToggle(dotIndex) {
     let index = getActiveIndex();
-    if ( index === dotIndex) return;
+    if ( index === dotIndex) 
+        return;
     
-    switchSlide(index);
+    switchSlide(dotIndex);
 }
 
+function test(testStr) {
+    cCounter.textContent = testStr;
+}
+
+if ( cBtnPrev ) {
+    cBtnPrev.addEventListener("click", () =>  buttonToggle(false) );
+}
+
+if ( cBtnNext ) {
+    cBtnNext.addEventListener("click", () => buttonToggle(true) );
+}
+
+if ( cDots.length > 0) {
+    let count = cDots.length;
+    for ( let i = 0; i < count; i++ ) {
+        cDots[i].addEventListener("click", () => dotToggle(i));
+    }
+}

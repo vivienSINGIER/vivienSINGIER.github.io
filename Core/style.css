@@ -400,7 +400,8 @@ h1, h2, h3, h4 {
     animation: blink 1s infinite;
 }
 
-.viewport video
+.viewport video,
+.viewport img
 {
     display: block;
     width: 100%;

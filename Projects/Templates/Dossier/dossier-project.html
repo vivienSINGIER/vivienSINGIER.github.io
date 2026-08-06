@@ -32,37 +32,72 @@
         <a href="../../../Index/index.html/#projects" class="section-link reveal">Retour aux projets</a>
 
         <div class="dossier-grid reveal">
-            <div class="viewport carousel">
-                <span class="vp-label">// PROJECT_MAIN</span>
-                <span class="vp-status">[stable]</span>
-
-                <div class="carousel-track">
-                    <div class="carousel-slide active">
-                        <video autoplay muted loop playsinline poster="assets/img/project-1-poster.jpg">
-                            <source src="assets/video/project-1.mp4" type="video/mp4">
-                        </video>
+            <aside class="dossier-sidebar reveal">
+                <div class="viewport carousel">
+                    <span class="vp-label">// PROJECT_MAIN</span>
+                    <span class="vp-status">[stable]</span>
+    
+                    <div class="carousel-track">
+                        <div class="carousel-slide active">
+                            <video autoplay muted loop playsinline poster="assets/img/project-1-poster.jpg">
+                                <source src="assets/video/project-1.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="assets/img/project-2.jpg" alt="Screenshot of Project Name">
+                        </div>
+                        <div class="carousel-slide">
+                            <video autoplay muted loop playsinline poster="assets/img/project-3-poster.jpg">
+                                <source src="assets/video/project-3.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                        <!-- add more .carousel-slide blocks as needed -->
                     </div>
-                    <div class="carousel-slide">
-                        <img src="assets/img/project-2.jpg" alt="Screenshot of Project Name">
+    
+                    <button class="carousel-btn prev"><</button>
+                    <button class="carousel-btn next">></button>
+                    <div class="carousel-dots">
+                        <span class="carousel-dot active"></span>
+                        <span class="carousel-dot"></span>
+                        <span class="carousel-dot"></span>
                     </div>
-                    <div class="carousel-slide">
-                        <video autoplay muted loop playsinline poster="assets/img/project-3-poster.jpg">
-                            <source src="assets/video/project-3.mp4" type="video/mp4">
-                        </video>
-                    </div>
-                    <!-- add more .carousel-slide blocks as needed -->
+                    <span class="carousel-counter">1 / 3</span>
                 </div>
+                
+                <div>
+                    <h3>Collaborateurs</h3>
+                    <div class="collaborator-list">
+                        <div class="collaborator">
+                            Nom du collaborateur
+                            <span class="collab-role">dev</span>
+                            <div class="collab-tooltip">
+                                <div class="collab-tooltip-name">Nom du collaborateur</div>
+                                <ul class="collab-tooltip-contacts">
+                                    <li>nom@mail.com</li>
+                                    <li><a>lien/n1.com</a></li>
+                                    <li><a>lien/n2.com</a></li>
+                                </ul>
+                            </div>
+                        </div>
 
-                <button class="carousel-btn prev"><</button>
-                <button class="carousel-btn next">></button>
-                <div class="carousel-dots">
-                    <span class="carousel-dot active"></span>
-                    <span class="carousel-dot"></span>
-                    <span class="carousel-dot"></span>
+                        <div class="collaborator">
+                            Nom du collaborateur
+                            <span class="collab-role">dev</span>
+                            <div class="collab-tooltip">
+                                <div class="collab-tooltip-name">Nom du collaborateur</div>
+                                <ul class="collab-tooltip-contacts">
+                                    <li>nom@mail.com</li>
+                                    <li><a>lien/n1.com</a></li>
+                                    <li><a>lien/n2.com</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+<!--                        Ajouter un collaborateur si besoins-->
+                    </div>
                 </div>
-                <span class="carousel-counter">1 / 3</span>
-            </div>
-
+                
+            </aside>
         </div>
     </div>
 </section>
