@@ -73,33 +73,31 @@ if ( cDots.length > 0) {
     }
 }
 
+const collabR = document.querySelectorAll(".collab-row");
 const collab = document.querySelectorAll(".collaborator");
 
 function toggleCollab(el) {
-    const isOpen = el.classList.contains("open");
+    const isOpen = el.classList.toggle("open");
+    const contacts = el.querySelector(".collab-contacts");
+    contacts.inert = !isOpen;
+}
 
-    collab.forEach(c => c.classList.remove("open"));
-
-    if (!isOpen) {
-        el.classList.add("open");
-    } else {
-        el.blur();
-    }
+if (collabR.length > 0) {
+    collabR.forEach(c => {
+        c.addEventListener("click", () => toggleCollab(c.parentElement));
+    })
 }
 
 if (collab.length > 0) {
     collab.forEach(c => {
-        c.addEventListener("click", (e) => {
-            if (e.target.closest(".collab-tooltip")) return;
-            toggleCollab(c);
-        });
-
         c.addEventListener("keydown", (e) => {
-            if (e.target !== c) return;
             if (e.key === "Enter" || e.key === " ") {
+                if (e.target !== c)
+                    return;
+                
                 e.preventDefault();
                 toggleCollab(c);
             }
         });
-    });
+    })
 }

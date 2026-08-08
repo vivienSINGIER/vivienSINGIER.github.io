@@ -1,33 +1,4 @@
 
-.dossier-grid {
-    margin-top: 2.54rem;
-    display: grid;
-    grid-template-columns: 450px 1fr;
-    gap: var(--gap);
-    align-items: start;
-}
-
-@media (max-width: 860px) {
-    .dossier-grid { grid-template-columns: 1fr; }
-    .dossier-sidebar { position: static !important; }
-}
-
-.dossier-sidebar {
-    position: sticky;
-    top: 88px;
-    display: flex;
-    flex-direction: column;
-    gap: 1.75rem;
-}
-
-.dossier-sidebar h3 {
-    font-size: 0.8rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--text-dim);
-    margin-bottom: 0.9rem;
-}
-
 /*#region Carousel*/
 
 .viewport:hover {
@@ -145,87 +116,77 @@
 .collaborator-list {
     display: flex;
     flex-wrap: wrap;
-    gap : 1rem;
     flex-direction: column;
+    border-top: 1px solid var(--line-bright);
 }
 
 .collaborator {
-    position: relative;
-    display: inline-block;
     font-family: var(--mono);
-    font-size: 0.85rem;
+    font-size: 0.95rem;
     padding: 0.5rem 1rem;
-    border: 1px solid var(--line-bright);
-    border-radius: var(--radius);
-    background: var(--bg-panel);
+    border-bottom: 1px solid var(--line-bright);
     cursor: pointer;
-    transition: border-color 0.2s ease, color 0.2s ease;
+    /*transition: border-color 0.2s ease, color 0.2s ease;*/
     width: 100%;
 }
 
-.collaborator:hover,
-.collaborator:focus-within,
-.collaborator.open {
-    outline: none;
-    color: var(--accent);
-    border-color: var(--accent);
+.collab-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
 
 .collab-role {
-    display: block;
     font-family: var(--sans);
-    font-size: 0.7rem;
+    font-size: 0.85rem;
     margin-top: 0.15rem;
-    color: var(--text-dim)
+    color: var(--text-dim);
+    position: relative;
 }
 
-.collab-tooltip {
-    position: absolute;
+.collab-role:after {
+    content: "";
+    display: inline-block;
     
-    visibility: hidden;
-    opacity: 0;
-    transition: opacity 0.2s ease, transform 0.2s ease;
+    width: 0;
+    height: 0;
+
+    border-top: 3px solid var(--text-dim);
+    border-bottom: 2px solid transparent;
+    border-right: 3px solid transparent;
+    border-left: 3px solid transparent;
+    margin-left: 0.5rem;
     
-    left: 50%;
-    bottom: calc(100% + 0.5rem);
-    transform: translateX(-50%) translateY(4px);
-    
-    border: 1px solid var(--line-bright);
-    border-radius: var(--radius);
-    background: var(--bg-panel);
-    padding: 1rem;
-    min-width: 190px;
-    
-    text-align: left;
-    cursor: default;
+    transition: transform 0.2s ease, color 0.2s ease;
 }
 
-.collaborator:hover         .collab-tooltip,
-.collaborator:focus-within .collab-tooltip,
-.collaborator.open          .collab-tooltip {
-    visibility: visible;
-    opacity: 1;
-    pointer-events: auto;
+.collaborator.open .collab-role:after {
+    transform: rotate(180deg);
+    border-top-color: var(--accent);
 }
 
-.collab-tooltip-name {
-    font-size: 0.8rem;
-    color: var(--text);
-    margin-bottom: 0.6rem;
-}
 
-.collab-tooltip-contacts {
+.collab-contacts {
     margin: 0;
     padding: 0;
+    padding-top: 0.5rem;
     list-style: none;
     
     display: flex;
     flex-direction: column;
     gap: 0.3rem;
+    
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
 }
 
-.collab-tooltip-contacts a,
-.collab-tooltip-contacts button {
+.collaborator.open .collab-contacts {
+    max-height: 200px;
+}
+
+.collab-contacts a,
+.collab-contacts button {
     position: relative;
     font-size: 0.78rem;
     font-family: var(--sans);
@@ -253,23 +214,23 @@
     visibility: hidden;
 }
 
-.collab-tooltip-contacts a:hover,
-.collab-tooltip-contacts button:hover,
-.collab-tooltip-contacts a:focus-visible,
-.collab-tooltip-contacts button:focus-visible {
+.collab-contacts a:hover,
+.collab-contacts button:hover,
+.collab-contacts a:focus-visible,
+.collab-contacts button:focus-visible {
     text-shadow: var(--shadow);
     color: var(--accent);
     outline: none;
-
-    .copy-tooltip {
-        visibility: initial;
+    
+    .copy-tooltip { 
+        visibility: initial; 
         color: var(--text);
         text-shadow: none;
     }
 }
 
-.collab-tooltip-contacts a:before,
-.collab-tooltip-contacts button:before {
+.collab-contacts a:before,
+.collab-contacts button:before {
     content: "→";
     color: var(--accent);
     font-size: 0.7rem;
@@ -280,15 +241,27 @@
 
 /*#region Intro*/
 
+.section.override {
+    padding-top: clamp(4.0rem, 10vw, 10rem);
+    padding-bottom: 1rem;
+}
+
+.dossier-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: last baseline;
+    flex-wrap: wrap;
+}
+
 .project-name {
     font-family: var(--mono);
-    font-size: 250%;
-    padding-bottom: 0.6rem;
+    font-size: clamp(2.0rem, 5vw, 3.5rem);
+    width: 100%;
 }
 
 .project-intro {
     color: var(--text-dim);
-    max-width: 45ch;
+    max-width: 60ch;
 }
 
 .project-tags {
@@ -323,16 +296,18 @@
     
     font-size: 0.9rem;
     font-family: var(--mono);
-    margin-bottom: 3rem;
+
 }
 
 /*#endregion*/
 
 /*#region Description*/
 
-.dossier-desc h2 {
-    font-family: var(--mono);
-    font-size: 190%
+.dossier-desc {
+    display: flex;
+    justify-content: space-between;
+    align-items: last baseline;
+    flex-wrap: wrap;
 }
 
 .dossier-desc p {
@@ -340,12 +315,4 @@
     color: var(--text-dim);
 }
 
-.dossier-desc p a {
-    text-decoration: none;
-    color: var(--accent);
-}
-.dossier-desc p a:hover {
-    text-shadow: var(--shadow);
-}
-
-/*#ednregion*/
+/*#endregion*/

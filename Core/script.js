@@ -35,3 +35,24 @@ if (sections.length !== 0 && navLinks.length !== 0) {
     
     sections.forEach(sect => navObs.observe(sect));
 }
+
+function copyEmail(el) {
+    var text = el.firstChild.textContent.trim();
+
+    navigator.clipboard.writeText(text);
+
+    var tooltip = el.querySelector(".copy-tooltip");
+    var originalText = tooltip.textContent;
+    tooltip.textContent = "copié";
+
+    setTimeout(() => {
+        tooltip.textContent = originalText;
+    }, 2000);
+}
+
+const copyEmailEls = document.querySelectorAll(".copy-email");
+if ( copyEmailEls.length > 0) {
+    copyEmailEls.forEach(el => {
+        el.addEventListener("click", () => copyEmail(el));
+    });
+}
