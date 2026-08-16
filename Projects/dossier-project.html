@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../Core/style.css"/>
+    <link rel="stylesheet" href="Style-Script/dossier-style.css"/>
+    <script type="text/javascript" src="../Core/script.js" defer></script>
+    <script type="text/javascript" src="Style-Script/dossier-script.js" defer></script>
+    <title>Vivien Singier - C++ Developer</title>
+</head>
+
+<body>
+
+<nav class="nav">
+    <div class="nav-inner">
+        <div class="nav-logo"> vivien_singier<span>.dev</span></div>
+        <ul class="nav-links">
+            <li><a href="../Index/index.html#hero">Home</a></li>
+            <li><a href="../Index/index.html#engine">Engine</a></li>
+            <li><a href="../Index/index.html#projects">Projects</a></li>
+            <li><a href="../Index/index.html#skills">Skills</a></li>
+            <li><a href="../Index/index.html#contact">Contact</a></li>
+        </ul>
+    </div>
+</nav>
+
+<section class="section" style="padding-top: 2.5rem; border-bottom: none;">
+    <div class="container">
+
+        <a href="../Index/index.html#projects" class="section-link reveal">Retour aux projets</a>
+
+        <div class="dossier-grid reveal">
+            <aside class="dossier-sidebar reveal">
+                <div class="viewport carousel">
+                    <span class="vp-label">// PROJECT_MAIN</span>
+                    <span class="vp-status">[stable]</span>
+    
+                    <div class="carousel-track">
+                        <div class="carousel-slide active">
+                            <video autoplay muted loop playsinline poster="assets/img/project-1-poster.jpg">
+                                <source src="assets/video/project-1.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="assets/img/project-2.jpg" alt="Screenshot of Project Name">
+                        </div>
+                        <div class="carousel-slide">
+                            <video autoplay muted loop playsinline poster="assets/img/project-3-poster.jpg">
+                                <source src="assets/video/project-3.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                        <!-- add more .carousel-slide blocks as needed -->
+                    </div>
+    
+                    <button class="carousel-btn prev"><</button>
+                    <button class="carousel-btn next">></button>
+                    <div class="carousel-dots">
+                        <span class="carousel-dot active"></span>
+                        <span class="carousel-dot"></span>
+                        <span class="carousel-dot"></span>
+                    </div>
+                    <span class="carousel-counter">1 / 3</span>
+                </div>
+                
+                <div>
+                    <h3>Collaborateurs</h3>
+                    <div class="collaborator-list">
+                        <div class="collaborator" tabindex="0">
+                            Nom du collaborateur
+                            <span class="collab-role">dev</span>
+                            <div class="collab-tooltip">
+                                <div class="collab-tooltip-name">Nom du collaborateur</div>
+                                <ul class="collab-tooltip-contacts">
+                                    <li><button class="copy-email">
+                                        nom@mail.com
+                                        <span class="copy-tooltip">copier</span>
+                                    </button></li>
+                                    <li><a href="#">lien/n1.com</a></li>
+                                    <li><a href="#">lien/n2.com</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="collaborator" tabindex="0">
+                            Nom du collaborateur
+                            <span class="collab-role">dev</span>
+                            <div class="collab-tooltip">
+                                <div class="collab-tooltip-name">Nom du collaborateur</div>
+                                <ul class="collab-tooltip-contacts">
+                                    <li><button class="copy-email">
+                                        nom@mail.com
+                                        <span class="copy-tooltip">copier</span>
+                                    </button></li>
+                                    <li><a href="#">lien/n1.com</a></li>
+                                    <li><a href="#">lien/n2.com</a></li>
+                                </ul>
+                            </div>
+                        </div>
+<!--                        Ajouter un collaborateur si besoins-->
+                    </div>
+                </div>
+                
+            </aside>
+            
+            <div class="dossier-head reveal">
+                <div class="section-tag">log_entry: nom-projet</div>
+                <h1 class="project-name">Nom du Projet</h1>
+                <p class="project-intro">Une phrase ou deux pour introduire le projet, ses enjeux et les technologies utilisées.</p>
+                
+                <div class="project-tags">
+                    <span class="skill-tag">skill n1</span>
+                    <span class="skill-tag">skill n2</span>
+                    <span class="skill-tag">skill n3</span>
+                    <span class="skill-tag">skill n4</span>
+                </div>
+                
+                <div class="project-links">
+                    <a class="btn primary" href="https://github.com/vivienSINGIER/projectRepo">ProjectRepo →</a>
+                    <a class="btn" href="https://github.com/vivienSINGIER/projectRepo/release">Essayer la démo →</a>
+                </div>
+                
+                <div class="section-head reveal">
+                    <h2>A propos</h2>
+                </div>
+
+                <div class="dossier-desc reveal">
+
+                    <p class="project-desc">Un paragraphe expliquant dans un premier temps l'objectif du projet et ses attentes.
+                        En listant tous les gros points du cahier des charges s'il y en a un.</p>
+                    <p class="project-desc">Un second paragraphe expliquant et justifiant toutes les décisions prises sur l'architecture du projet
+                        ou sur son gameplay.</p>
+                    <p class="project-desc">Un dernier paragraphe servant de conclusion, il décrit le ressenti sur ce projet, les points à améliorer.
+                        Il peut servir aussi à faire le lien avec d'autres projets. </p>
+
+                    <a class="btn primary" href="../../ProjectName/project.html">Voir projet liés →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="page-footer reveal">
+    Construit pièce par pièce, comme tout le reste
+</footer>
+
+</body>
+</html>

@@ -57,15 +57,15 @@
                     <span class="status-dot">●</span>
                     <span class="status-dev"> active dev</span>
                 </div>
-                <video class="vp-video" autoplay muted loop playsinline poster="assets/images/engine_poster.png">
-                    <source src="assets/videos/engine.mp4" type="video/mp4">
+                <video class="vp-video" autoplay muted loop playsinline poster="../Assets/Engine/teaser-poster.png">
+                    <source src="../Assets/Engine/teaser-compressed.mp4" type="video/mp4">
                 </video>
             </div>
 
             <div class="engine-desc">
                 <h3>Moteur de jeu personnalisé - Rendu, Math & Architecture</h3>
-                <p>Un moteur de jeu construit entierèrement par mes soins : Une librairie de rendu avec DirectX12 et bientôt Vulkan, 
-                    une bibliothèque de mathématiques custom, un début de détection de collisions et un ECS en cours de développement. 
+                <p>Un moteur de jeu construit entièrement par mes soins : Une librairie de rendu avec DirectX12 et bientôt Vulkan,
+                    une bibliothèque de mathématiques custom, un début de détection de collisions et un ECS en cours de développement.
                     Tout cela construit par pièces pour en comprendre le fonctionnement au lieu de simplement l'utiliser.</p>
                 <div class="engine-tag-row">
                     <span class="engine-tag">C++</span>
@@ -74,7 +74,7 @@
                     <span class="engine-tag">Algèbre linéaires</span>
                     <span class="engine-tag">ECS</span>
                 </div>
-                <a href="engine.html" class="btn primary">En savoir plus →</a>
+                <a href="../Engine/engine.html" class="btn primary">En savoir plus →</a>
             </div>
         </div>
     </div>
@@ -91,7 +91,9 @@
 
         <div class="projects-filters reveal">
             <button class="filter-btn active" data-filter="all">tous</button>
+            <button class="filter-btn" data-filter="cpp">c++</button>
             <button class="filter-btn" data-filter="engine">moteur</button>
+            <button class="filter-btn" data-filter="math">math</button>
             <button class="filter-btn" data-filter="game">jeux</button>
             <button class="filter-btn" data-filter="tool">outils</button>
             <button class="filter-btn" data-filter="python">python</button>
@@ -100,41 +102,43 @@
 
         <div class="projects-grid">
 
-            <article class="project-item reveal" data-category="engine">
+            <article class="project-item reveal" data-category="math tool cpp">
                 <div class="viewport">
-                    <span class="vp-label">// PROJECT_MAIN</span>
+                    <span class="vp-label">// MATH_DRAWING</span>
                     <div class="vp-status">
                         <span class="status-stable">[stable]</span>
                         <span class="status-dot">●</span>
                         <span class="status-running"> running</span>
                     </div>
-                    <video autoplay muted loop poster="assets/images/game_poster.png">
-                        <source src="assets/videos/engine.mp4" type="video/mp4">
+                    <video muted loop>
+                        <source src="../Assets/Projects/Math-Drawing/teaser-compressed.mp4" type="video/mp4">
                     </video>
                 </div>
                 <div class="project-desc">
-                    <h4>Nom de Projet</h4>
-                    <p>Une description du projet faite en une phrase, expliquant les enjeux et technologies du projets</p>
-                    <a class="project-link" href="project/project.html">Voir le projet >></a>
+                    <h4>Math Drawing</h4>
+                    <p>Un outil de dessin de courbe fait avec SFML. Il contient certaines méthodes d'interpolation comme
+                        Lagrange, l'Hermite ou Bézier</p>
+                    <a class="project-link" href="../Projects/math-drawing-project.html">Voir le projet >></a>
                 </div>
             </article>
 
-            <article class="project-item reveal" data-category="engine tool">
+            <article class="project-item reveal" data-category="game cpp">
                 <div class="viewport">
-                    <span class="vp-label">// PROJECT_MAIN</span>
+                    <span class="vp-label">// ION_MAIN</span>
                     <div class="vp-status">
                         <span class="status-stable">[stable]</span>
                         <span class="status-dot">●</span>
                         <span class="status-running"> running</span>
                     </div>
-                    <video autoplay muted loop poster="assets/images/game_poster.png">
-                        <source src="assets/videos/engine.mp4" type="video/mp4">
+                    <video muted loop>
+                        <source src="../Assets/Projects/ION/wave-compressed.mp4" type="video/mp4">
                     </video>
                 </div>
                 <div class="project-desc">
-                    <h4>Nom de Projet</h4>
-                    <p>Une description du projet faite en une phrase, expliquant les enjeux et technologies du projets</p>
-                    <a class="project-link" href="project/project.html">Voir le projet >></a>
+                    <h4>ION - Arena Shooter</h4>
+                    <p>Un arena shooter dévelopé en 3 semaines sur un moteur c++ custom dans une équipe de
+                        3 devs et 2 artistes</p>
+                    <a class="project-link" href="../Projects/ion.html">Voir le projet >></a>
                 </div>
             </article>
 

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../Core/style.css"/>
+    <link rel="stylesheet" href="Style-Script/log-style.css"/>
+    <script type="text/javascript" src="../Core/script.js" defer></script>
+    <script type="text/javascript" src="Style-Script/log-script.js" defer></script>
+    <title>Vivien Singier - Math Drawing</title>
+</head>
+
+<body>
+
+<nav class="nav">
+    <div class="nav-inner">
+        <div class="nav-logo"> vivien_singier<span>.dev</span></div>
+        <ul class="nav-links">
+            <li><a href="../Index/index.html#hero">Home</a></li>
+            <li><a href="../Index/index.html#engine">Engine</a></li>
+            <li><a href="../Index/index.html#projects">Projects</a></li>
+            <li><a href="../Index/index.html#skills">Skills</a></li>
+            <li><a href="../Index/index.html#contact">Contact</a></li>
+        </ul>
+    </div>
+</nav>
+
+<section class="section override" id="intro">
+    <div class="container">
+        <a href="../Index/index.html#projects" class="section-link reveal">Retour aux projets</a>
+
+        <div class="dossier-head reveal">
+            <div class="section-tag">log_entry: math-drawing</div>
+            <h1 class="project-name">Math Drawing</h1>
+            
+            <div class="project-info">
+                <p class="project-intro">Un éditeur de courbe 2D fait en c++ avec SFML</p>
+
+                <div class="project-tags">
+                    <span class="skill-tag">Maths</span>
+                    <span class="skill-tag">Encapsulation</span>
+                    <span class="skill-tag">Interpolation</span>
+                </div>
+            </div>
+
+            <div class="project-links">
+                <a class="btn primary" href="https://github.com/vivienSINGIER/Math-Drawing">ProjectRepo →</a>
+                <a class="btn" href="https://github.com/vivienSINGIER/Math-Drawing/releases" download>Essayer la démo →</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="demo">
+    <div class="container">
+        <div class="viewport carousel reveal">
+            <span class="vp-label">// MATH_DRAWING</span>
+            <span class="vp-status">[stable]</span>
+
+            <div class="carousel-track">
+                <div class="carousel-slide active">
+                    <video muted loop playsinline>
+                        <source src="../Assets/Projects/Math-Drawing/teaser-compressed.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="carousel-slide">
+                    <img src="../Assets/Projects/Math-Drawing/yin-yang.png" alt="Screenshot of a ying-yang">
+                </div>
+                <div class="carousel-slide">
+                    <img src="../Assets/Projects/Math-Drawing/diamond.png" alt="Screenshot of a diamond">
+                </div>
+                <div class="carousel-slide">
+                    <img src="../Assets/Projects/Math-Drawing/heart.png" alt="Screenshot of a heart">
+                </div>
+                <div class="carousel-slide">
+                    <img src="../Assets/Projects/Math-Drawing/spade.png" alt="Screenshot of a spade">
+                </div>
+                <div class="carousel-slide">
+                    <img src="../Assets/Projects/Math-Drawing/club.png" alt="Screenshot of a club">
+                </div>
+                <!-- add more .carousel-slide blocks as needed -->
+            </div>
+
+            <button class="carousel-btn prev"><</button>
+            <button class="carousel-btn next">></button>
+            <div class="carousel-dots">
+                <span class="carousel-dot active"></span>
+                <span class="carousel-dot"></span>
+                <span class="carousel-dot"></span>
+                <span class="carousel-dot"></span>
+                <span class="carousel-dot"></span>
+                <span class="carousel-dot"></span>
+            </div>
+            <span class="carousel-counter">1 / 6</span>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="about">
+    <div class="container">
+        <div class="section-head reveal">
+            <h2>A propos</h2>
+        </div>
+        
+        <div class="dossier-desc reveal">
+                
+            <p class="project-desc">L'origine de ce projet est un TP de math dans lequel je devais dessiner certaines formes à
+                l'aide d'équations de courbe. J'ai préféré développer cet outil à place de tâtonner à l'aveugle</p>
+            <p class="project-desc">Pour cela, j'ai structuré un système de courbes et de points de controlles qui,
+                lors de l'étape de rendu, sont interprètés en fonctions des méthodes et équations qui leur sont attribués.</p>
+            <p class="project-desc">Au final, on termine avec les courbes/équations suivantes : linéaires, interpolation de Lagrange et l'Hermite,
+                 courbes de béziers avec points de controlles illimités.</p>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="collaborators" style="border-bottom: none;">
+    <div class="container">
+        <div class="section-head reveal">
+            <h2>Collaborateurs</h2>
+            <span class="eyebrow">clicker une ligne</span>
+        </div>
+            
+        <div class="collaborator-list">
+            <div class="collaborator" tabindex="0">
+                <div class="collab-row">
+                    <span class="collab-name">Romain BOONE</span>
+                    <span class="collab-role">Devellopeur</span>
+                </div>
+
+                <ul class="collab-contacts" inert>
+                    <li><button class="copy-email">
+                        romainboone0610@gmail.com
+                        <span class="copy-tooltip">copier</span>
+                    </button></li>
+                    <li><a href="https://romain-boone.my.canva.site/">romain-boone.com</a></li>
+                    <li><a href="https://www.linkedin.com/in/boone-romain">linkedin/boone-romain.com</a></li>
+                    <li><a href="https://github.com/Totoro-Tomoon1">github/Totoro-Tomoon1</a></li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<footer class="page-footer reveal">
+    Construit pièce par pièce, comme tout le reste
+</footer>
+
+</body>
+</html>

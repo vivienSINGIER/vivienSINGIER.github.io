@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../Core/style.css"/>
     <link rel="stylesheet" href="style.css"/>
     <script type="text/javascript" src="../Core/script.js" defer></script>
+    <script type="text/javascript" src="script.js" defer></script>
     <title>Vivien Singier - Idle Engine</title>
 </head>
 <body>
@@ -16,7 +17,7 @@
     <div class="nav-inner">
         <div class="nav-logo"> vivien_singier<span>.dev</span></div>
         <ul class="nav-links">
-            <li><a class="active" href="../Index/index.html/#hero">Home</a></li>
+            <li><a class="active" href="../Index/index.html">Home</a></li>
             <li><a href="#demo">Demo</a></li>
             <li><a href="#systems">Systems</a></li>
             <li><a href="#roadmap">Roadmap</a></li>
@@ -27,7 +28,7 @@
 
 <section class="intro" id="intro">
     <div class="container">
-        <a href="../Core/index.html/#hero" class="section-link reveal">Retour à la page d'accueil</a>
+        <a href="../Index/index.html" class="section-link reveal">Retour à la page d'accueil</a>
         <div class="section-tag reveal">system_status : active development - started February 2026</div>
         <div class="section-head reveal">
             <h1>Idle Engine</h1>
@@ -46,8 +47,8 @@
                 <span class="status-dot">●</span>
                 <span class="status-dev"> active dev</span>
             </div>
-            <video class="vp-video" autoplay muted loop playsinline poster="assets/images/engine_poster.png">
-                <source src="assets/videos/engine.mp4" type="video/mp4">
+            <video class="vp-video" autoplay muted loop playsinline poster="../Assets/Engine/teaser-poster.png">
+                <source src="../Assets/Engine/teaser-compressed.mp4" type="video/mp4">
             </video>
         </div>
     </div>
@@ -64,74 +65,122 @@
         <div class="systems-grid">
 
             <article class="systems-item reveal">
-                <div class="viewport">
+                <div class="viewport" tabindex="0">
                     <span class="vp-label">// PROJECT_MAIN</span>
                     <div class="vp-status">
                         <span class="status-stable">[stable]</span>
                         <span class="status-dot">●</span>
                         <span class="status-running"> running</span>
                     </div>
-                    <video autoplay muted loop poster="assets/images/game_poster.png">
-                        <source src="assets/videos/engine.mp4" type="video/mp4">
+                    <video muted loop poster="../Assets/Engine/render-poster.png">
+                        <source src="../Assets/Engine/render-compressed.mp4" type="video/mp4">
                     </video>
                 </div>
                 <div class="system-desc">
-                    <h4>Nom de Projet</h4>
-                    <p>Une description du projet faite en une phrase, expliquant les enjeux et technologies du projets</p>
+                    <h4>Rendu 3D Dx12</h4>
+                    <p>C'est la base du projet, une librairie de rendu 3D utilisant DirectX12.
+                        Elle est structurée de manière à permettre l'inclusion d'autres APIs et
+                        beaucoup de liberté lors de l'utilisation.</p>
                 </div>
             </article>
 
             <article class="systems-item reveal">
-                <div class="viewport">
+                <div class="viewport" tabindex="0">
                     <span class="vp-label">// PROJECT_MAIN</span>
                     <div class="vp-status">
                         <span class="status-stable">[stable]</span>
                         <span class="status-dot">●</span>
                         <span class="status-running"> running</span>
                     </div>
-                    <video autoplay muted loop poster="assets/images/game_poster.png">
-                        <source src="assets/videos/engine.mp4" type="video/mp4">
+                    <video muted loop >
+                        <source src="../Assets/Engine/texture-compressed.mp4" type="video/mp4">
                     </video>
                 </div>
                 <div class="system-desc">
-                    <h4>Nom de Projet</h4>
-                    <p>Une description du projet faite en une phrase, expliquant les enjeux et technologies du projets</p>
+                    <h4>Éclairage & Textures</h4>
+                    <p>Une implémentation basique d'un système d'éclairage contenant PointLight, SpotLight & DirectionalLight.
+                        L'objectif et de l'utiliser pour éxperimenter avec le ShadowMapping. Les Shaders sont structurés 
+                        de manières modulables afin de pouvoir utiliser plusieurs types de textures à la fois.</p>
                 </div>
             </article>
 
             <article class="systems-item reveal">
-                <div class="viewport">
+                <div class="viewport" tabindex="0">
                     <span class="vp-label">// PROJECT_MAIN</span>
                     <div class="vp-status">
                         <span class="status-stable">[stable]</span>
                         <span class="status-dot">●</span>
                         <span class="status-running"> running</span>
                     </div>
-                    <video autoplay muted loop poster="assets/images/game_poster.png">
-                        <source src="assets/videos/engine.mp4" type="video/mp4">
+                    <video muted loop >
+                        <source src="../Assets/Engine/transform-compressed.mp4" type="video/mp4">
                     </video>
                 </div>
                 <div class="system-desc">
-                    <h4>Nom de Projet</h4>
-                    <p>Une description du projet faite en une phrase, expliquant les enjeux et technologies du projets</p>
+                    <h4>Librairie Mathématiques</h4>
+                    <p>Une accumulation de la majorité des outils d'algèbre linéaire necéssaire au bon fonctionnement d'un moteur et de son 
+                        Transform.
+                       Cela passe par l'encapsulation de Vector, Matrices et de Quaternions ainsi que d'autres fonctions utilitaires.</p>
                 </div>
             </article>
 
             <article class="systems-item reveal">
-                <div class="viewport">
+                <div class="viewport" tabindex="0">
                     <span class="vp-label">// PROJECT_MAIN</span>
                     <div class="vp-status">
                         <span class="status-stable">[stable]</span>
                         <span class="status-dot">●</span>
                         <span class="status-running"> running</span>
                     </div>
-                    <video autoplay muted loop poster="assets/images/game_poster.png">
-                        <source src="assets/videos/engine.mp4" type="video/mp4">
+                    <video muted loop>
+                        <source src="../Assets/Engine/bounds-compressed.mp4" type="video/mp4">
                     </video>
                 </div>
                 <div class="system-desc">
-                    <h4>Nom de Projet</h4>
-                    <p>Une description du projet faite en une phrase, expliquant les enjeux et technologies du projets</p>
+                    <h4>Collision basique</h4>
+                    <p>Pour l'instant, le moteur permet une représentation de 3 volumes : AABB, Sphere et OBB.
+                        Ces volumes sont tous utilisables pour représenter les limites des géometries pour le
+                        frustum culling.</p>
+                </div>
+            </article>
+
+            <article class="systems-item reveal">
+                <div class="viewport" tabindex="0">
+                    <span class="vp-label">// PROJECT_MAIN</span>
+                    <div class="vp-status">
+                        <span class="status-stable">[stable]</span>
+                        <span class="status-dot">●</span>
+                        <span class="status-running"> running</span>
+                    </div>
+                    <video muted loop >
+                        <source src="../Assets/Engine/text-compressed.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="system-desc">
+                    <h4>Font Renderer</h4>
+                    <p>Il s'agit d'un prototype, il utilise un parser ".ttf" custom qui lit le format le plus commun pour ensuite 
+                        bake les charactères sur un atlas. Cet atlas sert de texture pour le Font Renderer. L'entièreté du système
+                        reste approximatif et a besoins d'encore beaucoup de correction. </p>
+                </div>
+            </article>
+            
+            <article class="systems-item reveal">
+                <div class="viewport" tabindex="0">
+                    <span class="vp-label">// PROJECT_MAIN</span>
+                    <div class="vp-status">
+                        <span class="status-stable">[stable]</span>
+                        <span class="status-dot">●</span>
+                        <span class="status-running"> running</span>
+                    </div>
+                    <video muted loop>
+                        <source src="../Assets/Engine/ecs-compressed.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="system-desc">
+                    <h4>ECS</h4>
+                    <p>Le moteur contenait initialement un ECS complet et modulaire avec un début d'adaptation au multijoueur. 
+                        Il a permis de construire plusieurs courts projets en condition similaire à des Game jams.
+                        Cette partie n'est actuellement pas présente sur cette version, car elle est en pleine refonte.</p>
                 </div>
             </article>
 
