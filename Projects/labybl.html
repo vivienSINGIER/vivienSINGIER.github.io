@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../Core/style.css"/>
+    <link rel="stylesheet" href="Style-Script/dossier-style.css"/>
+    <script type="text/javascript" src="../Core/script.js" defer></script>
+    <script type="text/javascript" src="Style-Script/dossier-script.js" defer></script>
+    <title>Laby BL</title>
+</head>
+
+<body>
+
+<nav class="nav">
+    <div class="nav-inner">
+        <div class="nav-logo"> vivien_singier<span>.dev</span></div>
+        <ul class="nav-links">
+            <li><a href="../Index/index.html#hero">Home</a></li>
+            <li><a href="../Index/index.html#engine">Engine</a></li>
+            <li><a href="../Index/index.html#projects">Projects</a></li>
+            <li><a href="../Index/index.html#skills">Skills</a></li>
+            <li><a href="../Index/index.html#contact">Contact</a></li>
+        </ul>
+    </div>
+</nav>
+
+<section class="section" style="padding-top: 2.5rem; border-bottom: none;">
+    <div class="container">
+
+        <a href="../Index/index.html#projects" class="section-link reveal">Retour aux projets</a>
+
+        <div class="dossier-grid reveal">
+            <aside class="dossier-sidebar reveal">
+                <div class="viewport carousel">
+                    <span class="vp-label">// LABY_BL_MAIN</span>
+                    <span class="vp-status">[stable]</span>
+    
+                    <div class="carousel-track">
+                        <div class="carousel-slide active">
+                            <video autoplay muted loop>
+                                <source src="../Assets/Projects/LabyBL/demo-compressed.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3>Collaborateurs</h3>
+                    <div class="collaborator-list">
+                        <div class="collaborator" tabindex="0">
+                            Baptiste COMBEAU
+                            <span class="collab-role">Physics Dev</span>
+                            <div class="collab-tooltip">
+                                <div class="collab-tooltip-name">Baptiste COMBEAU</div>
+                                <ul class="collab-tooltip-contacts">
+                                    <li><button class="copy-email">
+                                        bcombeau974@gmail.com
+                                        <span class="copy-tooltip">copier</span>
+                                    </button></li>
+                                    <li><a href="https://github.com/Ic3Scout">github.com/Ic3Scout</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="collaborator" tabindex="0">
+                            Auxence VILLERET
+                            <span class="collab-role">Lead Dev / Gameplay</span>
+                            <div class="collab-tooltip">
+                                <div class="collab-tooltip-name">Auxence VILLERET</div>
+                                <ul class="collab-tooltip-contacts">
+                                    <li><button class="copy-email">
+                                        auxence.villeret@gmail.com
+                                        <span class="copy-tooltip">copier</span>
+                                    </button></li>
+                                    <li><a href="https://github.com/auxenceVILLERET">github.com/auxenceVILLERET</a></li>
+                                    <li><a href="https://www.linkedin.com/in/auxence-villeret-7a764132b/">linkedin.com/in/auxence-villeret</a></li>
+                                </ul>
+                            </div>
+                        </div>
+<!--                        Ajouter un collaborateur si besoins-->
+                    </div>
+                </div>
+                
+            </aside>
+            
+            <div class="dossier-head reveal">
+                <div class="section-tag">log_entry: Laby-BL</div>
+                <h1 class="project-name">Laby BL</h1>
+                <p class="project-intro">Une <em>vertical slice</em> produite en 3 semaines d'un jeu de survie collaboratif avec des aspects de roguelike.</p>
+                
+                <div class="project-tags">
+                    <span class="skill-tag">Collaboration</span>
+                    <span class="skill-tag">ECS</span>
+                    <span class="skill-tag">Réseau</span>
+                    <span class="skill-tag">Phyics</span>
+                </div>
+                
+                <div class="project-links">
+                    <a class="btn primary" href="https://github.com/vivienSINGIER/LabyBL">ProjectRepo →</a>
+                    <a class="btn" href="https://github.com/vivienSINGIER/LabyBL/releases">Essayer la démo →</a>
+                </div>
+                
+                <div class="section-head reveal">
+                    <h2>A propos</h2>
+                </div>
+
+                <div class="dossier-desc reveal">
+
+                    <p class="project-desc">L'objectif du projet était de fournir une vertical slice du jeu de notre choix
+                        en utilisant une architecture modulaire.</p>
+                    <p class="project-desc">J'ai pris le rôle du développeur moteur, je suis parti de la base d'une librairie de rendu développé
+                        sur un projet précédent pour y ajouter un ECS le plus <em>data oriented</em> possible qui est capable d'accueillir une couche réseau.
+                        Bien que la couche réseaux fut ajouté au projet, elle n'est pas utilisée dans le jeu par manque de temps pour l'intégrer. </p>
+                    <p class="project-desc">Le développement de l'ECS m'a permis de beaucoup mieux comprendre les eujeu et contraintes que représente cette architecture,
+                        c'est sur cette base que je compte développer celui de mon moteur.</p>
+
+                    <a class="btn primary" href="../Engine/engine.html">Voir le moteur →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="page-footer reveal">
+    Construit pièce par pièce, comme tout le reste
+</footer>
+
+</body>
+</html>
