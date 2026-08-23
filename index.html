@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../Core/style.css"/>
-<link rel="stylesheet" href="style.css"/>
-<script type="text/javascript" src="../Core/script.js" defer></script>
-<script type="text/javascript" src="script.js" defer></script>
+<link rel="stylesheet" href="Core/style.css"/>
+<link rel="stylesheet" href="Index/style.css"/>
+<script type="text/javascript" src="Core/script.js" defer></script>
+<script type="text/javascript" src="Index/script.js" defer></script>
 <title>Vivien Singier - C++ Developer</title>
 </head>
 
@@ -57,8 +57,8 @@
                     <span class="status-dot">●</span>
                     <span class="status-dev"> active dev</span>
                 </div>
-                <video class="vp-video" autoplay muted loop playsinline poster="../Assets/Engine/teaser-poster.png">
-                    <source src="../Assets/Engine/teaser-compressed.mp4" type="video/mp4">
+                <video class="vp-video" autoplay muted loop playsinline poster="Assets/Engine/teaser-poster.png">
+                    <source src="Assets/Engine/teaser-compressed.mp4" type="video/mp4">
                 </video>
             </div>
 
@@ -74,7 +74,7 @@
                     <span class="engine-tag">Algèbre linéaires</span>
                     <span class="engine-tag">ECS</span>
                 </div>
-                <a href="../Engine/engine.html" class="btn primary">En savoir plus →</a>
+                <a href="Engine/engine.html" class="btn primary">En savoir plus →</a>
             </div>
         </div>
     </div>
@@ -111,14 +111,14 @@
                         <span class="status-running"> running</span>
                     </div>
                     <video muted loop>
-                        <source src="../Assets/Projects/Math-Drawing/teaser-compressed.mp4" type="video/mp4">
+                        <source src="Assets/Projects/Math-Drawing/teaser-compressed.mp4" type="video/mp4">
                     </video>
                 </div>
                 <div class="project-desc">
                     <h4>Math Drawing</h4>
                     <p>Un outil de dessin de courbe fait avec SFML. Il contient certaines méthodes d'interpolation comme
                         Lagrange, l'Hermite ou Bézier</p>
-                    <a class="project-link" href="../Projects/math-drawing-project.html">Voir le projet >></a>
+                    <a class="project-link" href="Projects/math-drawing-project.html">Voir le projet >></a>
                 </div>
             </article>
 
@@ -131,13 +131,13 @@
                         <span class="status-running"> running</span>
                     </div>
                     <video muted loop>
-                        <source src="../Assets/Projects/LabyBL/demo-compressed.mp4" type="video/mp4">
+                        <source src="Assets/Projects/LabyBL/demo-compressed.mp4" type="video/mp4">
                     </video>
                 </div>
                 <div class="project-desc">
                     <h4>LabyBL</h4>
                     <p>Un prototype de jeu de survie collaboratif réalisé sur un moteur c++ custom</p>
-                    <a class="project-link" href="../Projects/labybl.html">Voir le projet >></a>
+                    <a class="project-link" href="Projects/labybl.html">Voir le projet >></a>
                 </div>
             </article>
 
@@ -150,14 +150,14 @@
                         <span class="status-running"> running</span>
                     </div>
                     <video muted loop>
-                        <source src="../Assets/Projects/ION/wave-compressed.mp4" type="video/mp4">
+                        <source src="Assets/Projects/ION/wave-compressed.mp4" type="video/mp4">
                     </video>
                 </div>
                 <div class="project-desc">
                     <h4>ION - Arena Shooter</h4>
                     <p>Un arena shooter dévelopé en 3 semaines sur un moteur c++ custom dans une équipe de
                         3 devs et 2 artistes</p>
-                    <a class="project-link" href="../Projects/ion.html">Voir le projet >></a>
+                    <a class="project-link" href="Projects/ion.html">Voir le projet >></a>
                 </div>
             </article>
 
@@ -170,13 +170,13 @@
                         <span class="status-running"> running</span>
                     </div>
                     <video muted loop>
-                        <source src="../Assets/Projects/Pathfinding/2d-compressed.mp4" type="video/mp4">
+                        <source src="Assets/Projects/Pathfinding/2d-compressed.mp4" type="video/mp4">
                     </video>
                 </div>
                 <div class="project-desc">
                     <h4>Pathfinding Sandbox</h4>
                     <p>Deux scènes d'expérimentation sur les algorithmes de recherches de chemin en 2D et 3D</p>
-                    <a class="project-link" href="../Projects/pathfinding.html">Voir le projet >></a>
+                    <a class="project-link" href="Projects/pathfinding.html">Voir le projet >></a>
                 </div>
             </article>
 
@@ -188,18 +188,18 @@
                         <span class="status-dot">●</span>
                         <span class="status-running"> running</span>
                     </div>
-                    <video muted loop poster="../Assets/Projects/PolyRun/screenshot.png">
-                        <source src="../Assets/Projects/PolyRun/demo-compressed.mp4" type="video/mp4">
+                    <video muted loop poster="Assets/Projects/PolyRun/screenshot.png">
+                        <source src="Assets/Projects/PolyRun/demo-compressed.mp4" type="video/mp4">
                     </video>
                 </div>
                 <div class="project-desc">
                     <h4>Poly Run</h4>
                     <p>Un prototype de jeu type Runner en 3D</p>
-                    <a class="project-link" href="../Projects/poly-run.html">Voir le projet >></a>
+                    <a class="project-link" href="Projects/poly-run.html">Voir le projet >></a>
                 </div>
             </article>
 
-            <article class="project-item reveal" data-category="cpp game">
+            <article class="project-item reveal" data-category="python game">
                 <div class="viewport">
                     <span class="vp-label">// SPACE_INVADERZ_MAIN</span>
                     <div class="vp-status">
@@ -207,14 +207,33 @@
                         <span class="status-dot">●</span>
                         <span class="status-running"> running</span>
                     </div>
-                    <video muted loop poster="../Assets/Projects/SpaceInvaderz/screenshot.png">
-                        <source src="../Assets/Projects/SpaceInvaderz/demo-compressed.mp4" type="video/mp4">
+                    <video muted loop poster="Assets/Projects/SpaceInvaderz/screenshot.png">
+                        <source src="Assets/Projects/SpaceInvaderz/demo-compressed.mp4" type="video/mp4">
                     </video>
                 </div>
                 <div class="project-desc">
                     <h4>Space Invaderz</h4>
-                    <p>Un jeu python développé dans le cadre d'un projet de lycée</p>
-                    <a class="project-link" href="../Projects/space-invaderz.html">Voir le projet >></a>
+                    <p>Un jeu python type "space invaders" développé dans le cadre d'un projet de lycée</p>
+                    <a class="project-link" href="Projects/space-invaderz.html">Voir le projet >></a>
+                </div>
+            </article>
+
+            <article class="project-item reveal" data-category="python game">
+                <div class="viewport">
+                    <span class="vp-label">// WALL_BREAKER_MAIN</span>
+                    <div class="vp-status">
+                        <span class="status-stable">[stable]</span>
+                        <span class="status-dot">●</span>
+                        <span class="status-running"> running</span>
+                    </div>
+                    <video muted loop poster="Assets/Projects/WallBreaker/screenshot1.png">
+                        <source src="Assets/Projects/WallBreaker/demo-compressed.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="project-desc">
+                    <h4>Wall Breaker</h4>
+                    <p>Un jeu python type "casse-brique" développé dans le cadre d'un projet de lycée</p>
+                    <a class="project-link" href="Projects/wall-breaker.html">Voir le projet >></a>
                 </div>
             </article>
 
@@ -234,6 +253,7 @@
             <span class="tag">Algèbre Linéaire</span>
             <span class="tag">Quaternions</span>
             <span class="tag">Mathématiques 3D</span>
+            <span class="tag">Python</span>
             <span class="tag">Git</span>
         </div>
     </div>
