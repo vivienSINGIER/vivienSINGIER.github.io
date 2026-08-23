@@ -84,9 +84,12 @@ if ( cDots.length > 0) {
     }
 }
 
-const initialVideo = cSlide[getActiveIndex()].querySelector("video");
-if (initialVideo)
-    initialVideo.play();
+const activeIndex = getActiveIndex();
+if (activeIndex !== -1) {
+    const initialVideo = cSlide[activeIndex].querySelector("video");
+    if (initialVideo)
+        initialVideo.play();
+}
 
 const collab = document.querySelectorAll(".collaborator");
 
