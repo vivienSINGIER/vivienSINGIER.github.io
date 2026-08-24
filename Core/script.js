@@ -36,6 +36,23 @@ if (sections.length !== 0 && navLinks.length !== 0) {
     sections.forEach(sect => navObs.observe(sect));
 }
 
+const navToggle = document.querySelector(".nav-toggle");
+const navLinksList = document.querySelector(".nav-links");
+
+if (navToggle && navLinksList) {
+    navToggle.addEventListener("click", () => {
+        const isOpen = navLinksList.classList.toggle("open");
+        navToggle.setAttribute("aria-expanded", isOpen);
+    });
+
+    navLinksList.querySelectorAll("a").forEach(link => {
+        link.addEventListener("click", () => {
+            navLinksList.classList.remove("open");
+            navToggle.setAttribute("aria-expanded", "false");
+        });
+    });
+}
+
 function copyEmail(el) {
     var text = el.firstChild.textContent.trim();
 
