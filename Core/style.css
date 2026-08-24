@@ -135,7 +135,7 @@ h1, h2, h3, h4 {
 }
 
 .nav-toggle {
-    display: flex;
+    display: none;
     gap: 2rem;
     list-style: none;
     margin: 0;
