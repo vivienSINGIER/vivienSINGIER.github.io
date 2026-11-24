@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../Core/style.css"/>
+    <link rel="stylesheet" href="Style-Script/log-style.css"/>
+    <link rel="icon" href="../Assets/favicon.ico" sizes="any"/>
+    <link rel="apple-touch-icon" href="../Assets/apple-touch-icon.png"/>
+    <script type="text/javascript" src="../Core/script.js" defer></script>
+    <script type="text/javascript" src="Style-Script/log-script.js" defer></script>
+    <title>Lebon Interpreter</title>
+</head>
+
+<body>
+
+<nav class="nav">
+    <div class="nav-inner">
+        <div class="nav-logo"> vivien_singier<span>.dev</span></div>
+
+        <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+            <span class="nav-menu">// menu</span>
+            <span class="nav-close">// close</span>
+        </button>
+
+        <ul class="nav-links">
+            <li><a href="../index.html#hero">Home</a></li>
+            <li><a href="../index.html#engine">Engine</a></li>
+            <li><a href="../index.html#projects">Projects</a></li>
+            <li><a href="../index.html#skills">Skills</a></li>
+            <li><a href="../index.html#contact">Contact</a></li>
+        </ul>
+    </div>
+</nav>
+
+<section class="section override" id="intro">
+    <div class="container">
+        <a href="../index.html#projects" class="section-link reveal">Retour aux projets</a>
+
+        <div class="dossier-head reveal">
+            <div class="section-tag">log_entry: lebon</div>
+            <h1 class="project-name">Lebon Interpreter</h1>
+
+            <div class="project-info">
+                <p class="project-intro">Un langage de programmation à mots-clés créoles et sa chaîne d'exécution complète en C++, de l'analyse du code source jusqu'à un compilateur JIT x86-64.</p>
+
+                <div class="project-tags">
+                    <span class="skill-tag">C++</span>
+                    <span class="skill-tag">Compilateur</span>
+                    <span class="skill-tag">JIT x86-64</span>
+                    <span class="skill-tag">Machine virtuelle</span>
+                    <span class="skill-tag">Bytecode</span>
+                    <span class="skill-tag">Benchmarking</span>
+                </div>
+            </div>
+
+            <div class="project-links">
+                <a class="btn primary" href="https://github.com/vivienSINGIER/LebonInterpreter">ProjectRepo →</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="demo">
+    <div class="container">
+        <div class="viewport carousel reveal">
+            <span class="vp-label">// LEBON_MAIN</span>
+            <span class="vp-status">[stable]</span>
+
+            <div class="carousel-track">
+                <div class="carousel-slide active">
+                    <img src="../Assets/Projects/Lebon/benchmark.png" alt="Comparatif des temps du Tree Walking, de la VM à registres et du JIT sur fibo et cordes" style="object-fit: contain;">
+                </div>
+                <div class="carousel-slide">
+                    <img src="../Assets/Projects/Lebon/code.png" alt="Exemple de code écrit en langage Lebon">
+                </div>
+                <div class="carousel-slide">
+                    <video muted loop playsinline poster="../Assets/Projects/Lebon/pipeline.jpg">
+                        <source src="../Assets/Projects/Lebon/pipeline-compressed.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="carousel-slide">
+                    <video muted loop playsinline poster="../Assets/Projects/Lebon/modes.jpg">
+                        <source src="../Assets/Projects/Lebon/modes-compressed.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+
+            <button class="carousel-btn prev"><</button>
+            <button class="carousel-btn next">></button>
+            <div class="carousel-dots">
+                <span class="carousel-dot active"></span>
+                <span class="carousel-dot"></span>
+                <span class="carousel-dot"></span>
+                <span class="carousel-dot"></span>
+            </div>
+            <span class="carousel-counter">1 / 4</span>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="about">
+    <div class="container">
+        <div class="section-head reveal">
+            <h2>A propos</h2>
+        </div>
+
+        <div class="dossier-desc reveal">
+
+            <p class="project-desc">Lebon est un langage avec fonctions, récursion et closures, dont les mots-clés sont en créole :
+                <em>keksoz</em> déclare une variable, <em>kan</em> ouvre une condition et <em>zafer</em> définit une fonction.
+                Le projet a été réalisé à 3 développeurs.</p>
+            <p class="project-desc">Le code passe par un lexer, un parser qui construit un AST, puis une analyse sémantique.
+                Il peut ensuite être exécuté de trois façons : un interpréteur Tree Walking, une VM à registres sur bytecode,
+                ou un JIT qui génère du code machine x86-64 en mémoire exécutable. Sur fibo.lbn, en médiane sur 100 exécutions,
+                la VM est 16,6 fois plus rapide que le Tree Walking et le JIT 48,9 fois.</p>
+            <p class="project-desc">J'ai réalisé le lexer, l'analyse sémantique et le compilateur JIT. Le gain du JIT dépend fortement
+                du programme : il n'est que de 1,3 fois face à la VM sur cordes.lbn, un benchmark centré sur les chaînes.
+                Le langage n'a pas de ramasse-miettes, toute la mémoire vit aussi longtemps que le heap.</p>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="collaborators" style="border-bottom: none;">
+    <div class="container">
+        <div class="section-head reveal">
+            <h2>Collaborateurs</h2>
+            <span class="eyebrow">clicker une ligne</span>
+        </div>
+
+        <div class="collaborator-list">
+            <div class="collaborator" tabindex="0">
+                <div class="collab-row">
+                    <span class="collab-name">Baptiste COMBEAU</span>
+                    <span class="collab-role">Développeur</span>
+                </div>
+
+                <ul class="collab-contacts" inert>
+                    <li><a href="https://github.com/baptisteCOMBEAU">github.com/baptisteCOMBEAU</a></li>
+                </ul>
+            </div>
+
+            <div class="collaborator" tabindex="0">
+                <div class="collab-row">
+                    <span class="collab-name">Mael LEMAIRE</span>
+                    <span class="collab-role">Développeur</span>
+                </div>
+
+                <ul class="collab-contacts" inert>
+                    <li><a href="https://github.com/maelLEMAIR">github.com/maelLEMAIR</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="page-footer reveal">
+    Construit pièce par pièce, comme tout le reste
+</footer>
+
+</body>
+</html>

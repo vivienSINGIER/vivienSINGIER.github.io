@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../Core/style.css"/>
+    <link rel="stylesheet" href="Style-Script/log-style.css"/>
+    <link rel="icon" href="../Assets/favicon.ico" sizes="any"/>
+    <link rel="apple-touch-icon" href="../Assets/apple-touch-icon.png"/>
+    <script type="text/javascript" src="../Core/script.js" defer></script>
+    <script type="text/javascript" src="Style-Script/log-script.js" defer></script>
+    <title>CPU Render</title>
+</head>
+
+<body>
+
+<nav class="nav">
+    <div class="nav-inner">
+        <div class="nav-logo"> vivien_singier<span>.dev</span></div>
+
+        <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+            <span class="nav-menu">// menu</span>
+            <span class="nav-close">// close</span>
+        </button>
+
+        <ul class="nav-links">
+            <li><a href="../index.html#hero">Home</a></li>
+            <li><a href="../index.html#engine">Engine</a></li>
+            <li><a href="../index.html#projects">Projects</a></li>
+            <li><a href="../index.html#skills">Skills</a></li>
+            <li><a href="../index.html#contact">Contact</a></li>
+        </ul>
+    </div>
+</nav>
+
+<section class="section override" id="intro">
+    <div class="container">
+        <a href="../index.html#projects" class="section-link reveal">Retour aux projets</a>
+
+        <div class="dossier-head reveal">
+            <div class="section-tag">log_entry: cpu-render</div>
+            <h1 class="project-name">CPU Render</h1>
+
+            <div class="project-info">
+                <p class="project-intro">Un moteur de rendu 3D temps réel entièrement logiciel en C++ : tout le pipeline graphique tourne sur le processeur, sans aucune API GPU.</p>
+
+                <div class="project-tags">
+                    <span class="skill-tag">C++</span>
+                    <span class="skill-tag">Rendu logiciel</span>
+                    <span class="skill-tag">PBR</span>
+                    <span class="skill-tag">Shadow Mapping</span>
+                    <span class="skill-tag">OpenMP</span>
+                    <span class="skill-tag">Génération procédurale</span>
+                </div>
+            </div>
+
+            <div class="project-links">
+                <a class="btn primary" href="https://github.com/vivienSINGIER/cpu-render">ProjectRepo →</a>
+                <a class="btn" href="https://github.com/vivienSINGIER/cpu-render/tree/dev/Demos">Essayer les démos →</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="demo">
+    <div class="container">
+        <div class="viewport carousel reveal">
+            <span class="vp-label">// CPU_RENDER_MAIN</span>
+            <span class="vp-status">[stable]</span>
+
+            <div class="carousel-track">
+                <div class="carousel-slide active">
+                    <video muted loop playsinline poster="../Assets/Projects/CPU-Render/snowglobe.jpg">
+                        <source src="../Assets/Projects/CPU-Render/snowglobe-compressed.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="carousel-slide">
+                    <video muted loop playsinline poster="../Assets/Projects/CPU-Render/terrain.jpg">
+                        <source src="../Assets/Projects/CPU-Render/terrain-compressed.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="carousel-slide">
+                    <video muted loop playsinline poster="../Assets/Projects/CPU-Render/pbr.jpg">
+                        <source src="../Assets/Projects/CPU-Render/pbr-compressed.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="carousel-slide">
+                    <video muted loop playsinline poster="../Assets/Projects/CPU-Render/BP-Cube.jpg">
+                        <source src="../Assets/Projects/CPU-Render/BP-Cube-compressed.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="carousel-slide">
+                    <video muted loop playsinline poster="../Assets/Projects/CPU-Render/BP.jpg">
+                        <source src="../Assets/Projects/CPU-Render/BP-compressed.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="carousel-slide">
+                    <video muted loop playsinline poster="../Assets/Projects/CPU-Render/transparency.jpg">
+                        <source src="../Assets/Projects/CPU-Render/transparency-compressed.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="carousel-slide">
+                    <video muted loop playsinline poster="../Assets/Projects/CPU-Render/animation.jpg">
+                        <source src="../Assets/Projects/CPU-Render/animation-compressed.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+
+            <button class="carousel-btn prev"><</button>
+            <button class="carousel-btn next">></button>
+            <div class="carousel-dots">
+                <span class="carousel-dot active"></span>
+                <span class="carousel-dot"></span>
+                <span class="carousel-dot"></span>
+                <span class="carousel-dot"></span>
+                <span class="carousel-dot"></span>
+                <span class="carousel-dot"></span>
+                <span class="carousel-dot"></span>
+            </div>
+            <span class="carousel-counter">1 / 7</span>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="about">
+    <div class="container">
+        <div class="section-head reveal">
+            <h2>A propos</h2>
+        </div>
+
+        <div class="dossier-desc reveal">
+
+            <p class="project-desc">L'objectif du projet était de reconstruire un pipeline graphique complet sans carte graphique,
+                en équipe de 3 développeurs : vertex et pixel shaders logiciels, clipping, rastérisation, compute shaders
+                et affichage de l'image finale via SDL3.</p>
+            <p class="project-desc">Pour tenir le temps réel, l'écran est découpé en tuiles de 32 pixels et les triangles sont répartis
+                par tuile, puis traités en parallèle avec OpenMP. Sur cette base, le moteur gère le Blinn-Phong, le PBR (GGX, IBL),
+                les cubemaps, les ombres multi-lumières, la transparence et la réfraction, les particules et l'animation squelettale.</p>
+            <p class="project-desc">J'ai principalement travaillé sur les compute shaders, le shadow mapping, le PBR, les mipmaps de cubemaps,
+                l'eau réfléchissante et l'érosion hydraulique du terrain, simulée goutte par goutte sur un bruit de Perlin.
+                Le projet est livré avec 8 démos exécutables, chacune centrée sur une partie du moteur.</p>
+
+            <a class="btn primary" href="../Engine/engine.html">Voir mon moteur de jeu →</a>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="collaborators" style="border-bottom: none;">
+    <div class="container">
+        <div class="section-head reveal">
+            <h2>Collaborateurs</h2>
+            <span class="eyebrow">clicker une ligne</span>
+        </div>
+
+        <div class="collaborator-list">
+            <div class="collaborator" tabindex="0">
+                <div class="collab-row">
+                    <span class="collab-name">ColynCO</span>
+                    <span class="collab-role">Développeur</span>
+                </div>
+
+                <ul class="collab-contacts" inert>
+                    <li><a href="https://github.com/ColynCO">github.com/ColynCO</a></li>
+                </ul>
+            </div>
+
+            <div class="collaborator" tabindex="0">
+                <div class="collab-row">
+                    <span class="collab-name">nf73-GC</span>
+                    <span class="collab-role">Développeur</span>
+                </div>
+
+                <ul class="collab-contacts" inert>
+                    <li><a href="https://github.com/nf73-GC">github.com/nf73-GC</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="page-footer reveal">
+    Construit pièce par pièce, comme tout le reste
+</footer>
+
+</body>
+</html>
