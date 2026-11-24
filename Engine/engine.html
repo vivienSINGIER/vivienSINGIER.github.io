@@ -1,288 +1,232 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../Core/style.css"/>
-    <link rel="stylesheet" href="style.css"/>
-    <link rel="icon" href="../Assets/favicon.ico" sizes="any"/>
-    <link rel="apple-touch-icon" href="../Assets/apple-touch-icon.png"/>
-    <script type="text/javascript" src="../Core/script.js" defer></script>
-    <script type="text/javascript" src="script.js" defer></script>
-    <title>Vivien Singier - Idle Engine</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Rajdhani:wght@400;500;600&family=Press+Start+2P&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../Core/style.css"/>
+<link rel="stylesheet" href="style.css"/>
+<link rel="icon" href="../Assets/favicon.ico" sizes="any"/>
+<link rel="apple-touch-icon" href="../Assets/apple-touch-icon.png"/>
+<script>
+// before first paint: stage intro once per session (?intro forces it), restore the saved team
+(function () {
+    var r = document.documentElement, show = !matchMedia("(prefers-reduced-motion: reduce)").matches;
+    try { if (localStorage.getItem("vs-team") === "orange") r.dataset.team = "orange"; } catch (e) {}
+    try { if (sessionStorage.getItem("vs-intro-" + location.pathname) && !/[?&]intro\b/.test(location.search)) show = false; } catch (e) {}
+    if (show) r.classList.add("intro-on");
+})();
+</script>
+<script src="../Core/script.js" defer></script>
+<script src="script.js" defer></script>
+<title>Vivien Singier - Idle Engine</title>
 </head>
 <body>
 
+<div id="stage-intro" aria-hidden="true"><span class="s">MAIN QUEST</span><span class="t">Idle Engine</span><span class="r">READY?</span><div class="laser"></div></div>
+
 <nav class="nav">
-    <div class="nav-inner">
-        <div class="nav-logo"> vivien_singier<span>.dev</span></div>
-
-        <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
-            <span class="nav-menu">// menu</span>
-            <span class="nav-close">// close</span>
-        </button>
-
-        <ul class="nav-links">
-            <li><a class="active" href="../index.html">Home</a></li>
-            <li><a href="#demo">Demo</a></li>
-            <li><a href="#systems">Systems</a></li>
-            <li><a href="#roadmap">Roadmap</a></li>
-            <li><a href="#about">About</a></li>
+    <div class="container nav-inner">
+        <a class="logo" href="../index.html">V<span>/</span>SINGIER</a>
+        <ul>
+            <li><a class="back" href="../index.html">◀ HOME</a></li>
+            <li><a href="#systems">SYSTÈMES</a></li>
+            <li><a href="#roadmap">ROADMAP</a></li>
+            <li><a href="#about">SOURCE</a></li>
         </ul>
+        <button type="button" class="team-nav" data-team-toggle aria-label="Changer d'équipe">⇄ TEAM</button>
     </div>
 </nav>
 
-<section class="intro" id="intro">
+<header class="attract" id="intro">
+    <video autoplay muted loop playsinline poster="../Assets/Engine/teaser-poster.png"><source src="../Assets/Engine/teaser-compressed.mp4" type="video/mp4"></video>
     <div class="container">
-        <a href="../index.html" class="section-link reveal">Retour à la page d'accueil</a>
-        <div class="section-tag reveal">system_status : active development - started February 2026</div>
-        <div class="section-head reveal">
-            <h1>Idle Engine</h1>
-            <p>Ce moteur représente mon plus grand projet, et mon seul projet à long terme. 
-                C'est l'opportunité pour moi de m'intéresser à énormément de sujets et technologies variés tout
-                en les maitrisant en les intégrant au projet.</p>
+        <div class="code"><b>MAIN QUEST</b> // ACTIVE DEV · DEPUIS FÉVRIER 2026</div>
+        <h1>Idle Engine</h1>
+        <p>Ce moteur représente mon plus grand projet, et mon seul projet à long terme. C'est l'opportunité pour moi de m'intéresser
+            à énormément de sujets et technologies variés tout en les maîtrisant en les intégrant au projet.</p>
+        <div class="tags">
+            <span class="tag">C++</span><span class="tag">DirectX 12</span><span class="tag">HLSL</span>
+            <span class="tag">Algèbre linéaire</span><span class="tag">ECS</span>
+        </div>
+        <div class="actions">
+            <a class="btn solid" href="https://github.com/vivienSINGIER/IdleRender">GITHUB ▶</a>
+            <a class="btn" href="#systems">VOIR LES SYSTÈMES</a>
+        </div>
+        <div class="strip-data">
+            <div>STATUT<b class="live">● ACTIVE DEV</b></div>
+            <div>DÉBUT<b>FÉV. 2026</b></div>
+            <div>RENDU<b>DX12 → VULKAN</b></div>
+            <div>SYSTÈMES<b>6</b></div>
+            <div>ROADMAP<b>27 ÉTAPES</b></div>
         </div>
     </div>
-</section>
-
-<section class="section" id="demo">
-    <div class="container">
-        <div class="viewport reveal">
-            <span class="vp-label active">// IDLE_ENGINE_MAIN</span>
-            <div class="vp-status active">
-                <span class="status-dot">●</span>
-                <span class="status-dev"> active dev</span>
-            </div>
-            <video class="vp-video" autoplay muted loop playsinline poster="../Assets/Engine/teaser-poster.png">
-                <source src="../Assets/Engine/teaser-compressed.mp4" type="video/mp4">
-            </video>
-        </div>
-    </div>
-</section>
+</header>
 
 <section class="section" id="systems">
     <div class="container">
-        <div class="section-tag reveal">system_status : dissecting...</div>
-        <div class="section-head reveal">
-            <h2>Fonctionnalités</h2>
-            <p class="section-desc">Une liste de toutes les fonctionnalités intégrées au moteur ou en cours d'intégration</p>
+        <div class="section-head reveal"><span class="code">LEVEL MAP // <b>6</b> CHECKPOINTS</span><h2>Fonctionnalités</h2><span class="line"><i class="trail"></i><i class="cycle"></i></span></div>
+        <div class="map" id="map">
+            <span class="rider" aria-hidden="true"></span>
+
+            <div class="checkpoint">
+                <div class="txt"><small>CHECKPOINT 01</small><h3>Rendu 3D DX12</h3>
+                    <p>C'est la base du projet, une librairie de rendu 3D utilisant DirectX12. Elle est structurée de manière à permettre
+                        l'inclusion d'autres APIs et beaucoup de liberté lors de l'utilisation.</p>
+                    <span class="status">● STABLE</span></div>
+                <div class="media hud" data-hover-video tabindex="0"><video muted loop playsinline poster="../Assets/Engine/render-poster.png"><source src="../Assets/Engine/render-compressed.mp4" type="video/mp4"></video>
+                    <div class="readout"><span>CLIP // RENDER</span><span class="live">HOVER ▶</span></div></div>
+            </div>
+
+            <div class="checkpoint">
+                <div class="txt"><small>CHECKPOINT 02</small><h3>Éclairage &amp; Textures</h3>
+                    <p>Une implémentation basique d'un système d'éclairage contenant PointLight, SpotLight &amp; DirectionalLight. L'objectif est
+                        de l'utiliser pour expérimenter avec le ShadowMapping. Les shaders sont structurés de manière modulable afin de pouvoir
+                        utiliser plusieurs types de textures à la fois.</p>
+                    <span class="status">● STABLE</span></div>
+                <div class="media hud" data-hover-video tabindex="0"><video muted loop playsinline poster="../Assets/Engine/texture-poster.jpg"><source src="../Assets/Engine/texture-compressed.mp4" type="video/mp4"></video>
+                    <div class="readout"><span>CLIP // LIGHTS &amp; TEXTURES</span><span class="live">HOVER ▶</span></div></div>
+            </div>
+
+            <div class="checkpoint">
+                <div class="txt"><small>CHECKPOINT 03</small><h3>Librairie mathématiques</h3>
+                    <p>Une accumulation de la majorité des outils d'algèbre linéaire nécessaires au bon fonctionnement d'un moteur et de son
+                        Transform. Cela passe par l'encapsulation de Vector, Matrices et de Quaternions ainsi que d'autres fonctions utilitaires.</p>
+                    <span class="status">● STABLE</span></div>
+                <div class="media hud" data-hover-video tabindex="0"><video muted loop playsinline poster="../Assets/Engine/transform-poster.jpg"><source src="../Assets/Engine/transform-compressed.mp4" type="video/mp4"></video>
+                    <div class="readout"><span>CLIP // TRANSFORM</span><span class="live">HOVER ▶</span></div></div>
+            </div>
+
+            <div class="checkpoint">
+                <div class="txt"><small>CHECKPOINT 04</small><h3>Collision basique</h3>
+                    <p>Pour l'instant, le moteur permet une représentation de 3 volumes : AABB, Sphere et OBB. Ces volumes sont tous utilisables
+                        pour représenter les limites des géométries pour le frustum culling.</p>
+                    <span class="status">● STABLE</span></div>
+                <div class="media hud" data-hover-video tabindex="0"><video muted loop playsinline poster="../Assets/Engine/bounds-poster.jpg"><source src="../Assets/Engine/bounds-compressed.mp4" type="video/mp4"></video>
+                    <div class="readout"><span>CLIP // BOUNDS</span><span class="live">HOVER ▶</span></div></div>
+            </div>
+
+            <div class="checkpoint">
+                <div class="txt"><small>CHECKPOINT 05</small><h3>Font Renderer</h3>
+                    <p>Il s'agit d'un prototype : il utilise un parser ".ttf" custom qui lit le format le plus commun pour ensuite bake les
+                        caractères sur un atlas. Cet atlas sert de texture pour le Font Renderer. L'entièreté du système reste approximative
+                        et a besoin d'encore beaucoup de corrections.</p>
+                    <span class="status wip">● PROTOTYPE</span></div>
+                <div class="media hud" data-hover-video tabindex="0"><video muted loop playsinline poster="../Assets/Engine/text-poster.jpg"><source src="../Assets/Engine/text-compressed.mp4" type="video/mp4"></video>
+                    <div class="readout"><span>CLIP // TEXT</span><span class="live">HOVER ▶</span></div></div>
+            </div>
+
+            <div class="checkpoint">
+                <div class="txt"><small>CHECKPOINT 06</small><h3>ECS</h3>
+                    <p>Le moteur contenait initialement un ECS complet et modulaire avec un début d'adaptation au multijoueur. Il a permis de
+                        construire plusieurs courts projets en conditions similaires à des game jams. Cette partie n'est actuellement pas
+                        présente sur cette version, car elle est en pleine refonte.</p>
+                    <span class="status wip">● EN REFONTE</span></div>
+                <div class="media hud" data-hover-video tabindex="0"><video muted loop playsinline poster="../Assets/Engine/ecs-poster.jpg"><source src="../Assets/Engine/ecs-compressed.mp4" type="video/mp4"></video>
+                    <div class="readout"><span>CLIP // ECS</span><span class="live">HOVER ▶</span></div></div>
+            </div>
+
+            <div class="goal"><a class="btn solid" href="#roadmap">NEXT LEVELS ▼</a></div>
         </div>
-
-        <div class="systems-grid">
-
-            <article class="systems-item reveal">
-                <div class="viewport" tabindex="0">
-                    <span class="vp-label">// PROJECT_MAIN</span>
-                    <div class="vp-status">
-                        <span class="status-stable">[stable]</span>
-                        <span class="status-dot">●</span>
-                        <span class="status-running"> running</span>
-                    </div>
-                    <video muted loop poster="../Assets/Engine/render-poster.png">
-                        <source src="../Assets/Engine/render-compressed.mp4" type="video/mp4">
-                    </video>
-                </div>
-                <div class="system-desc">
-                    <h4>Rendu 3D Dx12</h4>
-                    <p>C'est la base du projet, une librairie de rendu 3D utilisant DirectX12.
-                        Elle est structurée de manière à permettre l'inclusion d'autres APIs et
-                        beaucoup de liberté lors de l'utilisation.</p>
-                </div>
-            </article>
-
-            <article class="systems-item reveal">
-                <div class="viewport" tabindex="0">
-                    <span class="vp-label">// PROJECT_MAIN</span>
-                    <div class="vp-status">
-                        <span class="status-stable">[stable]</span>
-                        <span class="status-dot">●</span>
-                        <span class="status-running"> running</span>
-                    </div>
-                    <video muted loop poster="../Assets/Engine/texture-poster.jpg">
-                        <source src="../Assets/Engine/texture-compressed.mp4" type="video/mp4">
-                    </video>
-                </div>
-                <div class="system-desc">
-                    <h4>Éclairage & Textures</h4>
-                    <p>Une implémentation basique d'un système d'éclairage contenant PointLight, SpotLight & DirectionalLight.
-                        L'objectif et de l'utiliser pour éxperimenter avec le ShadowMapping. Les Shaders sont structurés 
-                        de manières modulables afin de pouvoir utiliser plusieurs types de textures à la fois.</p>
-                </div>
-            </article>
-
-            <article class="systems-item reveal">
-                <div class="viewport" tabindex="0">
-                    <span class="vp-label">// PROJECT_MAIN</span>
-                    <div class="vp-status">
-                        <span class="status-stable">[stable]</span>
-                        <span class="status-dot">●</span>
-                        <span class="status-running"> running</span>
-                    </div>
-                    <video muted loop poster="../Assets/Engine/transform-poster.jpg">
-                        <source src="../Assets/Engine/transform-compressed.mp4" type="video/mp4">
-                    </video>
-                </div>
-                <div class="system-desc">
-                    <h4>Librairie Mathématiques</h4>
-                    <p>Une accumulation de la majorité des outils d'algèbre linéaire necéssaire au bon fonctionnement d'un moteur et de son 
-                        Transform.
-                       Cela passe par l'encapsulation de Vector, Matrices et de Quaternions ainsi que d'autres fonctions utilitaires.</p>
-                </div>
-            </article>
-
-            <article class="systems-item reveal">
-                <div class="viewport" tabindex="0">
-                    <span class="vp-label">// PROJECT_MAIN</span>
-                    <div class="vp-status">
-                        <span class="status-stable">[stable]</span>
-                        <span class="status-dot">●</span>
-                        <span class="status-running"> running</span>
-                    </div>
-                    <video muted loop poster="../Assets/Engine/bounds-poster.jpg">
-                        <source src="../Assets/Engine/bounds-compressed.mp4" type="video/mp4">
-                    </video>
-                </div>
-                <div class="system-desc">
-                    <h4>Collision basique</h4>
-                    <p>Pour l'instant, le moteur permet une représentation de 3 volumes : AABB, Sphere et OBB.
-                        Ces volumes sont tous utilisables pour représenter les limites des géometries pour le
-                        frustum culling.</p>
-                </div>
-            </article>
-
-            <article class="systems-item reveal">
-                <div class="viewport" tabindex="0">
-                    <span class="vp-label">// PROJECT_MAIN</span>
-                    <div class="vp-status">
-                        <span class="status-stable">[stable]</span>
-                        <span class="status-dot">●</span>
-                        <span class="status-running"> running</span>
-                    </div>
-                    <video muted loop poster="../Assets/Engine/text-poster.jpg">
-                        <source src="../Assets/Engine/text-compressed.mp4" type="video/mp4">
-                    </video>
-                </div>
-                <div class="system-desc">
-                    <h4>Font Renderer</h4>
-                    <p>Il s'agit d'un prototype, il utilise un parser ".ttf" custom qui lit le format le plus commun pour ensuite 
-                        bake les charactères sur un atlas. Cet atlas sert de texture pour le Font Renderer. L'entièreté du système
-                        reste approximatif et a besoins d'encore beaucoup de correction. </p>
-                </div>
-            </article>
-            
-            <article class="systems-item reveal">
-                <div class="viewport" tabindex="0">
-                    <span class="vp-label">// PROJECT_MAIN</span>
-                    <div class="vp-status">
-                        <span class="status-stable">[stable]</span>
-                        <span class="status-dot">●</span>
-                        <span class="status-running"> running</span>
-                    </div>
-                    <video muted loop poster="../Assets/Engine/ecs-poster.jpg">
-                        <source src="../Assets/Engine/ecs-compressed.mp4" type="video/mp4">
-                    </video>
-                </div>
-                <div class="system-desc">
-                    <h4>ECS</h4>
-                    <p>Le moteur contenait initialement un ECS complet et modulaire avec un début d'adaptation au multijoueur. 
-                        Il a permis de construire plusieurs courts projets en condition similaire à des Game jams.
-                        Cette partie n'est actuellement pas présente sur cette version, car elle est en pleine refonte.</p>
-                </div>
-            </article>
-
-        </div>
-        
     </div>
 </section>
 
 <section class="section" id="roadmap">
     <div class="container">
-        <div class="section-tag reveal">system_status : planning...</div>
-        <div class="section-head reveal">
-            <h2>Roadmap</h2>
-            <p class="section-desc">Voici environs toutes les fonctionnalités que j'ai prévu d'intégrer dans ce moteur.
-                Elle est vague et reste susceptible à beaucoup de changements.</p>
-        </div>
-        
-        <div class="roadmap-grid">
-            <article class="roadmap-list reveal">
-                <h4 class="roadmap-list-name">Systèmes & Outils</h4>
-
-                <div class="roadmap-item">Lecture brute de fichier <span class="roadmap-item-ongoing">in progress</span></div>
-                <div class="roadmap-item">Asset Manager <span class="roadmap-item-planned">planned</span></div>
-                <div class="roadmap-item">Multithreading - Intégration & Gestion <span class="roadmap-item-planned">planned</span></div>
-                <div class="roadmap-item closing">Instructions SSE - outils maths <span class="roadmap-item-planned">planned</span></div>
+        <div class="section-head reveal"><span class="code">NEXT LEVELS // <b>2</b> EN COURS</span><h2>Roadmap</h2><span class="line"><i class="trail"></i><i class="cycle"></i></span></div>
+        <p style="max-width:64ch;color:var(--text-dim);margin:-1rem 0 2.4rem">Voici à peu près toutes les fonctionnalités que j'ai prévu d'intégrer dans ce moteur.
+            Elle est vague et reste susceptible à beaucoup de changements.</p>
+        <div class="levels">
+            <article class="level">
+                <header><div><small>WORLD 1</small><h3>Systèmes &amp; Outils</h3></div><span class="count">1/4 EN COURS</span></header>
+                <ul>
+                    <li class="wip">Lecture brute de fichier <span>IN PROGRESS</span></li>
+                    <li>Asset Manager <span>PLANNED</span></li>
+                    <li>Multithreading - Intégration &amp; Gestion <span>PLANNED</span></li>
+                    <li>Instructions SSE - outils maths <span>PLANNED</span></li>
+                </ul>
             </article>
-
-            <article class="roadmap-list reveal">
-                <h4 class="roadmap-list-name">Rendu</h4>
-
-                <div class="roadmap-item">Restructure <span class="roadmap-item-planned">planned</span></div>
-                <div class="roadmap-item">Gestion 2D <span class="roadmap-item-planned">planned</span></div>
-                <div class="roadmap-item">Chargement PNG - JPEG <span class="roadmap-item-planned">planned</span></div>
-                <div class="roadmap-item">Sprite Factory <span class="roadmap-item-planned">planned</span></div>
-                <div class="roadmap-item">Fix du Font Renderer <span class="roadmap-item-planned">planned</span></div>
-                <div class="roadmap-item">Shadow maps <span class="roadmap-item-planned">planned</span></div>
-                <div class="roadmap-item closing">Intégration de Vulkan <span class="roadmap-item-planned">planned</span></div>
+            <article class="level">
+                <header><div><small>WORLD 2</small><h3>Rendu</h3></div><span class="count">0/7 EN COURS</span></header>
+                <ul>
+                    <li>Restructure <span>PLANNED</span></li>
+                    <li>Gestion 2D <span>PLANNED</span></li>
+                    <li>Chargement PNG - JPEG <span>PLANNED</span></li>
+                    <li>Sprite Factory <span>PLANNED</span></li>
+                    <li>Fix du Font Renderer <span>PLANNED</span></li>
+                    <li>Shadow maps <span>PLANNED</span></li>
+                    <li>Intégration de Vulkan <span>PLANNED</span></li>
+                </ul>
             </article>
-
-            <article class="roadmap-list reveal">
-                <h4 class="roadmap-list-name">Collisions & Physique</h4>
-
-                <div class="roadmap-item">Physics world & system <span class="roadmap-item-planned">planned</span></div>
-                <div class="roadmap-item">Volumes complexes - capsule & hull <span class="roadmap-item-planned">planned</span></div>
-                <div class="roadmap-item closing">Collisions dynamiques <span class="roadmap-item-planned">planned</span></div>
+            <article class="level">
+                <header><div><small>WORLD 3</small><h3>Collisions &amp; Physique</h3></div><span class="count">0/3 EN COURS</span></header>
+                <ul>
+                    <li>Physics world &amp; system <span>PLANNED</span></li>
+                    <li>Volumes complexes - capsule &amp; hull <span>PLANNED</span></li>
+                    <li>Collisions dynamiques <span>PLANNED</span></li>
+                </ul>
             </article>
-
-            <article class="roadmap-list reveal">
-                <h4 class="roadmap-list-name">Audio</h4>
-
-                <div class="roadmap-item">Chargement & lancement d'un son <span class="roadmap-item-planned">planned</span></div>
-                <div class="roadmap-item">Sons spatialisés <span class="roadmap-item-planned">planned</span></div>
-                <div class="roadmap-item closing">Analyses & Manipulations <span class="roadmap-item-planned">planned</span></div>
+            <article class="level">
+                <header><div><small>WORLD 4</small><h3>Audio</h3></div><span class="count">0/3 EN COURS</span></header>
+                <ul>
+                    <li>Chargement &amp; lancement d'un son <span>PLANNED</span></li>
+                    <li>Sons spatialisés <span>PLANNED</span></li>
+                    <li>Analyses &amp; Manipulations <span>PLANNED</span></li>
+                </ul>
             </article>
-
-            <article class="roadmap-list reveal">
-                <h4 class="roadmap-list-name">Moteur & Architecture</h4>
-
-                <div class="roadmap-item">Refonte de l'ECS <span class="roadmap-item-ongoing">in progress</span></div>
-                <div class="roadmap-item">UI - Canva, Button, ScrollBar <span class="roadmap-item-planned">planned</span></div>
-                <div class="roadmap-item closing">Intégration Audio <span class="roadmap-item-planned">planned</span></div>
+            <article class="level">
+                <header><div><small>WORLD 5</small><h3>Moteur &amp; Architecture</h3></div><span class="count">1/3 EN COURS</span></header>
+                <ul>
+                    <li class="wip">Refonte de l'ECS <span>IN PROGRESS</span></li>
+                    <li>UI - Canva, Button, ScrollBar <span>PLANNED</span></li>
+                    <li>Intégration Audio <span>PLANNED</span></li>
+                </ul>
             </article>
-
-            <article class="roadmap-list reveal">
-                <h4 class="roadmap-list-name">Network</h4>
-
-                <div class="roadmap-item">Encapsulation basiques <span class="roadmap-item-planned">planned</span></div>
-                <div class="roadmap-item">Gestion serveur dédiées <span class="roadmap-item-planned">planned</span></div>
-                <div class="roadmap-item closing">Intégration à l'ECS <span class="roadmap-item-planned">planned</span></div>
+            <article class="level">
+                <header><div><small>WORLD 6</small><h3>Network</h3></div><span class="count">0/3 EN COURS</span></header>
+                <ul>
+                    <li>Encapsulation basique <span>PLANNED</span></li>
+                    <li>Gestion serveurs dédiés <span>PLANNED</span></li>
+                    <li>Intégration à l'ECS <span>PLANNED</span></li>
+                </ul>
             </article>
-
-            <article class="roadmap-list reveal">
-                <h4 class="roadmap-list-name">Autres</h4>
-
-                <div class="roadmap-item">Documentation du code <span class="roadmap-item-planned">planned</span></div>
-                <div class="roadmap-item">Rédaction documentation pdf <span class="roadmap-item-planned">planned</span></div>
-                <div class="roadmap-item">Conversion - code >> docu html <span class="roadmap-item-planned">planned</span></div>
-                <div class="roadmap-item closing">Expérimenter - Ray Tracing <span class="roadmap-item-planned">planned</span></div>
+            <article class="level">
+                <header><div><small>WORLD 7</small><h3>Autres</h3></div><span class="count">0/4 EN COURS</span></header>
+                <ul>
+                    <li>Documentation du code <span>PLANNED</span></li>
+                    <li>Rédaction documentation pdf <span>PLANNED</span></li>
+                    <li>Conversion - code &gt;&gt; docu html <span>PLANNED</span></li>
+                    <li>Expérimenter - Ray Tracing <span>PLANNED</span></li>
+                </ul>
             </article>
-
         </div>
     </div>
 </section>
 
-<section class="section" id="about">
+<section class="section last" id="about">
     <div class="container">
-        <h2 class="about-title">Pour plus d'informations</h2>
-        <a class="about-link" href="https://github.com/vivienSINGIER/IdleRender">github.com/vivienSINGIER/IdleEngine >></a>
+        <div class="section-head reveal"><span class="code">CONTINUE? // SOURCE</span><h2>Plus d'infos</h2><span class="line"><i class="trail"></i><i class="cycle"></i></span></div>
+        <div class="source">
+            <div>
+                <p>Le code source, l'avancement et les détails techniques du moteur sont sur GitHub.</p>
+                <a class="big" href="https://github.com/vivienSINGIER/IdleRender">github.com/vivienSINGIER/IdleEngine</a>
+            </div>
+            <div class="links">
+                <a class="btn solid" href="https://github.com/vivienSINGIER/IdleRender">OUVRIR LE REPO ▶</a>
+                <a class="btn" href="../index.html#projects">◀ STAGE SELECT</a>
+                <a class="btn" href="../index.html">◀ RETOUR À L'ACCUEIL</a>
+            </div>
+        </div>
     </div>
 </section>
 
-<footer class="page-footer reveal">
-    Construit pièce par pièce, comme tout le reste
-</footer>
+<footer class="container"><span>END OF LINE — <b>BUILT PIECE BY PIECE</b></span><span class="foot-btns">
+    <button type="button" class="foot-btn" id="levelup">LEVEL UP ▲</button>
+    <button type="button" class="foot-btn" id="reboot">REBOOT ↻</button>
+    <button type="button" class="foot-btn team" data-team-toggle>SWITCH TEAM ⇄</button>
+</span></footer>
+<div id="toast" aria-live="polite"></div>
 
 </body>
 </html>

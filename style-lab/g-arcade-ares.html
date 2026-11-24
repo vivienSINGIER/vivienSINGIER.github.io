@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Rajdhani:wght@400;500;600&family=Press+Start+2P&display=swap" rel="stylesheet">
+<link rel="icon" href="../Assets/favicon.ico" sizes="any"/>
+<title>[G] Arcade Ares - Vivien Singier</title>
+<style>
+:root {
+    --bg: #010205;
+    --blue: #2ad4ff;
+    --blue-soft: rgba(42, 212, 255, .5);
+    --blue-dim: rgba(42, 212, 255, .2);
+    --blue-faint: rgba(42, 212, 255, .07);
+    --orange: #ff8a1c;
+    --yellow: #ffe14d;
+    --white: #f2fbff;
+    --text: #e2edf2;
+    --text-dim: #7a878e;
+    --display: "Michroma", sans-serif;
+    --body: "Rajdhani", sans-serif;
+    --pixel: "Press Start 2P", monospace;
+    --glow: 0 0 1px #fff, 0 0 6px var(--blue), 0 0 22px var(--blue-soft);
+    --glow-o: 0 0 1px #fff, 0 0 6px var(--orange), 0 0 18px rgba(255,138,28,.45);
+    --cut: 14px;
+    --cut-shape: polygon(var(--cut) 0, 100% 0, 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, 0 100%, 0 var(--cut));
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+    margin: 0; color: var(--text); font-family: var(--body); font-size: 18px; line-height: 1.6; font-weight: 500;
+    background-color: var(--bg);
+    background-image: radial-gradient(var(--blue-faint) 1px, transparent 1px);
+    background-size: 24px 24px;
+}
+body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 1000;
+    background: repeating-linear-gradient(to bottom, rgba(0,0,0,.18) 0 1px, transparent 1px 3px); }
+body::after { content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 1000;
+    background: radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,.5) 100%); }
+
+a { color: inherit; }
+::selection { background: var(--blue); color: #000; }
+:focus-visible { outline: 2px solid var(--yellow); outline-offset: 4px; }
+h1, h2, h3, h4 { font-weight: 400; margin: 0; }
+.container { max-width: 1180px; margin: 0 auto; padding: 0 clamp(1rem, 4vw, 2.5rem); }
+.blink { animation: blink 1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+
+/* HUD brackets (from D), in blue */
+.hud { position: relative; }
+.hud::before, .hud::after { content: ""; position: absolute; width: 18px; height: 18px; border: 2px solid var(--blue); pointer-events: none; z-index: 3; filter: drop-shadow(0 0 4px var(--blue)); }
+.hud::before { top: -7px; left: -7px; border-right: 0; border-bottom: 0; }
+.hud::after { bottom: -7px; right: -7px; border-left: 0; border-top: 0; }
+
+/* ---------- NAV: D's layout, arcade readouts ---------- */
+.nav { position: sticky; top: 0; z-index: 50; background: rgba(1,2,5,.9); backdrop-filter: blur(6px); border-bottom: 1px solid var(--blue-dim); }
+.nav-inner { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: .75rem 0; flex-wrap: wrap; font-family: var(--pixel); font-size: .55rem; }
+.logo { font-family: var(--display); font-size: .9rem; letter-spacing: .3em; }
+.logo span { color: var(--blue); text-shadow: var(--glow); }
+.nav ul { display: flex; list-style: none; padding: 0; margin: 0; }
+.nav ul a { display: block; padding: .55rem .9rem; text-decoration: none; color: var(--text-dim); border-left: 1px solid var(--blue-dim); }
+.nav ul a:hover { color: #000; background: var(--blue); }
+.readouts { display: flex; gap: 1.4rem; line-height: 1.8; }
+.readouts .sc { color: var(--blue); }
+.readouts b { display: block; color: var(--white); font-weight: 400; }
+
+/* ---------- HERO: D's left-aligned layout + F's grid ---------- */
+.hero { position: relative; min-height: 90vh; display: flex; align-items: center; overflow: hidden; border-bottom: 1px solid var(--blue-dim); }
+.beam { position: absolute; top: 0; bottom: 0; width: 2px; background: var(--blue); box-shadow: var(--glow); }
+.beam.b1 { left: 8%; }
+.beam.b2 { right: 14%; opacity: .35; }
+.scan { position: absolute; left: 0; right: 0; height: 120px; top: -120px; background: linear-gradient(transparent, var(--blue-faint) 80%, var(--blue-soft)); opacity: .55; animation: scan 5s steps(40) infinite; pointer-events: none; }
+@keyframes scan { to { top: 100%; } }
+.floor { position: absolute; left: 0; right: 0; bottom: 0; height: 40%; perspective: 420px; overflow: hidden;
+         -webkit-mask-image: linear-gradient(transparent, #000 60%); mask-image: linear-gradient(transparent, #000 60%); }
+.floor::before { content: ""; position: absolute; left: -60%; right: -60%; top: 0; height: 200%;
+    background-image: linear-gradient(90deg, var(--blue) 2px, transparent 2px), linear-gradient(var(--blue) 2px, transparent 2px);
+    background-size: 64px 64px; transform: rotateX(64deg); transform-origin: center top; animation: drive 2.6s linear infinite; opacity: .35; }
+@keyframes drive { to { background-position: 0 64px; } }
+.trails { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.trails path { fill: none; stroke-width: 3; stroke-linejoin: miter; stroke-dasharray: 2000; stroke-dashoffset: 2000; transition: opacity .7s; }
+.trails .tb { stroke: var(--blue); filter: drop-shadow(0 0 6px var(--blue)); }
+.trails .to { stroke: var(--orange); filter: drop-shadow(0 0 6px var(--orange)); }
+.trails path.fade { opacity: 0; }
+.trails path.dead { animation: trail-collapse .9s forwards; }
+@keyframes trail-collapse { 0% { stroke: #fff; opacity: 1; } 20% { stroke: #fff; } 100% { opacity: 0; } }
+
+.trails path.hit { animation: wall-hit .5s steps(4); }
+@keyframes wall-hit { 0%, 40% { stroke: #fff; stroke-width: 7; } }
+
+/* crash explosion */
+.boom { position: absolute; left: 0; top: 0; z-index: 1; pointer-events: none; }
+.boom i { position: absolute; display: block; }
+.boom .flash { width: 160px; height: 160px; left: -80px; top: -80px; border-radius: 50%;
+    background: radial-gradient(circle, #fff 0 12%, var(--p) 32%, transparent 70%); animation: boom-flash .55s ease-out forwards; }
+.boom .ring { width: 24px; height: 24px; left: -12px; top: -12px; border-radius: 50%; border: 2px solid var(--p);
+    box-shadow: 0 0 14px var(--p), inset 0 0 10px var(--p); animation: boom-ring .75s cubic-bezier(.2, .6, .3, 1) both; }
+.boom .ring.r2 { border-color: #fff; animation-delay: .12s; }
+.boom .shard { width: 6px; height: 6px; left: -3px; top: -3px; background: var(--p); box-shadow: 0 0 8px var(--p);
+    animation: shard .9s steps(12) forwards; }
+.boom .shard.w { background: #fff; }
+@keyframes boom-flash { 0% { transform: scale(.2); opacity: 1; } 30% { transform: scale(1.15); opacity: 1; } 100% { transform: scale(1.6); opacity: 0; } }
+@keyframes boom-ring { 0% { transform: scale(.3); opacity: 1; } 100% { transform: scale(10); opacity: 0; } }
+@keyframes shard {
+    0% { transform: translate(0, 0) rotate(0); opacity: 1; }
+    70% { opacity: 1; }
+    100% { transform: translate(var(--dx), var(--dy)) rotate(var(--rot)) scale(.4); opacity: 0; }
+}
+.hero.shake .trails, .hero.shake .floor, .hero.shake .bike { animation: shake .4s steps(6); }
+@keyframes shake { 0% { translate: 0 0; } 20% { translate: -7px 4px; } 40% { translate: 6px -4px; } 60% { translate: -4px 2px; } 80% { translate: 3px -1px; } 100% { translate: 0 0; } }
+
+/* dimmed background light cycles in the other sections (canvas, drawn by JS) */
+.section { position: relative; overflow: hidden; }
+.section > .container { position: relative; z-index: 1; }
+.bg-cycles { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; opacity: .3; z-index: 0;
+    -webkit-mask-image: radial-gradient(ellipse 75% 70% at 50% 50%, rgba(0,0,0,.25), #000);
+            mask-image: radial-gradient(ellipse 75% 70% at 50% 50%, rgba(0,0,0,.25), #000); }
+
+/* hero light cycles, positioned along the SVG paths by JS */
+.bike {
+    --p: var(--blue);
+    position: absolute; left: 0; top: 0; z-index: 1; width: 20px; height: 7px; pointer-events: none; opacity: 0;
+    border-radius: 1px 4px 4px 1px;
+    background: linear-gradient(90deg, var(--p), #fff 60%);
+    box-shadow: 0 0 10px 2px var(--p), 0 0 26px var(--p),
+        0 0 0 -2px var(--p), 0 0 0 -2px var(--p), 0 0 0 -2px var(--p), 0 0 0 -2px var(--p),
+        0 0 0 -2px var(--p), 0 0 0 -2px var(--p), 0 0 0 -2px var(--p), 0 0 0 -2px var(--p);
+}
+.bike[data-c="o"] { --p: var(--orange); }
+.bike.on { opacity: 1; }
+.bike.derez { opacity: 1; animation: bike-derez .7s steps(9) forwards; }
+@keyframes bike-derez {
+    0% { scale: 1; }
+    20% { scale: 1.8 2.6; background: #fff; }
+    100% {
+        opacity: 0; scale: 1; background: var(--p);
+        box-shadow: 0 0 40px 10px transparent, 0 0 0 transparent,
+            -40px -30px 0 -1px var(--p), 34px -38px 0 -1px #fff, 52px -6px 0 -1px var(--p), 40px 28px 0 -1px var(--p),
+            -10px 42px 0 -1px #fff, -50px 18px 0 -1px var(--p), -60px -10px 0 -1px #fff, 8px -50px 0 -1px var(--p);
+    }
+}
+
+.hero-content { position: relative; z-index: 2; padding: 4rem 0 22vh calc(8% + 1.6rem); max-width: 1020px; }
+.sys { font-family: var(--pixel); font-size: .6rem; color: var(--blue); line-height: 2; }
+.sys b { color: var(--yellow); font-weight: 400; }
+.hero h1 { font-family: var(--display); font-size: clamp(1.8rem, 5.6vw, 4.2rem); line-height: 1.15; margin: 1.4rem 0 1.6rem; color: var(--white); text-transform: uppercase; letter-spacing: .04em; }
+.hero h1 .lit { color: var(--blue); text-shadow: var(--glow); }
+
+/* glitch from D, recoloured blue / orange, stepped */
+.glitch { position: relative; display: inline-block; }
+.glitch::before, .glitch::after { content: attr(data-text); position: absolute; inset: 0; opacity: 0; pointer-events: none; }
+.glitch::before { color: var(--blue); }
+.glitch::after { color: var(--orange); }
+.glitch:hover::before, .glitch:hover::after, .glitch.auto::before, .glitch.auto::after { animation: glitch 3s steps(1) infinite; }
+.glitch::after { animation-delay: .05s !important; }
+@keyframes glitch {
+    0%, 88%, 100% { opacity: 0; transform: none; clip-path: none; }
+    90% { opacity: .9; transform: translate(-4px, 0); clip-path: inset(10% 0 55% 0); }
+    93% { opacity: .9; transform: translate(4px, 1px); clip-path: inset(55% 0 10% 0); }
+    96% { opacity: .9; transform: translate(-2px, -1px); clip-path: inset(30% 0 40% 0); }
+}
+.hero p { max-width: 58ch; color: var(--text-dim); }
+.hero em { font-style: normal; color: var(--orange); }
+.coin { font-family: var(--pixel); font-size: .7rem; color: var(--yellow); margin: 2rem 0 1.2rem; text-shadow: 0 0 10px rgba(255,225,77,.5); }
+.actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+/* ---------- BUTTONS: D's wipe + F's cut corners & pixel label ---------- */
+.btn {
+    --c: var(--blue);
+    display: inline-block; text-decoration: none; font-family: var(--pixel); font-size: .58rem; line-height: 1.4;
+    padding: 1.05rem 1.5rem; color: var(--c); position: relative; isolation: isolate; overflow: hidden;
+    clip-path: polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, 0 100%);
+    background: var(--blue-faint); transition: color .2s steps(2);
+}
+.btn::after { content: ""; position: absolute; inset: 0; padding: 2px; background: var(--c); clip-path: inherit;
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
+.btn::before { content: ""; position: absolute; inset: 0; background: var(--c); transform: translateX(-101%); transition: transform .3s steps(6); z-index: -1; }
+.btn:hover { color: #000; }
+.btn:hover::before { transform: none; }
+.btn.solid { background: var(--blue); color: #000; box-shadow: var(--glow); }
+.btn.solid::before { background: var(--yellow); }
+.btn:active { transform: translate(2px, 2px); }
+
+/* ---------- SECTIONS (D's header format) ---------- */
+.section { padding: clamp(4rem, 9vw, 7rem) 0; border-bottom: 1px solid var(--blue-dim); }
+.section-head { display: grid; grid-template-columns: auto 1fr; gap: .6rem 1.5rem; align-items: end; margin-bottom: 3rem; }
+.section-head .code { font-family: var(--pixel); font-size: .55rem; color: var(--text-dim); grid-column: 1 / -1; }
+.section-head .code b { color: var(--orange); font-weight: 400; }
+.section-head h2 { font-family: var(--display); font-size: clamp(1.4rem, 4vw, 2.6rem); line-height: 1; color: var(--white); text-transform: uppercase; letter-spacing: .08em; }
+/* title line = a light cycle run: it accelerates away from the title laying a trail,
+   derezzes in a burst of pixels at the end, and the trail settles into the fading line */
+.section-head .line { position: relative; height: 2px; margin-bottom: .5rem; }
+.section-head .line::before { /* final resting line */
+    content: ""; position: absolute; inset: 0; opacity: 0;
+    background: linear-gradient(90deg, var(--blue), transparent); box-shadow: 0 0 6px var(--blue-soft);
+}
+.section-head .line .trail {
+    position: absolute; inset: 0; background: var(--blue); box-shadow: var(--glow);
+    transform: scaleX(0); transform-origin: left;
+}
+.section-head .line .cycle {
+    --p: var(--blue);
+    position: absolute; top: -2px; left: 0; width: 14px; height: 6px; opacity: 0;
+    background: #fff;
+    box-shadow: 0 0 8px 1px var(--p),
+        0 0 0 -1px var(--p), 0 0 0 -1px var(--p), 0 0 0 -1px var(--p), 0 0 0 -1px var(--p),
+        0 0 0 -1px var(--p), 0 0 0 -1px var(--p), 0 0 0 -1px var(--p), 0 0 0 -1px var(--p);
+}
+.section-head.in .line::before { animation: line-settle .8s 1.3s forwards; }
+.section-head.in .line .trail { animation: trail-draw 1.15s cubic-bezier(.6, 0, .85, .55) .15s forwards, trail-die .8s 1.3s forwards; }
+.section-head.in .line .cycle { animation: cycle-ride 1.15s cubic-bezier(.6, 0, .85, .55) .15s forwards, cycle-derez .55s 1.3s steps(7) forwards; }
+
+/* don't waste the run behind the boot screen */
+.booting .section-head .line::before, .booting .section-head .line i { animation-play-state: paused !important; }
+
+@keyframes trail-draw { to { transform: scaleX(1); } }
+@keyframes trail-die { 0% { opacity: 1; background: #fff; } 100% { opacity: 0; } }
+@keyframes line-settle { 0% { opacity: 0; } 100% { opacity: 1; } }
+@keyframes cycle-ride { 0% { left: 0; opacity: 1; } 100% { left: calc(100% - 14px); opacity: 1; } }
+@keyframes cycle-derez {
+    0% { opacity: 1; transform: scale(1); }
+    25% { opacity: 1; transform: scale(1.7, 2.2); background: #fff; }
+    100% {
+        opacity: 0; transform: scale(1); background: var(--p);
+        box-shadow: 0 0 24px 6px transparent,
+            -22px -16px 0 -2px var(--p), 18px -20px 0 -2px var(--p), 30px -4px 0 -2px #fff, 24px 14px 0 -2px var(--p),
+            -6px 22px 0 -2px var(--p), -28px 10px 0 -2px #fff, -34px -6px 0 -2px var(--p), 6px -26px 0 -2px var(--p);
+    }
+}
+
+.readout { font-family: var(--pixel); font-size: .5rem; color: var(--blue); display: flex; justify-content: space-between; gap: 1rem; margin-top: 1rem; line-height: 1.6; }
+.readout .live { color: var(--orange); }
+
+/* engine: D's split + kv table, with F's power bars */
+.engine { display: grid; grid-template-columns: 1.5fr 1fr; gap: 2.6rem; align-items: center; }
+.engine .screen { background: #000; }
+.engine video { display: block; width: 100%; aspect-ratio: 16/9; object-fit: cover; }
+.engine h3 { font-family: var(--display); font-size: 1rem; color: var(--white); line-height: 1.5; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: .08em; }
+.engine p { color: var(--text-dim); margin: 0; }
+.kv { margin: 1.5rem 0 2rem; border-top: 1px solid var(--blue-dim); font-family: var(--pixel); font-size: .5rem; }
+.kv div { display: grid; grid-template-columns: 8ch 1fr 7ch; gap: .8rem; align-items: center; padding: .7rem 0; border-bottom: 1px solid var(--blue-dim); color: var(--text-dim); }
+.kv .bar { height: 9px; background: repeating-linear-gradient(90deg, var(--blue) 0 8px, transparent 8px 11px); }
+.kv .st { text-align: right; color: var(--blue); }
+.kv .st.wip { color: var(--orange); }
+
+/* projects: D's list + single preview, as a stage select */
+/* fixed layout: list (4 fixed slots) and preview share row 1, pager and readout share row 2,
+   so nothing moves when you scroll, filter or change page */
+.projects {
+    display: grid; grid-template-columns: 1fr 1.25fr; grid-template-rows: auto auto; gap: 1rem 3rem;
+    align-items: stretch;
+}
+.list { grid-column: 1; grid-row: 1; display: flex; flex-direction: column; border-top: 1px solid var(--blue-dim); }
+.preview { grid-column: 2; grid-row: 1; align-self: start; }
+.pager { grid-column: 1; grid-row: 2; }
+.pv-readout { grid-column: 2; grid-row: 2; margin-top: 0; align-self: center; }
+.row {
+    flex: 1 1 0; min-height: 0;
+    display: grid; grid-template-columns: 2rem minmax(0, 1fr) auto; gap: 1rem; align-items: center; padding: .7rem .6rem;
+    border-bottom: 1px solid var(--blue-dim); text-decoration: none; transition: background .15s steps(2);
+}
+.row > div { min-width: 0; }
+.row .cur { font-family: var(--pixel); font-size: .8rem; color: var(--yellow); visibility: hidden; }
+.row .n { font-family: var(--pixel); font-size: .48rem; color: var(--text-dim); display: block; margin-bottom: .35rem; }
+.row h4 { font-family: var(--display); font-size: .95rem; color: var(--white); line-height: 1.3; text-transform: uppercase; letter-spacing: .06em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.row p { margin: .15rem 0 0; font-size: .95rem; color: var(--text-dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* empty slot keeps the list height constant on the last page */
+.slot-empty { flex: 1 1 0; display: flex; align-items: center; padding: .7rem .6rem .7rem 3.6rem; border-bottom: 1px dashed var(--blue-dim);
+    font-family: var(--pixel); font-size: .45rem; color: rgba(255,255,255,.18); }
+@media (min-width: 861px) and (max-width: 1040px) {
+    .row p { display: none; }   /* narrower preview: keep the 4 slots as tall as the screen */
+}
+.row .go { font-family: var(--pixel); font-size: .5rem; color: var(--blue); opacity: 0; }
+.row .thumb { display: none; }
+.row:hover, .row:focus-visible, .row.on { background: linear-gradient(90deg, var(--blue-faint), transparent); outline: none; }
+.row.on .cur { visibility: visible; animation: blink .6s steps(1) infinite; }
+.row.on h4 { color: var(--blue); text-shadow: var(--glow); }
+.row.on .n { color: var(--orange); }
+.row.on .go { opacity: 1; }
+.preview { background: #000; }
+.preview video { display: block; width: 100%; aspect-ratio: 16/9; object-fit: cover; }
+.preview .flash { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: var(--pixel); font-size: .8rem; color: var(--yellow); text-shadow: 0 0 6px #000, 0 0 14px #000; background: rgba(0,0,0,.35); opacity: 0; pointer-events: none; z-index: 2; }
+.preview .flash.go { animation: flash .9s steps(1) forwards; }
+@keyframes flash { 0%, 40% { opacity: 1; } 20%, 60%, 100% { opacity: 0; } }
+
+/* world select (filters) */
+.worlds { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1.6rem; }
+.worlds button {
+    --c: var(--text-dim);
+    font-family: var(--pixel); font-size: .5rem; line-height: 1; cursor: pointer; padding: .75rem .9rem;
+    color: var(--c); background: transparent; border: 1px solid var(--blue-dim);
+    clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%);
+    transition: background .15s steps(2), color .15s steps(2);
+}
+.worlds button sup { font-size: .8em; color: var(--orange); margin-left: .35rem; vertical-align: top; }
+.worlds button:hover { --c: var(--blue); border-color: var(--blue); }
+.worlds button.on { background: var(--blue); color: #000; border-color: var(--blue); box-shadow: var(--glow); }
+.worlds button.on sup { color: #000; }
+
+.row.out { display: none; }
+.row.enter { animation: enter .35s steps(4) both; }
+@keyframes enter { from { opacity: 0; transform: translateX(-12px); } }
+
+/* pager */
+.pager { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 1.4rem; font-family: var(--pixel); font-size: .5rem; color: var(--text-dim); }
+.pager button { font: inherit; cursor: pointer; background: none; border: 0; color: var(--blue); padding: .6rem .2rem; }
+.pager button:hover:not(:disabled) { color: var(--yellow); }
+.pager button:disabled { color: var(--blue-dim); cursor: default; }
+.pager .mid { display: flex; flex-direction: column; align-items: center; gap: .6rem; }
+.pager .dots { display: flex; gap: 6px; }
+.pager .dots i { width: 8px; height: 8px; background: var(--blue-dim); }
+.pager .dots i.on { background: var(--orange); box-shadow: var(--glow-o); }
+.keys { font-family: var(--pixel); font-size: .45rem; color: var(--text-dim); margin-top: 1rem; text-align: center; }
+
+/* ---------- BOOT SEQUENCE ---------- */
+#boot { display: none; }
+.booting #boot { display: block; position: fixed; inset: 0; z-index: 2000; background: #000; cursor: pointer; }
+.booting body { overflow: hidden; }
+#boot .power { position: absolute; left: 0; right: 0; top: 50%; height: 100vh; margin-top: -50vh; background: #dff8ff;
+    transform: scale(0, .002); animation: power .75s cubic-bezier(.7,0,.3,1) forwards; }
+@keyframes power {
+    0%   { transform: scale(0, .002); opacity: 1; }
+    40%  { transform: scale(1, .002); opacity: 1; }
+    70%  { transform: scale(1, 1); opacity: .9; }
+    100% { transform: scale(1, 1); opacity: 0; }
+}
+#boot .screen { position: absolute; inset: 0; padding: clamp(1.2rem, 5vw, 4rem); display: flex; flex-direction: column; justify-content: center;
+    max-width: 820px; margin: 0 auto; font-family: var(--pixel); font-size: clamp(.45rem, 1.3vw, .62rem); line-height: 2.3; color: var(--blue); text-shadow: var(--glow); }
+#boot-log { margin: 0; white-space: pre-wrap; font: inherit; min-height: 22em; }
+#boot-log .ok { color: var(--blue); }
+#boot-log .wip { color: var(--orange); text-shadow: var(--glow-o); }
+#boot-log .hi { color: var(--yellow); text-shadow: 0 0 8px rgba(255,225,77,.6); }
+#boot-log .dim { color: var(--text-dim); text-shadow: none; }
+#boot-log .caret { animation: blink .5s steps(1) infinite; }
+#boot .bar { margin-top: 1.6rem; height: 12px; border: 1px solid var(--blue-dim); padding: 2px; }
+#boot .bar i { display: block; height: 100%; width: 0; background: repeating-linear-gradient(90deg, var(--blue) 0 10px, transparent 10px 13px); }
+#boot .skip { font-family: var(--pixel); position: absolute; right: 1.2rem; bottom: 1.2rem; color: var(--text-dim); text-shadow: none; font-size: .45rem; }
+/* exit: a laser line "digitizes" the page in, top to bottom */
+#boot.out { animation: digitize .9s steps(24) forwards; }
+#boot .laser { display: none; }
+#boot.out .laser { display: block; position: absolute; left: 0; right: 0; top: 0; height: 3px; background: #fff; box-shadow: 0 0 10px #fff, 0 0 24px var(--blue), 0 0 60px var(--blue);
+    animation: laser .9s steps(24) forwards; }
+@keyframes digitize { from { clip-path: inset(0 0 0 0); } to { clip-path: inset(100% 0 0 0); } }
+@keyframes laser { from { top: 0; } to { top: 100%; } }
+/* hero comes in after the boot */
+.boot-done .hero-content > * { animation: enter .5s steps(5) both; }
+.boot-done .hero-content > *:nth-child(2) { animation-delay: .9s; }
+.boot-done .hero-content > *:nth-child(1) { animation-delay: .75s; }
+.boot-done .hero-content > *:nth-child(3) { animation-delay: 1.05s; }
+.boot-done .hero-content > *:nth-child(4) { animation-delay: 1.2s; }
+.boot-done .hero-content > *:nth-child(5) { animation-delay: 1.35s; }
+.boot-done .coin { animation: enter .5s steps(5) 1.2s both, blink 1s steps(1) 1.7s infinite; }
+.foot-btns { display: flex; flex-wrap: wrap; gap: .4rem 1.4rem; align-items: center; }
+.foot-btn { font: inherit; background: none; border: 0; padding: .4rem 0; color: var(--blue); cursor: pointer; }
+.foot-btn:hover { color: var(--yellow); }
+.foot-btn.team { color: var(--orange); }
+.foot-btn.team:hover { color: var(--yellow); }
+.team-nav { font: inherit; cursor: pointer; background: transparent; color: var(--orange); border: 1px solid var(--orange); padding: .55rem .7rem; align-self: center; }
+.team-nav:hover { background: var(--orange); color: #000; }
+
+/* ---------- TEAM ORANGE: colours swap ---------- */
+html[data-team="orange"] {
+    --blue: #ff8a1c;
+    --blue-soft: rgba(255, 138, 28, .5);
+    --blue-dim: rgba(255, 138, 28, .22);
+    --blue-faint: rgba(255, 138, 28, .07);
+    --orange: #2ad4ff;
+    --glow-o: 0 0 1px #fff, 0 0 6px var(--orange), 0 0 18px rgba(42, 212, 255, .5);
+}
+/* ...and the layout mirrors (desktop) */
+@media (min-width: 861px) {
+    html[data-team="orange"] .beam.b1 { left: auto; right: 8%; }
+    html[data-team="orange"] .beam.b2 { right: auto; left: 14%; }
+    html[data-team="orange"] .trails { transform: scaleX(-1); }
+    html[data-team="orange"] .hero-content { text-align: right; padding: 4rem calc(8% + 1.6rem) 22vh clamp(1rem, 4vw, 2.5rem); }
+    html[data-team="orange"] .hero p { margin-left: auto; }
+    html[data-team="orange"] .actions { justify-content: flex-end; }
+    html[data-team="orange"] .section-head { grid-template-columns: 1fr auto; }
+    html[data-team="orange"] .section-head .code { text-align: right; }
+    html[data-team="orange"] .section-head h2 { order: 2; }
+    html[data-team="orange"] .section-head .line { order: 1; transform: scaleX(-1); }   /* cycle rides right → left */
+    html[data-team="orange"] .engine { grid-template-columns: 1fr 1.5fr; }
+    html[data-team="orange"] .engine > :first-child { order: 2; }
+    html[data-team="orange"] .projects { grid-template-columns: 1.25fr 1fr; }
+    html[data-team="orange"] .list, html[data-team="orange"] .pager { grid-column: 2; }
+    html[data-team="orange"] .preview, html[data-team="orange"] .pv-readout { grid-column: 1; }
+    html[data-team="orange"] .contact { grid-template-columns: 1fr 1.2fr; }
+    html[data-team="orange"] .contact > :first-child { order: 2; text-align: right; }
+    html[data-team="orange"] .continue { justify-content: flex-end; }
+    html[data-team="orange"] footer { flex-direction: row-reverse; }
+}
+
+/* team switch transition: a vertical laser wipes the screen across */
+#wipe { position: fixed; inset: 0; z-index: 1500; pointer-events: none; }
+#wipe .panel { position: absolute; inset: 0; background: var(--bg); animation: wipe .7s cubic-bezier(.7,0,.3,1) forwards; }
+#wipe .laser { position: absolute; top: 0; bottom: 0; width: 3px; margin-left: -1px; background: #fff;
+    box-shadow: 0 0 10px #fff, 0 0 26px var(--blue), 0 0 60px var(--blue); animation: wipe-laser .7s cubic-bezier(.7,0,.3,1) forwards; }
+@keyframes wipe {
+    0%   { clip-path: inset(0 100% 0 0); }
+    45%, 55% { clip-path: inset(0 0 0 0); }
+    100% { clip-path: inset(0 0 0 100%); }
+}
+@keyframes wipe-laser {
+    0% { left: 0; } 45% { left: 100%; }
+    45.1% { left: 0; } 55% { left: 0; } 100% { left: 100%; }
+}
+
+/* arcade toast: LEVEL UP! / TEAM ORANGE */
+#toast { position: fixed; left: 50%; top: 22%; z-index: 1600; transform: translateX(-50%); pointer-events: none;
+    font-family: var(--pixel); font-size: clamp(.9rem, 3vw, 1.6rem); color: var(--yellow); white-space: nowrap;
+    text-shadow: 0 0 10px rgba(255,225,77,.6), 3px 3px 0 #000; opacity: 0; }
+#toast.show { animation: toast 1.3s steps(1) forwards; }
+@keyframes toast { 0%, 25%, 50% { opacity: 1; } 12%, 37% { opacity: .2; } 85% { opacity: 1; } 100% { opacity: 0; } }
+
+/* skills: D's tile grid, arcade labels */
+.skills { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 1px; background: var(--blue-dim); border: 1px solid var(--blue-dim); }
+.skill { background: var(--bg); padding: 1.3rem 1.2rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; transition: background .15s steps(2); }
+.skill b { font-family: var(--display); font-size: .85rem; color: var(--white); font-weight: 400; text-transform: uppercase; letter-spacing: .06em; }
+.skill span { font-family: var(--pixel); font-size: .45rem; color: var(--text-dim); }
+.skill:hover { background: var(--blue-faint); }
+.skill:hover b { color: var(--blue); text-shadow: var(--glow); }
+.skill:hover span { color: var(--orange); }
+
+/* contact: D's split, with CONTINUE? */
+.contact { display: grid; grid-template-columns: 1.2fr 1fr; gap: 3rem; align-items: center; }
+.continue { display: flex; align-items: baseline; gap: 1.2rem; font-family: var(--pixel); }
+.continue .q { font-size: clamp(.8rem, 2.2vw, 1.2rem); color: var(--white); text-shadow: var(--glow); }
+.continue .cd { font-size: clamp(1.6rem, 4vw, 2.6rem); color: var(--orange); text-shadow: var(--glow-o); }
+.contact .big { margin-top: 1.4rem; font-family: var(--display); font-size: clamp(1rem, 2.8vw, 1.8rem); line-height: 1.3; text-transform: uppercase; }
+.contact .big a { color: var(--blue); text-shadow: var(--glow); text-decoration: none; word-break: break-all; text-transform: none; }
+.links { display: flex; flex-direction: column; gap: .9rem; }
+.links .btn.solid::before { background: var(--orange); }
+
+footer { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; padding: 2rem 0 5rem; font-family: var(--pixel); font-size: .5rem; color: var(--text-dim); line-height: 2; }
+footer b { color: var(--blue); font-weight: 400; }
+
+@media (max-width: 860px) {
+    .engine, .projects, .contact { grid-template-columns: 1fr; }
+    .preview, .pv-readout, .slot-empty { display: none; }
+    .list, .pager { grid-column: 1 !important; }
+    .row h4, .row p { white-space: normal; }
+    .row { flex: none; }
+
+    /* nav: logo + score/team on row 1, the 4 links as an even bar on row 2 */
+    .nav-inner { display: grid; grid-template-columns: 1fr auto; gap: .6rem 1rem; padding: .6rem 0 0; }
+    .logo { font-size: .8rem; letter-spacing: .15em; white-space: nowrap; }
+    .readouts { grid-column: 2; grid-row: 1; gap: .8rem; align-items: center; }
+    .nav ul { grid-column: 1 / -1; grid-row: 2; display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--blue-dim); margin: 0 calc(-1 * clamp(1rem, 4vw, 2.5rem)); }
+    .nav ul a { text-align: center; padding: .8rem .2rem; font-size: .45rem; }
+    .nav ul li:first-child a { border-left: 0; }
+    .team-nav { padding: .45rem .5rem; }
+    .row { grid-template-columns: 1fr; }
+    .row .cur, .row .go { display: none; }
+    .row .thumb { display: block; width: 100%; aspect-ratio: 16/9; object-fit: cover; margin-bottom: .9rem; }
+    .hero-content { padding-left: 1.2rem; }
+    .beam.b1 { left: 4px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .scan, .floor::before, .trails path, .blink, .glitch::before, .glitch::after, .row.on .cur, .row.enter { animation: none !important; }
+    .trails path { stroke-dashoffset: 0; }
+    .section-head .line::before { opacity: 1; animation: none !important; }
+    .section-head .line .trail, .section-head .line .cycle { display: none; }
+}
+</style>
+<script>
+// decide before first paint whether to play the boot (once per session, ?boot forces it)
+(function () {
+    var show = true;
+    try { if (sessionStorage.getItem("vs-booted") && !/[?&]boot\b/.test(location.search)) show = false; } catch (e) {}
+    if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) show = false;
+    if (show) document.documentElement.classList.add("booting");
+    try { if (localStorage.getItem("vs-team") === "orange") document.documentElement.dataset.team = "orange"; } catch (e) {}
+})();
+</script>
+</head>
+<body>
+
+<div id="boot" aria-hidden="true">
+    <div class="screen">
+        <pre id="boot-log"></pre>
+        <div class="bar"><i id="boot-fill"></i></div>
+    </div>
+    <div class="power"></div>
+    <div class="laser"></div>
+    <div class="skip px">CLICK / ANY KEY TO SKIP</div>
+</div>
+
+<nav class="nav">
+    <div class="container nav-inner">
+        <div class="logo">V<span>/</span>SINGIER</div>
+        <ul>
+            <li><a href="#engine">ENGINE</a></li>
+            <li><a href="#projects">STAGES</a></li>
+            <li><a href="#skills">SKILLS</a></li>
+            <li><a href="#contact">CONTACT</a></li>
+        </ul>
+        <div class="readouts">
+            <div class="sc"><span id="player">1UP</span><b id="score">000000</b></div>
+            <button type="button" class="team-nav" data-team-toggle aria-label="Changer d'équipe">⇄ TEAM</button>
+        </div>
+    </div>
+</nav>
+
+<header class="hero">
+    <span class="beam b1" aria-hidden="true"></span><span class="beam b2" aria-hidden="true"></span>
+    <div class="floor" aria-hidden="true"></div>
+    <svg class="trails" viewBox="0 0 1200 800" preserveAspectRatio="none" aria-hidden="true">
+        <path class="tb" data-role="crasher" d="M-20 660 H520 V720 H900"/>
+        <path class="to" data-role="survivor" d="M1220 680 H900 V770 H-20"/>
+    </svg>
+    <div class="scan" aria-hidden="true"></div>
+    <div class="container hero-content">
+        <div class="sys"><b>PLAYER 1</b> READY // C++ DEVELOPER</div>
+        <h1>
+            <span class="glitch auto" data-text="Chercher">Chercher</span> pour <span class="lit">comprendre</span>.<br>
+            <span class="glitch" data-text="Construire">Construire</span> pour <span class="lit">apprendre</span>.
+        </h1>
+        <p>En tant que développeur C++ spécialisé en moteurs de jeu, je ne me contente pas que du bon fonctionnement d'un projet,
+            mais de chercher <em>pourquoi</em> et surtout <em>comment</em>&nbsp;?</p>
+        <div class="coin blink">INSERT COIN</div>
+        <div class="actions">
+            <a href="#engine" class="btn solid">PRESS START</a>
+            <a href="https://github.com/vivienSINGIER" class="btn">GITHUB</a>
+        </div>
+    </div>
+</header>
+
+<section class="section" id="engine">
+    <div class="container">
+        <div class="section-head reveal"><span class="code">LEVEL <b>01</b> // MAIN QUEST</span><h2>Le moteur</h2><span class="line"><i class="trail"></i><i class="cycle"></i></span></div>
+        <div class="engine">
+            <div>
+                <div class="screen hud">
+                    <video autoplay muted loop playsinline poster="../Assets/Engine/teaser-poster.png"><source src="../Assets/Engine/teaser-compressed.mp4" type="video/mp4"></video>
+                </div>
+                <div class="readout"><span>IDLE_ENGINE.EXE</span><span class="live blink">● ACTIVE DEV</span></div>
+            </div>
+            <div>
+                <h3>Rendu, Math &amp; Architecture</h3>
+                <p>Une librairie de rendu DirectX12 (bientôt Vulkan), une bibliothèque de maths custom, des collisions
+                    et un ECS. Construit pièce par pièce pour comprendre au lieu de simplement utiliser.</p>
+                <div class="kv">
+                    <div><span>RENDER</span><span class="bar" style="width:100%"></span><span class="st">DX12</span></div>
+                    <div><span>MATH</span><span class="bar" style="width:100%"></span><span class="st">CUSTOM</span></div>
+                    <div><span>PHYSICS</span><span class="bar" style="width:35%"></span><span class="st wip">WIP</span></div>
+                    <div><span>ECS</span><span class="bar" style="width:50%"></span><span class="st wip">WIP</span></div>
+                </div>
+                <a href="../Engine/engine.html" class="btn solid">CONTINUE ▶</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="projects">
+    <div class="container">
+        <div class="section-head reveal"><span class="code">LEVEL <b>02</b> // SELECT STAGE</span><h2>Projets</h2><span class="line"><i class="trail"></i><i class="cycle"></i></span></div>
+                <div class="worlds" role="group" aria-label="Filtrer les projets">
+                    <button type="button" data-f="all" class="on">TOUS</button>
+                    <button type="button" data-f="cpp">C++</button>
+                    <button type="button" data-f="engine">MOTEUR</button>
+                    <button type="button" data-f="math">MATH</button>
+                    <button type="button" data-f="game">JEUX</button>
+                    <button type="button" data-f="tool">OUTILS</button>
+                    <button type="button" data-f="python">PYTHON</button>
+                </div>
+        <div class="projects">
+                <div class="list" id="list">
+                    <a class="row on" data-cat="cpp engine" href="../Projects/cpu-render.html" data-video="../Assets/Projects/CPU-Render/snowglobe-compressed.mp4" data-poster="../Assets/Projects/CPU-Render/snowglobe.jpg">
+                        <span class="cur">▶</span>
+                        <div><img class="thumb" loading="lazy" src="../Assets/Projects/CPU-Render/snowglobe.jpg" alt=""><span class="n">STAGE</span><h4>CPU Render</h4><p>Rendu 3D temps réel 100% logiciel, sans API GPU</p></div>
+                        <span class="go">GO!</span>
+                    </a>
+                    <a class="row" data-cat="cpp tool" href="../Projects/lebon.html" data-video="../Assets/Projects/Lebon/modes-compressed.mp4" data-poster="../Assets/Projects/Lebon/benchmark.png">
+                        <span class="cur">▶</span>
+                        <div><img class="thumb" loading="lazy" src="../Assets/Projects/Lebon/benchmark.png" alt=""><span class="n">STAGE</span><h4>Lebon Interpreter</h4><p>Langage créole, VM à registres, JIT x86-64</p></div>
+                        <span class="go">GO!</span>
+                    </a>
+                    <a class="row" data-cat="cpp tool engine" href="../Projects/babarchive.html" data-video="../Assets/Projects/Babarchive/demo-compressed.mp4" data-poster="../Assets/Projects/Babarchive/demo.jpg">
+                        <span class="cur">▶</span>
+                        <div><img class="thumb" loading="lazy" src="../Assets/Projects/Babarchive/demo.jpg" alt=""><span class="n">STAGE</span><h4>Babarchive</h4><p>Archive binaire, compression &amp; outil CLI</p></div>
+                        <span class="go">GO!</span>
+                    </a>
+                    <a class="row" data-cat="math tool cpp" href="../Projects/math-drawing-project.html" data-video="../Assets/Projects/Math-Drawing/teaser-compressed.mp4" data-poster="../Assets/Projects/Math-Drawing/yin-yang.png">
+                        <span class="cur">▶</span>
+                        <div><img class="thumb" loading="lazy" src="../Assets/Projects/Math-Drawing/yin-yang.png" alt=""><span class="n">STAGE</span><h4>Math Drawing</h4><p>Courbes SFML : Lagrange, Hermite, Bézier</p></div>
+                        <span class="go">GO!</span>
+                    </a>
+                    <a class="row" data-cat="game cpp engine" href="../Projects/labybl.html" data-video="../Assets/Projects/LabyBL/demo-compressed.mp4" data-poster="../Assets/Projects/LabyBL/Splashscreen.png">
+                        <span class="cur">▶</span>
+                        <div><img class="thumb" loading="lazy" src="../Assets/Projects/LabyBL/Splashscreen.png" alt=""><span class="n">STAGE</span><h4>LabyBL</h4><p>Survie collaborative sur moteur C++ custom</p></div>
+                        <span class="go">GO!</span>
+                    </a>
+                    <a class="row" data-cat="game cpp" href="../Projects/ion.html" data-video="../Assets/Projects/ION/wave-compressed.mp4" data-poster="../Assets/Projects/ION/screenshot.png">
+                        <span class="cur">▶</span>
+                        <div><img class="thumb" loading="lazy" src="../Assets/Projects/ION/screenshot.png" alt=""><span class="n">STAGE</span><h4>ION — Arena Shooter</h4><p>3 semaines, 3 devs, 2 artistes</p></div>
+                        <span class="go">GO!</span>
+                    </a>
+                    <a class="row" data-cat="cpp tool" href="../Projects/pathfinding.html" data-video="../Assets/Projects/Pathfinding/2d-compressed.mp4" data-poster="../Assets/Projects/Pathfinding/screenshot.png">
+                        <span class="cur">▶</span>
+                        <div><img class="thumb" loading="lazy" src="../Assets/Projects/Pathfinding/screenshot.png" alt=""><span class="n">STAGE</span><h4>Pathfinding Sandbox</h4><p>Recherche de chemin en 2D et 3D</p></div>
+                        <span class="go">GO!</span>
+                    </a>
+                    <a class="row" data-cat="cpp game" href="../Projects/poly-run.html" data-video="../Assets/Projects/PolyRun/demo-compressed.mp4" data-poster="../Assets/Projects/PolyRun/screenshot.png">
+                        <span class="cur">▶</span>
+                        <div><img class="thumb" loading="lazy" src="../Assets/Projects/PolyRun/screenshot.png" alt=""><span class="n">STAGE</span><h4>Poly Run</h4><p>Prototype de runner en 3D</p></div>
+                        <span class="go">GO!</span>
+                    </a>
+                    <a class="row" data-cat="python game" href="../Projects/space-invaderz.html" data-video="../Assets/Projects/SpaceInvaderz/demo-compressed.mp4" data-poster="../Assets/Projects/SpaceInvaderz/screenshot.png">
+                        <span class="cur">▶</span>
+                        <div><img class="thumb" loading="lazy" src="../Assets/Projects/SpaceInvaderz/screenshot.png" alt=""><span class="n">STAGE</span><h4>Space Invaderz</h4><p>Shoot'em up Python, projet de lycée</p></div>
+                        <span class="go">GO!</span>
+                    </a>
+                    <a class="row" data-cat="python game" href="../Projects/wall-breaker.html" data-video="../Assets/Projects/WallBreaker/demo-compressed.mp4" data-poster="../Assets/Projects/WallBreaker/screenshot1.png">
+                        <span class="cur">▶</span>
+                        <div><img class="thumb" loading="lazy" src="../Assets/Projects/WallBreaker/screenshot1.png" alt=""><span class="n">STAGE</span><h4>Wall Breaker</h4><p>Casse-brique Python, projet de lycée</p></div>
+                        <span class="go">GO!</span>
+                    </a>
+                </div>
+                <div class="preview hud">
+                    <span class="flash" id="flash">READY?</span>
+                    <video id="preview" autoplay muted loop playsinline poster="../Assets/Projects/CPU-Render/snowglobe.jpg" src="../Assets/Projects/CPU-Render/snowglobe-compressed.mp4"></video>
+                </div>
+                <div class="pager">
+                    <button type="button" id="prev">◀ PREV</button>
+                    <div class="mid"><span id="page-label">WORLD 1/2</span><span class="dots" id="dots"></span></div>
+                    <button type="button" id="next">NEXT ▶</button>
+                </div>
+                <div class="readout pv-readout"><span id="pv-label">STAGE 1-1 // CPU RENDER</span><span class="live">● NOW PLAYING</span></div>
+        </div>
+        <div class="keys">↑↓ SELECT · ←→ WORLD · ENTER GO</div>
+    </div>
+</section>
+
+<section class="section" id="skills">
+    <div class="container">
+        <div class="section-head reveal"><span class="code">LEVEL <b>03</b> // POWER-UPS</span><h2>Compétences</h2><span class="line"><i class="trail"></i><i class="cycle"></i></span></div>
+        <div class="skills">
+            <div class="skill"><b>C++</b><span>CORE</span></div>
+            <div class="skill"><b>DirectX 12</b><span>GFX</span></div>
+            <div class="skill"><b>HLSL</b><span>GFX</span></div>
+            <div class="skill"><b>Algèbre Linéaire</b><span>MATH</span></div>
+            <div class="skill"><b>Quaternions</b><span>MATH</span></div>
+            <div class="skill"><b>Maths 3D</b><span>MATH</span></div>
+            <div class="skill"><b>Python</b><span>SCRIPT</span></div>
+            <div class="skill"><b>Git</b><span>TOOL</span></div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="contact" style="border-bottom:0">
+    <div class="container">
+        <div class="section-head reveal"><span class="code">LEVEL <b>04</b> // UPLINK</span><h2>Contact</h2><span class="line"><i class="trail"></i><i class="cycle"></i></span></div>
+        <div class="contact">
+            <div>
+                <div class="continue"><span class="q">CONTINUE?</span><span class="cd" id="cd">9</span></div>
+                <div class="big"><a href="mailto:vivien.singier@gmail.com">vivien.singier@gmail.com</a></div>
+            </div>
+            <div class="links">
+                <a class="btn" href="https://github.com/vivienSINGIER">GITHUB / VIVIENSINGIER</a>
+                <a class="btn" href="https://linkedin.com/in/VivienSingier">LINKEDIN / VIVIENSINGIER</a>
+                <a class="btn solid" href="../Assets/resume.pdf" download>TÉLÉCHARGER LE CV</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="container"><span>END OF LINE — <b>BUILT PIECE BY PIECE</b></span><span class="foot-btns">
+    <span>CREDIT 01</span>
+    <button type="button" class="foot-btn" id="levelup">LEVEL UP ▲</button>
+    <button type="button" class="foot-btn" id="reboot">REBOOT ↻</button>
+    <button type="button" class="foot-btn team" data-team-toggle>SWITCH TEAM ⇄</button>
+</span></footer>
+<div id="toast" aria-live="polite"></div>
+
+<script>
+const io = new IntersectionObserver(es => es.forEach(e => e.isIntersecting && e.target.classList.add("in")), { threshold: .4 });
+document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+
+const scoreEl = document.getElementById("score");
+addEventListener("scroll", () => {
+    scoreEl.textContent = String(Math.round(scrollY * 7.3)).padStart(6, "0").slice(-6);
+}, { passive: true });
+
+let n = 9; const cd = document.getElementById("cd");
+setInterval(() => { n = n <= 0 ? 9 : n - 1; cd.textContent = n; }, 1000);
+
+// ---------- STAGE SELECT: filters + pages of 5 + single preview ----------
+(function stageSelect() {
+    const PAGE_SIZE = 4;
+    const list = document.getElementById("list");
+    const allRows = [...list.querySelectorAll(".row")];
+    const worldBtns = document.querySelectorAll(".worlds button");
+    const prevBtn = document.getElementById("prev"), nextBtn = document.getElementById("next");
+    const pageLabel = document.getElementById("page-label"), dots = document.getElementById("dots");
+    const pvWrap = document.querySelector(".preview");
+    const pv = document.getElementById("preview"), pvLabel = document.getElementById("pv-label"), flash = document.getElementById("flash");
+
+    const matches = (row, f) => f === "all" || row.dataset.cat.split(" ").includes(f);
+    let visible = allRows, page = 0;
+    const pageCount = () => Math.max(1, Math.ceil(visible.length / PAGE_SIZE));
+    const currentSlice = () => visible.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
+
+    // project count on each filter
+    worldBtns.forEach(b => {
+        const sup = document.createElement("sup");
+        sup.textContent = String(allRows.filter(r => matches(r, b.dataset.f)).length).padStart(2, "0");
+        b.appendChild(sup);
+    });
+
+    function updateLabel(row) {
+        pvLabel.textContent = row.querySelector(".n").textContent + " // " + row.querySelector("h4").textContent.toUpperCase();
+    }
+
+    function activate(row, withFlash = true) {
+        if (!row || row.classList.contains("on")) { if (row) updateLabel(row); return; }
+        allRows.forEach(r => r.classList.remove("on"));
+        row.classList.add("on");
+        updateLabel(row);
+        if (pvWrap.offsetParent === null) return;   // preview hidden (mobile): don't load videos
+        pv.poster = row.dataset.poster;
+        pv.src = row.dataset.video;
+        pv.play().catch(() => {});
+        if (withFlash) { flash.classList.remove("go"); void flash.offsetWidth; flash.classList.add("go"); }
+    }
+
+    function render(animate = true) {
+        const slice = currentSlice();
+        allRows.forEach(r => r.classList.add("out"));
+        list.querySelectorAll(".slot-empty").forEach(s => s.remove());
+        for (let i = slice.length; i < PAGE_SIZE; i++) {   // fill the page so the list never changes height
+            const s = document.createElement("div");
+            s.className = "slot-empty"; s.setAttribute("aria-hidden", "true");
+            s.textContent = "— EMPTY SLOT —";
+            list.appendChild(s);
+        }
+        slice.forEach((r, i) => {
+            r.classList.remove("out");
+            r.querySelector(".n").textContent = `STAGE ${page + 1}-${i + 1}`;
+            if (animate) { r.classList.remove("enter"); void r.offsetWidth; r.style.animationDelay = i * 60 + "ms"; r.classList.add("enter"); }
+        });
+        const n = pageCount();
+        pageLabel.textContent = `WORLD ${page + 1}/${n}`;
+        dots.innerHTML = "";
+        for (let i = 0; i < n; i++) { const d = document.createElement("i"); if (i === page) d.className = "on"; dots.appendChild(d); }
+        prevBtn.disabled = nextBtn.disabled = n < 2;
+        const on = slice.find(r => r.classList.contains("on"));
+        activate(on || slice[0], !on);
+    }
+
+    // pages cycle (wrap around)
+    function goPage(delta) { const n = pageCount(); page = (page + delta + n) % n; render(); }
+    prevBtn.addEventListener("click", () => goPage(-1));
+    nextBtn.addEventListener("click", () => goPage(1));
+
+    worldBtns.forEach(b => b.addEventListener("click", () => {
+        worldBtns.forEach(x => x.classList.toggle("on", x === b));
+        visible = allRows.filter(r => matches(r, b.dataset.f));
+        page = 0;
+        render();
+    }));
+
+    allRows.forEach(row => {
+        row.addEventListener("mouseenter", () => activate(row));
+        row.addEventListener("focus", () => activate(row));
+    });
+
+    // keyboard: up/down select, left/right change world, enter follows the link
+    list.addEventListener("keydown", e => {
+        const slice = currentSlice(), i = slice.indexOf(document.activeElement);
+        if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+            e.preventDefault();
+            const j = (i + (e.key === "ArrowDown" ? 1 : -1) + slice.length) % slice.length;
+            slice[j].focus();
+        } else if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+            e.preventDefault();
+            goPage(e.key === "ArrowRight" ? 1 : -1);
+            currentSlice()[0].focus();
+        }
+    });
+
+    render(false);
+})();
+
+// ---------- BOOT SEQUENCE ----------
+(function boot() {
+    const root = document.documentElement;
+    if (!root.classList.contains("booting")) return;
+    const el = document.getElementById("boot"), log = document.getElementById("boot-log"), fill = document.getElementById("boot-fill");
+    const projects = document.querySelectorAll("#list .row").length;
+    const lines = [
+        ["VS-OS BIOS v2.6 (C) 2026 V.SINGIER", "", "dim"],
+        ["", ""],
+        ["CPU", "x86-64 OK"],
+        ["MEMORY CHECK", "640K OK"],
+        ["LOADING KERNEL", "OK"],
+        ["MOUNT /ENGINE", "OK"],
+        ["  > RENDER [DX12]", "OK"],
+        ["  > MATH [CUSTOM]", "OK"],
+        ["  > PHYSICS", "WIP", "wip"],
+        ["  > ECS", "WIP", "wip"],
+        ["MOUNT /PROJECTS", String(projects).padStart(2, "0") + " FOUND", "hi"],
+        ["SCANNING USER", "GUEST", "hi"],
+        ["", ""],
+        ["ENTERING THE GRID", "", "end"],
+    ];
+    let done = false;
+    const timers = [];
+    const wait = ms => new Promise(r => timers.push(setTimeout(r, ms)));
+
+    function finish() {
+        if (done) return;
+        done = true;
+        timers.forEach(clearTimeout);
+        fill.style.width = "100%";
+        try { sessionStorage.setItem("vs-booted", "1"); } catch (e) {}
+        el.classList.add("out");
+        root.classList.add("boot-done");
+        setTimeout(() => { root.classList.remove("booting"); el.remove(); }, 950);
+    }
+
+    async function run() {
+        await wait(850);                      // CRT power-on
+        for (let i = 0; i < lines.length && !done; i++) {
+            const [label, status, cls] = lines[i];
+            const line = document.createElement("div");
+            if (cls === "dim") line.className = "dim";
+            log.appendChild(line);
+            for (let c = 0; c < label.length && !done; c += 3) {   // type the label
+                line.textContent = label.slice(0, c + 3);
+                await wait(10);
+            }
+            if (done) return;
+            if (status) {
+                line.textContent = label.padEnd(26, " ").replace(/ +$/, m => " " + ".".repeat(Math.max(2, m.length - 1)) + " ");
+                await wait(70 + Math.random() * 110);
+                const s = document.createElement("span");
+                s.className = cls || "ok";
+                s.textContent = status;
+                line.appendChild(s);
+            }
+            if (cls === "end") {
+                line.className = "hi";
+                const caret = document.createElement("span");
+                caret.className = "caret"; caret.textContent = "_";
+                line.appendChild(caret);
+            }
+            fill.style.width = Math.round((i + 1) / lines.length * 100) + "%";
+            await wait(40);
+        }
+        await wait(550);
+        finish();
+    }
+
+    ["click", "keydown", "touchstart"].forEach(ev => addEventListener(ev, finish, { once: true }));
+    run();
+})();
+
+// ---------- HERO LIGHT CYCLE DUEL ----------
+// The "survivor" lays a wall, the "crasher" rides into it and derezzes; colours swap every round.
+(function heroCycles() {
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const hero = document.querySelector(".hero"), svg = hero.querySelector(".trails");
+    const VB_W = 1200, VB_H = 800, SPEED = 420;          // speed in viewBox units per second
+    const riders = [...svg.querySelectorAll("path")].map(path => {
+        const bike = document.createElement("span");
+        bike.className = "bike"; bike.setAttribute("aria-hidden", "true");
+        hero.appendChild(bike);
+        const len = path.getTotalLength();
+        path.style.strokeDasharray = len;
+        return { path, bike, len, crasher: path.dataset.role === "crasher", delay: path.dataset.role === "crasher" ? .6 : 0, done: false };
+    });
+    // big crash: flash, two shockwaves, flying shards, screen shake
+    function explode(x, y, colour) {
+        const boom = document.createElement("div");
+        boom.className = "boom"; boom.setAttribute("aria-hidden", "true");
+        boom.style.transform = `translate(${x}px, ${y}px)`;
+        boom.style.setProperty("--p", colour);
+        let html = '<i class="flash"></i><i class="ring"></i><i class="ring r2"></i>';
+        for (let i = 0; i < 22; i++) {
+            const a = Math.random() * Math.PI * 2, d = 50 + Math.random() * 140;
+            html += `<i class="shard${i % 3 === 0 ? " w" : ""}" style="--dx:${Math.cos(a) * d}px;--dy:${Math.sin(a) * d * .7}px;--rot:${Math.random() * 360 - 180}deg;animation-duration:${.6 + Math.random() * .5}s"></i>`;
+        }
+        boom.innerHTML = html;
+        hero.appendChild(boom);
+        hero.classList.remove("shake"); void hero.offsetWidth; hero.classList.add("shake");
+        setTimeout(() => boom.remove(), 1300);
+    }
+
+    const roundEnd = Math.max(...riders.map(r => r.delay + r.len / SPEED)) + 1.2;   // hold the walls a moment
+    let round = 0, t0 = null, fading = false;
+
+    function setColours() {
+        const swap = round % 2 === 1;
+        riders.forEach(r => {
+            const blue = r.crasher !== swap;
+            r.path.setAttribute("class", blue ? "tb" : "to");
+            r.bike.dataset.c = blue ? "b" : "o";
+        });
+    }
+
+    function reset(now) {
+        t0 = now; fading = false;
+        riders.forEach(r => {
+            r.done = false;
+            r.path.classList.remove("fade", "dead", "hit");
+            r.path.style.strokeDashoffset = r.len;
+            r.bike.className = "bike";
+        });
+        setColours();
+    }
+
+    // viewBox point -> hero pixels (preserveAspectRatio="none", maybe mirrored for team orange)
+    function toPx(pt, flip) {
+        const x = flip ? VB_W - pt.x : pt.x;
+        return [x / VB_W * hero.clientWidth, pt.y / VB_H * hero.clientHeight];
+    }
+
+    function place(r, s, flip) {
+        const p = r.path.getPointAtLength(s), q = r.path.getPointAtLength(Math.max(0, s - 3));
+        const [x, y] = toPx(p, flip), [qx, qy] = toPx(q, flip);
+        const ang = Math.atan2(y - qy, x - qx) * 180 / Math.PI;
+        r.bike.style.transform = `translate(${x}px, ${y}px) translate(-100%, -50%) rotate(${ang}deg)`;
+        r.bike.style.transformOrigin = "100% 50%";          // rotate around the nose, which sits on the trail tip
+    }
+
+    function frame(now) {
+        requestAnimationFrame(frame);
+        if (document.documentElement.classList.contains("booting")) return;   // wait for the boot screen
+        if (t0 === null) reset(now);
+        const t = (now - t0) / 1000;
+        const m = getComputedStyle(svg).transform;
+        const flip = m !== "none" && new DOMMatrix(m).a < 0;
+
+        riders.forEach(r => {
+            const s = Math.min(r.len, Math.max(0, (t - r.delay) * SPEED));
+            r.path.style.strokeDashoffset = r.len - s;
+            if (r.done) return;
+            if (s <= 0) return;
+            if (s < r.len) { r.bike.classList.add("on"); place(r, s, flip); return; }
+            r.done = true;
+            place(r, r.len, flip);
+            if (r.crasher) {                                  // hit the wall: explosion + trail collapses
+                r.bike.classList.remove("on");
+                r.path.classList.add("dead");
+                const [bx, by] = toPx(r.path.getPointAtLength(r.len), flip);
+                explode(bx, by, r.bike.dataset.c === "o" ? "var(--orange)" : "var(--blue)");
+                riders.forEach(o => { if (o !== r) { o.path.classList.remove("hit"); void o.path.getBBox(); o.path.classList.add("hit"); } });
+            } else {
+                r.bike.classList.remove("on");                // rode off-screen
+            }
+        });
+
+        if (!fading && t > roundEnd) {
+            fading = true;
+            riders.forEach(r => r.path.classList.add("fade"));
+        }
+        if (t > roundEnd + .8) { round++; reset(now); }
+    }
+    requestAnimationFrame(frame);
+})();
+
+// ---------- DIMMED BACKGROUND LIGHT CYCLES (other sections) ----------
+// Each section gets a canvas arena: 2 AI bikes ride the grid, avoid trails (mostly),
+// and derez in a small burst when they get boxed in or misjudge a turn.
+(function bgCycles() {
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const CELL = 44, SPEED = 150, MAX_TRAIL = 28, CARELESS = .12;   // px, px/s, cells, chance to not look ahead
+    const DIRS = [[1, 0], [0, 1], [-1, 0], [0, -1]];
+    const rootStyle = () => getComputedStyle(document.documentElement);
+
+    class Arena {
+        constructor(section) {
+            this.cv = document.createElement("canvas");
+            this.cv.className = "bg-cycles"; this.cv.setAttribute("aria-hidden", "true");
+            section.prepend(this.cv);
+            this.ctx = this.cv.getContext("2d");
+            this.bikes = [0, 1].map(team => ({ team, alive: false, cells: [], dir: 0, prog: 0, fade: 0, wait: team * 1.5 + Math.random() }));
+            this.sparks = [];
+            this.visible = false;
+            this.resize();
+            new ResizeObserver(() => this.resize()).observe(section);
+            new IntersectionObserver(([e]) => { this.visible = e.isIntersecting; }).observe(section);
+        }
+        resize() {
+            const dpr = Math.min(devicePixelRatio || 1, 2), r = this.cv.getBoundingClientRect();
+            this.w = r.width; this.h = r.height;
+            this.cv.width = Math.round(this.w * dpr); this.cv.height = Math.round(this.h * dpr);
+            this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            this.cols = Math.floor(this.w / CELL); this.rows = Math.floor(this.h / CELL);
+            this.ox = (this.w - this.cols * CELL) / 2; this.oy = (this.h - this.rows * CELL) / 2;
+        }
+        px(c) { return [this.ox + c[0] * CELL, this.oy + c[1] * CELL]; }
+        inside(c) { return c[0] >= 0 && c[1] >= 0 && c[0] <= this.cols && c[1] <= this.rows; }
+        taken(c) { return this.bikes.some(b => b.fade > .3 && b.cells.some(k => k[0] === c[0] && k[1] === c[1])); }
+        free(c) { return this.inside(c) && !this.taken(c); }
+
+        spawn(b) {
+            const side = Math.floor(Math.random() * 4);
+            const rnd = n => 1 + Math.floor(Math.random() * Math.max(1, n - 1));
+            const start = [[0, rnd(this.rows)], [rnd(this.cols), 0], [this.cols, rnd(this.rows)], [rnd(this.cols), this.rows]][side];
+            if (this.taken(start)) { b.wait = .5; return; }
+            Object.assign(b, { alive: true, cells: [start], dir: side, prog: 0, fade: 1 });   // side index == inward direction
+        }
+        crash(b) {
+            b.alive = false;
+            const [x, y] = this.px(b.cells[b.cells.length - 1]);
+            for (let i = 0; i < 16; i++) {
+                const a = Math.random() * Math.PI * 2, v = 40 + Math.random() * 120;
+                this.sparks.push({ x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, life: 1, team: b.team, ring: false });
+            }
+            this.sparks.push({ x, y, r: 4, life: 1, team: b.team, ring: true });
+        }
+        steer(b) {
+            const head = b.cells[b.cells.length - 1];
+            const next = d => [head[0] + DIRS[d][0], head[1] + DIRS[d][1]];
+            const straight = b.dir, turns = Math.random() < .5 ? [(b.dir + 1) % 4, (b.dir + 3) % 4] : [(b.dir + 3) % 4, (b.dir + 1) % 4];
+            if (Math.random() < CARELESS) {                      // didn't look: keep going, maybe into a wall
+                if (!this.free(next(straight))) return this.crash(b);
+                return;
+            }
+            if (this.free(next(straight)) && Math.random() < .78) return;
+            const ok = turns.find(d => this.free(next(d)));
+            if (ok !== undefined) b.dir = ok;
+            else if (!this.free(next(straight))) this.crash(b);   // boxed in
+        }
+        update(dt) {
+            this.bikes.forEach(b => {
+                if (b.alive) {
+                    b.prog += SPEED * dt / CELL;
+                    while (b.prog >= 1 && b.alive) {
+                        b.prog -= 1;
+                        const h = b.cells[b.cells.length - 1];
+                        b.cells.push([h[0] + DIRS[b.dir][0], h[1] + DIRS[b.dir][1]]);
+                        if (b.cells.length > MAX_TRAIL) b.cells.shift();   // tail retracts like a snake
+                        this.steer(b);
+                    }
+                } else if (b.fade > 0) {
+                    b.fade -= dt * 1.1;
+                    if (b.fade <= 0) { b.cells = []; b.wait = 1 + Math.random() * 2.5; }
+                } else if ((b.wait -= dt) <= 0) this.spawn(b);
+            });
+            this.sparks.forEach(s => {
+                s.life -= dt * 1.4;
+                if (s.ring) s.r += dt * 160; else { s.x += s.vx * dt; s.y += s.vy * dt; s.vx *= .96; s.vy *= .96; }
+            });
+            this.sparks = this.sparks.filter(s => s.life > 0);
+        }
+        draw(colours) {
+            const g = this.ctx;
+            g.clearRect(0, 0, this.w, this.h);
+            g.lineJoin = "miter"; g.lineCap = "square";
+            this.bikes.forEach(b => {
+                if (!b.cells.length) return;
+                const col = colours[b.team];
+                g.beginPath();
+                b.cells.forEach((c, i) => { const [x, y] = this.px(c); i ? g.lineTo(x, y) : g.moveTo(x, y); });
+                let hx, hy;
+                const last = this.px(b.cells[b.cells.length - 1]);
+                if (b.alive) { hx = last[0] + DIRS[b.dir][0] * b.prog * CELL; hy = last[1] + DIRS[b.dir][1] * b.prog * CELL; g.lineTo(hx, hy); }
+                g.strokeStyle = col;
+                g.globalAlpha = .22 * b.fade; g.lineWidth = 7; g.stroke();     // glow
+                g.globalAlpha = b.fade; g.lineWidth = 2; g.stroke();           // core
+                if (b.alive) {                                                  // the bike
+                    g.globalAlpha = 1; g.fillStyle = "#fff";
+                    const horiz = DIRS[b.dir][0] !== 0;
+                    g.fillRect(hx - (horiz ? 7 : 2.5) - DIRS[b.dir][0] * 5, hy - (horiz ? 2.5 : 7) - DIRS[b.dir][1] * 5, horiz ? 14 : 5, horiz ? 5 : 14);
+                }
+            });
+            this.sparks.forEach(s => {
+                g.globalAlpha = Math.max(0, s.life);
+                if (s.ring) { g.strokeStyle = colours[s.team]; g.lineWidth = 2; g.beginPath(); g.arc(s.x, s.y, s.r, 0, Math.PI * 2); g.stroke(); }
+                else { g.fillStyle = Math.random() < .3 ? "#fff" : colours[s.team]; g.fillRect(s.x - 1.5, s.y - 1.5, 3, 3); }
+            });
+            g.globalAlpha = 1;
+        }
+    }
+
+    const arenas = [...document.querySelectorAll(".section")].map(s => new Arena(s));
+    let last = performance.now();
+    function loop(now) {
+        requestAnimationFrame(loop);
+        const dt = Math.min(.05, (now - last) / 1000); last = now;
+        if (document.documentElement.classList.contains("booting")) return;
+        const st = rootStyle(), colours = [st.getPropertyValue("--blue").trim(), st.getPropertyValue("--orange").trim()];
+        arenas.forEach(a => { if (a.visible) { a.update(dt); a.draw(colours); } });
+    }
+    requestAnimationFrame(loop);
+})();
+
+// ---------- FOOTER CONTROLS ----------
+const toastEl = document.getElementById("toast");
+const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+function toast(text) {
+    toastEl.textContent = text;
+    toastEl.classList.remove("show"); void toastEl.offsetWidth; toastEl.classList.add("show");
+}
+
+document.getElementById("levelup").addEventListener("click", () => {
+    toast("LEVEL UP!");
+    scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
+});
+
+const playerEl = document.getElementById("player");
+function applyTeam(team) {
+    const root = document.documentElement;
+    if (team === "orange") root.dataset.team = "orange"; else delete root.dataset.team;
+    playerEl.textContent = team === "orange" ? "2UP" : "1UP";
+    try { localStorage.setItem("vs-team", team); } catch (e) {}
+}
+applyTeam(document.documentElement.dataset.team === "orange" ? "orange" : "blue");
+
+document.querySelectorAll("[data-team-toggle]").forEach(btn => btn.addEventListener("click", () => {
+    const next = document.documentElement.dataset.team === "orange" ? "blue" : "orange";
+    const label = next === "orange" ? "TEAM ORANGE" : "TEAM BLUE";
+    if (reduceMotion) { applyTeam(next); toast(label); return; }
+    if (document.getElementById("wipe")) return;          // already switching
+    const wipe = document.createElement("div");
+    wipe.id = "wipe";
+    wipe.innerHTML = '<div class="panel"></div><div class="laser"></div>';
+    document.body.appendChild(wipe);
+    setTimeout(() => { applyTeam(next); toast(label); }, 350);   // swap while the screen is covered
+    setTimeout(() => wipe.remove(), 720);
+}));
+
+document.getElementById("reboot").addEventListener("click", () => {
+    try { sessionStorage.removeItem("vs-booted"); } catch (e) {}
+    location.href = location.pathname + "?boot";
+});
+</script>
+<script src="lab.js"></script>
+</body>
+</html>

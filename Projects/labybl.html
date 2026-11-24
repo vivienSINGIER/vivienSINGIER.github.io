@@ -1,140 +1,125 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../Core/style.css"/>
-    <link rel="stylesheet" href="Style-Script/dossier-style.css"/>
-    <link rel="icon" href="../Assets/favicon.ico" sizes="any"/>
-    <link rel="apple-touch-icon" href="../Assets/apple-touch-icon.png"/>
-    <script type="text/javascript" src="../Core/script.js" defer></script>
-    <script type="text/javascript" src="Style-Script/dossier-script.js" defer></script>
-    <title>Laby BL</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Rajdhani:wght@400;500;600&family=Press+Start+2P&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../Core/style.css"/>
+<link rel="stylesheet" href="Style-Script/split-style.css"/>
+<link rel="icon" href="../Assets/favicon.ico" sizes="any"/>
+<link rel="apple-touch-icon" href="../Assets/apple-touch-icon.png"/>
+<script>
+// before first paint: stage intro once per session (?intro forces it), restore the saved team
+(function () {
+    var r = document.documentElement, show = !matchMedia("(prefers-reduced-motion: reduce)").matches;
+    try { if (localStorage.getItem("vs-team") === "orange") r.dataset.team = "orange"; } catch (e) {}
+    try { if (sessionStorage.getItem("vs-intro-" + location.pathname) && !/[?&]intro\b/.test(location.search)) show = false; } catch (e) {}
+    if (show) r.classList.add("intro-on");
+})();
+</script>
+<script src="../Core/script.js" defer></script>
+<title>Laby BL - Vivien Singier</title>
 </head>
-
 <body>
 
+<div id="stage-intro" aria-hidden="true"><span class="s">STAGE 05</span><span class="t">Laby BL</span><span class="r">READY?</span><div class="laser"></div></div>
+
 <nav class="nav">
-    <div class="nav-inner">
-        <div class="nav-logo"> vivien_singier<span>.dev</span></div>
-
-        <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
-            <span class="nav-menu">// menu</span>
-            <span class="nav-close">// close</span>
-        </button>
-
-        <ul class="nav-links">
-            <li><a href="../index.html#hero">Home</a></li>
-            <li><a href="../index.html#engine">Engine</a></li>
-            <li><a href="../index.html#projects">Projects</a></li>
-            <li><a href="../index.html#skills">Skills</a></li>
-            <li><a href="../index.html#contact">Contact</a></li>
+    <div class="container nav-inner">
+        <a class="logo" href="../index.html">V<span>/</span>SINGIER</a>
+        <ul>
+            <li><a class="back" href="../index.html#projects">◀ STAGES</a></li>
+            <li><a href="../Engine/engine.html">ENGINE</a></li>
+            <li><a href="../index.html#contact">CONTACT</a></li>
         </ul>
+        <button type="button" class="team-nav" data-team-toggle aria-label="Changer d'équipe">⇄ TEAM</button>
     </div>
 </nav>
 
-<section class="section" style="padding-top: 2.5rem; border-bottom: none;">
-    <div class="container">
-
-        <a href="../index.html#projects" class="section-link reveal">Retour aux projets</a>
-
-        <div class="dossier-grid reveal">
-            <aside class="dossier-sidebar reveal">
-                <div class="viewport carousel">
-                    <span class="vp-label">// LABY_BL_MAIN</span>
-                    <span class="vp-status">[stable]</span>
-    
-                    <div class="carousel-track">
-                        <div class="carousel-slide active">
-                            <video autoplay muted loop>
-                                <source src="../Assets/Projects/LabyBL/demo-compressed.mp4" type="video/mp4">
-                            </video>
-                        </div>
-                    </div>
+<main class="split">
+    <!-- left screen: media + players, stays in view while reading -->
+    <section class="screen-l section">
+        <div class="stick">
+            <div class="split-label"><span>SCREEN <b>1P</b> // REPLAY</span><span class="blink">● LIVE</span></div>
+            <div class="viewer" data-viewer tabindex="0" aria-label="Lecteur de médias, flèches gauche et droite pour changer">
+                <div class="viewer-screen hud">
+                    <span class="flash">READY?</span>
+                    <video autoplay muted loop playsinline></video>
+                    <img class="still" alt="" hidden>
+                    <button type="button" class="nav-arrow prev" aria-label="Média précédent">◀</button>
+                    <button type="button" class="nav-arrow next" aria-label="Média suivant">▶</button>
                 </div>
-                
-                <div>
-                    <h3>Collaborateurs</h3>
-                    <div class="collaborator-list">
-                        <div class="collaborator" tabindex="0">
-                            Baptiste COMBEAU
-                            <span class="collab-role">Physics Dev</span>
-                            <div class="collab-tooltip">
-                                <div class="collab-tooltip-name">Baptiste COMBEAU</div>
-                                <ul class="collab-tooltip-contacts">
-                                    <li><button class="copy-email">
-                                        bcombeau974@gmail.com
-                                        <span class="copy-tooltip">copier</span>
-                                    </button></li>
-                                    <li><a href="https://github.com/Ic3Scout">github.com/Ic3Scout</a></li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="collaborator" tabindex="0">
-                            Auxence VILLERET
-                            <span class="collab-role">Lead Dev / Gameplay</span>
-                            <div class="collab-tooltip">
-                                <div class="collab-tooltip-name">Auxence VILLERET</div>
-                                <ul class="collab-tooltip-contacts">
-                                    <li><button class="copy-email">
-                                        auxence.villeret@gmail.com
-                                        <span class="copy-tooltip">copier</span>
-                                    </button></li>
-                                    <li><a href="https://github.com/auxenceVILLERET">github.com/auxenceVILLERET</a></li>
-                                    <li><a href="https://www.linkedin.com/in/auxence-villeret-7a764132b/">linkedin.com/in/auxence-villeret</a></li>
-                                </ul>
-                            </div>
-                        </div>
-<!--                        Ajouter un collaborateur si besoins-->
-                    </div>
-                </div>
-                
-            </aside>
-            
-            <div class="dossier-head reveal">
-                <div class="section-tag">log_entry: Laby-BL</div>
-                <h1 class="project-name">Laby BL</h1>
-                <p class="project-intro">Une <em>vertical slice</em> produite en 3 semaines d'un jeu de survie collaboratif avec des aspects de roguelike.</p>
-                
-                <div class="project-tags">
-                    <span class="skill-tag">Collaboration</span>
-                    <span class="skill-tag">ECS</span>
-                    <span class="skill-tag">Réseau</span>
-                    <span class="skill-tag">Phyics</span>
-                </div>
-                
-                <div class="project-links">
-                    <a class="btn primary" href="https://github.com/vivienSINGIER/LabyBL">ProjectRepo →</a>
-                    <a class="btn" href="https://github.com/vivienSINGIER/LabyBL/releases">Essayer la démo →</a>
-                </div>
-                
-                <div class="section-head reveal">
-                    <h2>A propos</h2>
-                </div>
-
-                <div class="dossier-desc reveal">
-
-                    <p class="project-desc">L'objectif du projet était de fournir une vertical slice du jeu de notre choix
-                        en utilisant une architecture modulaire.</p>
-                    <p class="project-desc">J'ai pris le rôle du développeur moteur, je suis parti de la base d'une librairie de rendu développé
-                        sur un projet précédent pour y ajouter un ECS le plus <em>data oriented</em> possible qui est capable d'accueillir une couche réseau.
-                        Bien que la couche réseaux fut ajouté au projet, elle n'est pas utilisée dans le jeu par manque de temps pour l'intégrer. </p>
-                    <p class="project-desc">Le développement de l'ECS m'a permis de beaucoup mieux comprendre les eujeu et contraintes que représente cette architecture,
-                        c'est sur cette base que je compte développer celui de mon moteur.</p>
-
-                    <a class="btn primary" href="../Engine/engine.html">Voir le moteur →</a>
+                <div class="readout"><span data-viewer-label></span><span class="live">● NOW PLAYING</span></div>
+                <div class="clips">
+                    <button type="button" class="clip on" data-label="DÉMO" data-src="../Assets/Projects/LabyBL/demo-compressed.mp4" data-poster="../Assets/Projects/LabyBL/Splashscreen.png"><img src="../Assets/Projects/LabyBL/Splashscreen.png" alt=""><span>01</span></button>
                 </div>
             </div>
-        </div>
-    </div>
-</section>
 
-<footer class="page-footer reveal">
-    Construit pièce par pièce, comme tout le reste
-</footer>
+            <div class="mini-head">▶ PLAYERS 3/3</div>
+            <div class="players">
+                <details class="player you"><summary><span class="slot">P1</span><span class="name">Vivien Singier</span><span class="role">MOTEUR</span></summary>
+                    <ul><li><a href="https://github.com/vivienSINGIER">github.com/vivienSINGIER</a></li></ul></details>
+                <details class="player"><summary><span class="slot">P2</span><span class="name">Baptiste COMBEAU</span><span class="role">PHYSICS</span></summary>
+                    <ul><li><button type="button" data-copy="bcombeau974@gmail.com" title="Copier">bcombeau974@gmail.com</button></li><li><a href="https://github.com/Ic3Scout">github.com/Ic3Scout</a></li></ul></details>
+                <details class="player"><summary><span class="slot">P3</span><span class="name">Auxence VILLERET</span><span class="role">LEAD / GAMEPLAY</span></summary>
+                    <ul><li><button type="button" data-copy="auxence.villeret@gmail.com" title="Copier">auxence.villeret@gmail.com</button></li><li><a href="https://github.com/auxenceVILLERET">github.com/auxenceVILLERET</a></li><li><a href="https://www.linkedin.com/in/auxence-villeret-7a764132b/">linkedin.com/in/auxence-villeret</a></li></ul></details>
+            </div>
+        </div>
+    </section>
+
+    <!-- right screen: the write-up -->
+    <section class="screen-r section">
+        <div class="split-label"><span>SCREEN <b>2P</b> // BRIEFING</span><span>STAGE 05</span></div>
+        <div class="code"><b>C++ · JEU · MOTEUR</b></div>
+        <h1>Laby BL</h1>
+        <p class="lead">Une <em>vertical slice</em> produite en 3 semaines d'un jeu de survie collaboratif avec des aspects de roguelike.</p>
+        <div class="tags"><span class="tag">Collaboration</span><span class="tag">ECS</span><span class="tag">Réseau</span><span class="tag">Physics</span></div>
+        <div class="actions">
+                <a class="btn solid" href="https://github.com/vivienSINGIER/LabyBL">REPO ▶</a>
+                <a class="btn" href="https://github.com/vivienSINGIER/LabyBL/releases">ESSAYER LA DÉMO</a>
+        </div>
+
+        <div class="stats">
+            <div><small>DURÉE</small><b>3 SEMAINES</b></div>
+            <div><small>ÉQUIPE</small><b>3 DEVS</b></div>
+            <div><small>MON RÔLE</small><b>MOTEUR</b></div>
+            <div><small>ARCHI</small><b>ECS</b></div>
+            <div><small>RÉSEAU</small><b>INTÉGRÉ</b></div>
+            <div><small>STATUT</small><b class="ok">Stable</b></div>
+        </div>
+
+        <div class="chapter">
+            <h3><b>01</b> // L'OBJECTIF</h3>
+            <p>L'objectif du projet était de fournir une vertical slice du jeu de notre choix
+                en utilisant une architecture modulaire.</p>
+        </div>
+        <div class="chapter">
+            <h3><b>02</b> // MON RÔLE</h3>
+            <p>J'ai pris le rôle du développeur moteur, je suis parti de la base d'une librairie de rendu développé
+                sur un projet précédent pour y ajouter un ECS le plus <em>data oriented</em> possible qui est capable d'accueillir une couche réseau.
+                Bien que la couche réseaux fut ajouté au projet, elle n'est pas utilisée dans le jeu par manque de temps pour l'intégrer.</p>
+        </div>
+        <div class="chapter">
+            <h3><b>03</b> // LES ACQUIS</h3>
+            <p>Le développement de l'ECS m'a permis de beaucoup mieux comprendre les eujeu et contraintes que représente cette architecture,
+                c'est sur cette base que je compte développer celui de mon moteur.</p>
+        </div>
+        <div class="chapter"><a class="btn solid" href="../Engine/engine.html">VOIR LE MOTEUR ▶</a></div>
+        <nav class="stage-nav" aria-label="Autres projets">
+            <a class="prev" href="math-drawing-project.html"><small>◀ PREV STAGE</small><b>Math Drawing</b></a>
+            <a class="next" href="ion.html"><small>NEXT STAGE ▶</small><b>ION</b></a>
+            <a class="select" href="../index.html#projects">STAGE<br>SELECT</a>
+        </nav>
+    </section>
+</main>
+
+<footer class="container"><span>END OF LINE — <b>BUILT PIECE BY PIECE</b></span><span class="foot-btns">
+    <button type="button" class="foot-btn" id="levelup">LEVEL UP ▲</button>
+    <button type="button" class="foot-btn" id="reboot">REBOOT ↻</button>
+    <button type="button" class="foot-btn team" data-team-toggle>SWITCH TEAM ⇄</button>
+</span></footer>
+<div id="toast" aria-live="polite"></div>
 
 </body>
 </html>

@@ -1,188 +1,150 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../Core/style.css"/>
-    <link rel="stylesheet" href="Style-Script/log-style.css"/>
-    <link rel="icon" href="../Assets/favicon.ico" sizes="any"/>
-    <link rel="apple-touch-icon" href="../Assets/apple-touch-icon.png"/>
-    <script type="text/javascript" src="../Core/script.js" defer></script>
-    <script type="text/javascript" src="Style-Script/log-script.js" defer></script>
-    <title>CPU Render</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Rajdhani:wght@400;500;600&family=Press+Start+2P&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../Core/style.css"/>
+<link rel="stylesheet" href="Style-Script/briefing-style.css"/>
+<link rel="icon" href="../Assets/favicon.ico" sizes="any"/>
+<link rel="apple-touch-icon" href="../Assets/apple-touch-icon.png"/>
+<script>
+// before first paint: stage intro once per session (?intro forces it), restore the saved team
+(function () {
+    var r = document.documentElement, show = !matchMedia("(prefers-reduced-motion: reduce)").matches;
+    try { if (localStorage.getItem("vs-team") === "orange") r.dataset.team = "orange"; } catch (e) {}
+    try { if (sessionStorage.getItem("vs-intro-" + location.pathname) && !/[?&]intro\b/.test(location.search)) show = false; } catch (e) {}
+    if (show) r.classList.add("intro-on");
+})();
+</script>
+<script src="../Core/script.js" defer></script>
+<title>CPU Render - Vivien Singier</title>
 </head>
-
 <body>
 
+<div id="stage-intro" aria-hidden="true"><span class="s">STAGE 01</span><span class="t">CPU Render</span><span class="r">READY?</span><div class="laser"></div></div>
+
 <nav class="nav">
-    <div class="nav-inner">
-        <div class="nav-logo"> vivien_singier<span>.dev</span></div>
-
-        <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
-            <span class="nav-menu">// menu</span>
-            <span class="nav-close">// close</span>
-        </button>
-
-        <ul class="nav-links">
-            <li><a href="../index.html#hero">Home</a></li>
-            <li><a href="../index.html#engine">Engine</a></li>
-            <li><a href="../index.html#projects">Projects</a></li>
-            <li><a href="../index.html#skills">Skills</a></li>
-            <li><a href="../index.html#contact">Contact</a></li>
+    <div class="container nav-inner">
+        <a class="logo" href="../index.html">V<span>/</span>SINGIER</a>
+        <ul>
+            <li><a class="back" href="../index.html#projects">◀ STAGES</a></li>
+            <li><a href="../Engine/engine.html">ENGINE</a></li>
+            <li><a href="../index.html#contact">CONTACT</a></li>
         </ul>
+        <button type="button" class="team-nav" data-team-toggle aria-label="Changer d'équipe">⇄ TEAM</button>
     </div>
 </nav>
 
-<section class="section override" id="intro">
-    <div class="container">
-        <a href="../index.html#projects" class="section-link reveal">Retour aux projets</a>
-
-        <div class="dossier-head reveal">
-            <div class="section-tag">log_entry: cpu-render</div>
-            <h1 class="project-name">CPU Render</h1>
-
-            <div class="project-info">
-                <p class="project-intro">Un moteur de rendu 3D temps réel entièrement logiciel en C++ : tout le pipeline graphique tourne sur le processeur, sans aucune API GPU.</p>
-
-                <div class="project-tags">
-                    <span class="skill-tag">C++</span>
-                    <span class="skill-tag">Rendu logiciel</span>
-                    <span class="skill-tag">PBR</span>
-                    <span class="skill-tag">Shadow Mapping</span>
-                    <span class="skill-tag">OpenMP</span>
-                    <span class="skill-tag">Génération procédurale</span>
-                </div>
+<section class="section brief">
+    <div class="container brief-grid">
+        <div>
+            <div class="code"><b>STAGE 01</b> // C++ · RENDU LOGICIEL</div>
+            <h1>CPU Render</h1>
+            <p class="lead">Un moteur de rendu 3D temps réel entièrement logiciel en C++ : tout le pipeline graphique tourne sur le processeur, sans aucune API GPU.</p>
+            <div class="tags"><span class="tag">C++</span><span class="tag">Rendu logiciel</span><span class="tag">PBR</span><span class="tag">Shadow Mapping</span><span class="tag">OpenMP</span><span class="tag">Génération procédurale</span></div>
+            <div class="actions">
+                <a class="btn solid" href="https://github.com/vivienSINGIER/cpu-render">REPO ▶</a>
+                <a class="btn" href="https://github.com/vivienSINGIER/cpu-render/tree/dev/Demos">ESSAYER LES DÉMOS</a>
             </div>
+        </div>
+        <aside class="stage-data hud">
+            <h3>▶ STAGE DATA</h3>
+            <dl>
+                <div><dt>ÉQUIPE</dt><dd>3 DEVS</dd></div>
+                <div><dt>LANGAGE</dt><dd>C++</dd></div>
+                <div><dt>PARALLÉLISME</dt><dd>OPENMP</dd></div>
+                <div><dt>AFFICHAGE</dt><dd>SDL3</dd></div>
+                <div><dt>DÉMOS</dt><dd>8</dd></div>
+                <div><dt>STATUT</dt><dd class="ok">● STABLE</dd></div>
+            </dl>
+        </aside>
+    </div>
+</section>
 
-            <div class="project-links">
-                <a class="btn primary" href="https://github.com/vivienSINGIER/cpu-render">ProjectRepo →</a>
-                <a class="btn" href="https://github.com/vivienSINGIER/cpu-render/tree/dev/Demos">Essayer les démos →</a>
+<section class="section">
+    <div class="container">
+        <div class="section-head reveal"><span class="code">REPLAY // <b>7</b> MÉDIAS</span><h2>Démos</h2><span class="line"><i class="trail"></i><i class="cycle"></i></span></div>
+        <div class="viewer" data-viewer tabindex="0" aria-label="Lecteur de médias, flèches gauche et droite pour changer">
+            <div class="viewer-screen hud">
+                <span class="flash">READY?</span>
+                <video autoplay muted loop playsinline></video>
+                <img class="still" alt="" hidden>
+                <button type="button" class="nav-arrow prev" aria-label="Média précédent">◀</button>
+                <button type="button" class="nav-arrow next" aria-label="Média suivant">▶</button>
+            </div>
+            <div class="readout"><span data-viewer-label></span><span class="live">● NOW PLAYING</span></div>
+            <div class="clips">
+                <button type="button" class="clip on" data-label="SNOWGLOBE" data-src="../Assets/Projects/CPU-Render/snowglobe-compressed.mp4" data-poster="../Assets/Projects/CPU-Render/snowglobe.jpg"><img src="../Assets/Projects/CPU-Render/snowglobe.jpg" alt=""><span>01</span></button>
+                <button type="button" class="clip" data-label="TERRAIN" data-src="../Assets/Projects/CPU-Render/terrain-compressed.mp4" data-poster="../Assets/Projects/CPU-Render/terrain.jpg"><img src="../Assets/Projects/CPU-Render/terrain.jpg" alt="" loading="lazy"><span>02</span></button>
+                <button type="button" class="clip" data-label="PBR" data-src="../Assets/Projects/CPU-Render/pbr-compressed.mp4" data-poster="../Assets/Projects/CPU-Render/pbr.jpg"><img src="../Assets/Projects/CPU-Render/pbr.jpg" alt="" loading="lazy"><span>03</span></button>
+                <button type="button" class="clip" data-label="BLINN-PHONG CUBE" data-src="../Assets/Projects/CPU-Render/BP-Cube-compressed.mp4" data-poster="../Assets/Projects/CPU-Render/BP-Cube.jpg"><img src="../Assets/Projects/CPU-Render/BP-Cube.jpg" alt="" loading="lazy"><span>04</span></button>
+                <button type="button" class="clip" data-label="BLINN-PHONG" data-src="../Assets/Projects/CPU-Render/BP-compressed.mp4" data-poster="../Assets/Projects/CPU-Render/BP.jpg"><img src="../Assets/Projects/CPU-Render/BP.jpg" alt="" loading="lazy"><span>05</span></button>
+                <button type="button" class="clip" data-label="TRANSPARENCE" data-src="../Assets/Projects/CPU-Render/transparency-compressed.mp4" data-poster="../Assets/Projects/CPU-Render/transparency.jpg"><img src="../Assets/Projects/CPU-Render/transparency.jpg" alt="" loading="lazy"><span>06</span></button>
+                <button type="button" class="clip" data-label="ANIMATION" data-src="../Assets/Projects/CPU-Render/animation-compressed.mp4" data-poster="../Assets/Projects/CPU-Render/animation.jpg"><img src="../Assets/Projects/CPU-Render/animation.jpg" alt="" loading="lazy"><span>07</span></button>
             </div>
         </div>
     </div>
 </section>
 
-<section class="section" id="demo">
+<section class="section">
     <div class="container">
-        <div class="viewport carousel reveal">
-            <span class="vp-label">// CPU_RENDER_MAIN</span>
-            <span class="vp-status">[stable]</span>
-
-            <div class="carousel-track">
-                <div class="carousel-slide active">
-                    <video muted loop playsinline poster="../Assets/Projects/CPU-Render/snowglobe.jpg">
-                        <source src="../Assets/Projects/CPU-Render/snowglobe-compressed.mp4" type="video/mp4">
-                    </video>
-                </div>
-                <div class="carousel-slide">
-                    <video muted loop playsinline poster="../Assets/Projects/CPU-Render/terrain.jpg">
-                        <source src="../Assets/Projects/CPU-Render/terrain-compressed.mp4" type="video/mp4">
-                    </video>
-                </div>
-                <div class="carousel-slide">
-                    <video muted loop playsinline poster="../Assets/Projects/CPU-Render/pbr.jpg">
-                        <source src="../Assets/Projects/CPU-Render/pbr-compressed.mp4" type="video/mp4">
-                    </video>
-                </div>
-                <div class="carousel-slide">
-                    <video muted loop playsinline poster="../Assets/Projects/CPU-Render/BP-Cube.jpg">
-                        <source src="../Assets/Projects/CPU-Render/BP-Cube-compressed.mp4" type="video/mp4">
-                    </video>
-                </div>
-                <div class="carousel-slide">
-                    <video muted loop playsinline poster="../Assets/Projects/CPU-Render/BP.jpg">
-                        <source src="../Assets/Projects/CPU-Render/BP-compressed.mp4" type="video/mp4">
-                    </video>
-                </div>
-                <div class="carousel-slide">
-                    <video muted loop playsinline poster="../Assets/Projects/CPU-Render/transparency.jpg">
-                        <source src="../Assets/Projects/CPU-Render/transparency-compressed.mp4" type="video/mp4">
-                    </video>
-                </div>
-                <div class="carousel-slide">
-                    <video muted loop playsinline poster="../Assets/Projects/CPU-Render/animation.jpg">
-                        <source src="../Assets/Projects/CPU-Render/animation-compressed.mp4" type="video/mp4">
-                    </video>
-                </div>
-            </div>
-
-            <button class="carousel-btn prev"><</button>
-            <button class="carousel-btn next">></button>
-            <div class="carousel-dots">
-                <span class="carousel-dot active"></span>
-                <span class="carousel-dot"></span>
-                <span class="carousel-dot"></span>
-                <span class="carousel-dot"></span>
-                <span class="carousel-dot"></span>
-                <span class="carousel-dot"></span>
-                <span class="carousel-dot"></span>
-            </div>
-            <span class="carousel-counter">1 / 7</span>
-        </div>
-    </div>
-</section>
-
-<section class="section" id="about">
-    <div class="container">
-        <div class="section-head reveal">
-            <h2>A propos</h2>
-        </div>
-
-        <div class="dossier-desc reveal">
-
-            <p class="project-desc">L'objectif du projet était de reconstruire un pipeline graphique complet sans carte graphique,
+        <div class="section-head reveal"><span class="code">MISSION // <b>3</b> OBJECTIFS</span><h2>À propos</h2><span class="line"><i class="trail"></i><i class="cycle"></i></span></div>
+        <div class="objectives">
+            <div class="objective">
+                <small>OBJ. 01</small><h3>L'objectif</h3>
+                <p>L'objectif du projet était de reconstruire un pipeline graphique complet sans carte graphique,
                 en équipe de 3 développeurs : vertex et pixel shaders logiciels, clipping, rastérisation, compute shaders
                 et affichage de l'image finale via SDL3.</p>
-            <p class="project-desc">Pour tenir le temps réel, l'écran est découpé en tuiles de 32 pixels et les triangles sont répartis
+            </div>
+            <div class="objective">
+                <small>OBJ. 02</small><h3>L'architecture</h3>
+                <p>Pour tenir le temps réel, l'écran est découpé en tuiles de 32 pixels et les triangles sont répartis
                 par tuile, puis traités en parallèle avec OpenMP. Sur cette base, le moteur gère le Blinn-Phong, le PBR (GGX, IBL),
                 les cubemaps, les ombres multi-lumières, la transparence et la réfraction, les particules et l'animation squelettale.</p>
-            <p class="project-desc">J'ai principalement travaillé sur les compute shaders, le shadow mapping, le PBR, les mipmaps de cubemaps,
+            </div>
+            <div class="objective">
+                <small>OBJ. 03</small><h3>Ma contribution</h3>
+                <p>J'ai principalement travaillé sur les compute shaders, le shadow mapping, le PBR, les mipmaps de cubemaps,
                 l'eau réfléchissante et l'érosion hydraulique du terrain, simulée goutte par goutte sur un bruit de Perlin.
                 Le projet est livré avec 8 démos exécutables, chacune centrée sur une partie du moteur.</p>
-
-            <a class="btn primary" href="../Engine/engine.html">Voir mon moteur de jeu →</a>
+            </div>
         </div>
+        <div class="after"><a class="btn solid" href="../Engine/engine.html">VOIR MON MOTEUR ▶</a></div>
     </div>
 </section>
 
-<section class="section" id="collaborators" style="border-bottom: none;">
+<section class="section">
     <div class="container">
-        <div class="section-head reveal">
-            <h2>Collaborateurs</h2>
-            <span class="eyebrow">clicker une ligne</span>
-        </div>
-
-        <div class="collaborator-list">
-            <div class="collaborator" tabindex="0">
-                <div class="collab-row">
-                    <span class="collab-name">ColynCO</span>
-                    <span class="collab-role">Développeur</span>
-                </div>
-
-                <ul class="collab-contacts" inert>
-                    <li><a href="https://github.com/ColynCO">github.com/ColynCO</a></li>
-                </ul>
-            </div>
-
-            <div class="collaborator" tabindex="0">
-                <div class="collab-row">
-                    <span class="collab-name">nf73-GC</span>
-                    <span class="collab-role">Développeur</span>
-                </div>
-
-                <ul class="collab-contacts" inert>
-                    <li><a href="https://github.com/nf73-GC">github.com/nf73-GC</a></li>
-                </ul>
-            </div>
+        <div class="section-head reveal"><span class="code">CO-OP // <b>3</b> PLAYERS</span><h2>Équipe</h2><span class="line"><i class="trail"></i><i class="cycle"></i></span></div>
+        <div class="players">
+            <details class="player you"><summary><span class="slot">P1</span><span class="name">Vivien Singier</span><span class="role">DEV</span></summary>
+                <ul><li><a href="https://github.com/vivienSINGIER">github.com/vivienSINGIER</a></li></ul></details>
+            <details class="player"><summary><span class="slot">P2</span><span class="name">ColynCO</span><span class="role">DEV</span></summary>
+                <ul><li><a href="https://github.com/ColynCO">github.com/ColynCO</a></li></ul></details>
+            <details class="player"><summary><span class="slot">P3</span><span class="name">nf73-GC</span><span class="role">DEV</span></summary>
+                <ul><li><a href="https://github.com/nf73-GC">github.com/nf73-GC</a></li></ul></details>
         </div>
     </div>
 </section>
 
-<footer class="page-footer reveal">
-    Construit pièce par pièce, comme tout le reste
-</footer>
+<section class="section last">
+    <div class="container">
+        <nav class="stage-nav" aria-label="Autres projets">
+            <a class="prev" href="wall-breaker.html"><small>◀ PREV STAGE</small><b>Wall Breaker</b></a>
+            <a class="select" href="../index.html#projects">STAGE<br>SELECT</a>
+            <a class="next" href="lebon.html"><small>NEXT STAGE ▶</small><b>Lebon Interpreter</b></a>
+        </nav>
+    </div>
+</section>
+
+<footer class="container"><span>END OF LINE — <b>BUILT PIECE BY PIECE</b></span><span class="foot-btns">
+    <button type="button" class="foot-btn" id="levelup">LEVEL UP ▲</button>
+    <button type="button" class="foot-btn" id="reboot">REBOOT ↻</button>
+    <button type="button" class="foot-btn team" data-team-toggle>SWITCH TEAM ⇄</button>
+</span></footer>
+<div id="toast" aria-live="polite"></div>
 
 </body>
 </html>

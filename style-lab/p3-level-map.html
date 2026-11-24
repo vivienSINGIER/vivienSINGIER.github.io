@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Rajdhani:wght@400;500;600&family=Press+Start+2P&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="g-project.css"/>
+<link rel="icon" href="../Assets/favicon.ico" sizes="any"/>
+<title>[P3] Level Map - CPU Render</title>
+<style>
+/* ---- P3 · LEVEL MAP: full-bleed attract video, then a scroll-drawn light trail through checkpoints ---- */
+.attract { position: relative; min-height: 82vh; display: flex; align-items: flex-end; overflow: hidden; border-bottom: 1px solid var(--blue-dim); }
+.attract > video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .55; }
+.attract::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(1,2,5,.3), rgba(1,2,5,.55) 45%, var(--bg) 96%); }
+.attract .container { position: relative; z-index: 2; width: 100%; padding-bottom: 3rem; }
+.attract .code { font-family: var(--pixel); font-size: .6rem; color: var(--white); text-shadow: 0 0 6px #000; }
+.attract .code b { color: var(--orange); font-weight: 400; }
+.attract h1 { font-family: var(--display); font-size: clamp(2.2rem, 8vw, 5.4rem); line-height: 1; letter-spacing: .06em; text-transform: uppercase; color: var(--white);
+    text-shadow: 0 0 2px #fff, 0 0 24px var(--blue-soft), 4px 4px 0 rgba(0,0,0,.6); margin: 1rem 0 1.2rem; }
+.attract p { max-width: 60ch; margin: 0 0 1.4rem; font-size: 1.15rem; text-shadow: 0 0 8px #000; }
+.attract .tags { margin-bottom: 1.8rem; }
+.strip-data { display: flex; flex-wrap: wrap; border-top: 1px solid var(--blue-dim); margin-top: 2.4rem; font-family: var(--pixel); font-size: .48rem; }
+.strip-data div { padding: 1rem 1.4rem 0 0; margin-right: 1.4rem; color: var(--text-dim); line-height: 2; }
+.strip-data b { display: block; color: var(--white); font-weight: 400; }
+.strip-data b.ok { color: var(--blue); }
+
+/* the map: a vertical trail down the middle, drawn by scroll progress (--prog set by JS) */
+.map { position: relative; --prog: 0; }
+.map::before, .map::after { content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; margin-left: -1px; }
+.map::before { background: var(--blue-dim); }
+.map::after { background: var(--blue); box-shadow: var(--glow); transform-origin: top; transform: scaleY(var(--prog)); }
+.map .rider { position: absolute; left: 50%; top: calc(var(--prog) * 100%); z-index: 2; width: 7px; height: 20px; margin: -20px 0 0 -3.5px;
+    background: linear-gradient(180deg, var(--blue), #fff 60%); border-radius: 1px 1px 4px 4px; box-shadow: 0 0 10px 2px var(--blue), 0 0 26px var(--blue); }
+.map.done .rider { animation: rider-derez .6s steps(8) forwards; }
+@keyframes rider-derez { 30% { scale: 2.4 1.6; background: #fff; } 100% { opacity: 0; scale: .2; } }
+
+.checkpoint { display: grid; grid-template-columns: 1fr 1fr; gap: 0 5rem; align-items: center; padding: 3rem 0; position: relative; }
+.checkpoint::before { /* node on the trail */
+    content: ""; position: absolute; left: 50%; top: 50%; width: 16px; height: 16px; margin: -8px 0 0 -8px; transform: rotate(45deg);
+    background: var(--bg); border: 2px solid var(--blue-dim); transition: background .2s steps(2), border-color .2s steps(2), box-shadow .2s steps(2); z-index: 1; }
+.checkpoint.lit::before { background: var(--blue); border-color: #fff; box-shadow: var(--glow); }
+.checkpoint .txt small { font-family: var(--pixel); font-size: .5rem; color: var(--text-dim); }
+.checkpoint.lit .txt small { color: var(--orange); }
+.checkpoint .txt h3 { font-family: var(--display); font-size: clamp(1rem, 2.2vw, 1.4rem); letter-spacing: .08em; text-transform: uppercase; color: var(--white); margin: .8rem 0 1rem; }
+.checkpoint .txt p { margin: 0; color: var(--text-dim); }
+.checkpoint .media video { display: block; width: 100%; aspect-ratio: 16/9; object-fit: cover; background: #000; }
+.checkpoint .media .readout { margin-top: .7rem; }
+.checkpoint:nth-child(even) .txt { order: 2; }
+.checkpoint .txt, .checkpoint .media { opacity: .35; transform: translateY(16px); transition: opacity .4s steps(4), transform .4s steps(4); }
+.checkpoint.lit .txt, .checkpoint.lit .media { opacity: 1; transform: none; }
+.goal { text-align: center; padding: 3rem 0 1rem; position: relative; z-index: 1; }
+.goal .px { display: inline-block; font-size: .7rem; color: var(--yellow); background: var(--bg); padding: .8rem 1.2rem; border: 1px solid var(--yellow); }
+
+.gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2rem; }
+.shot { display: block; position: relative; background: #000; cursor: default; }
+.shot video { display: block; width: 100%; aspect-ratio: 16/9; object-fit: cover; opacity: .75; transition: opacity .15s steps(2); }
+.shot:hover video { opacity: 1; }
+.shot span { position: absolute; left: .6rem; bottom: .5rem; font-family: var(--pixel); font-size: .42rem; color: var(--white); text-shadow: 0 0 4px #000, 0 0 4px #000; }
+.duo { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+
+@media (max-width: 860px) {
+    .map::before, .map::after, .map .rider { left: 12px; }
+    .checkpoint { grid-template-columns: 1fr; gap: 1.2rem; padding: 2rem 0 2rem 2.2rem; }
+    .checkpoint::before { left: 12px; top: 2.6rem; }
+    .checkpoint:nth-child(even) .txt { order: 0; }
+    .gallery { grid-template-columns: 1fr 1fr; }
+    .duo { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .map { --prog: 1 !important; }
+    .map .rider { display: none; }
+    .checkpoint .txt, .checkpoint .media { opacity: 1; transform: none; }
+}
+</style>
+<script>
+(function () {
+    var r = document.documentElement, show = !matchMedia("(prefers-reduced-motion: reduce)").matches;
+    try { if (localStorage.getItem("vs-team") === "orange") r.dataset.team = "orange"; } catch (e) {}
+    try { if (sessionStorage.getItem("vs-intro-" + location.pathname) && !/[?&]intro\b/.test(location.search)) show = false; } catch (e) {}
+    if (show) r.classList.add("intro-on");
+})();
+</script>
+</head>
+<body>
+
+<div id="stage-intro" aria-hidden="true"><span class="s">STAGE 1-1</span><span class="t">CPU Render</span><span class="r">READY?</span><div class="laser"></div></div>
+
+<nav class="nav">
+    <div class="container nav-inner">
+        <a class="logo" href="g-arcade-ares.html">V<span>/</span>SINGIER</a>
+        <ul>
+            <li><a class="back" href="g-arcade-ares.html#projects">◀ STAGES</a></li>
+            <li><a href="g-arcade-ares.html#engine">ENGINE</a></li>
+            <li><a href="g-arcade-ares.html#contact">CONTACT</a></li>
+        </ul>
+        <button type="button" class="team-nav" data-team-toggle aria-label="Changer d'équipe">⇄ TEAM</button>
+    </div>
+</nav>
+
+<header class="attract">
+    <video autoplay muted loop playsinline poster="../Assets/Projects/CPU-Render/terrain.jpg"><source src="../Assets/Projects/CPU-Render/terrain-compressed.mp4" type="video/mp4"></video>
+    <div class="container">
+        <div class="code"><b>STAGE 1-1</b> // C++ · RENDU LOGICIEL</div>
+        <h1>CPU Render</h1>
+        <p>Un moteur de rendu 3D temps réel entièrement logiciel en C++ : tout le pipeline graphique tourne sur le processeur, sans aucune API GPU.</p>
+        <div class="tags">
+            <span class="tag">C++</span><span class="tag">RENDU LOGICIEL</span><span class="tag">PBR</span>
+            <span class="tag">SHADOW MAPPING</span><span class="tag">OPENMP</span><span class="tag">PROCÉDURAL</span>
+        </div>
+        <div class="actions">
+            <a class="btn solid" href="https://github.com/vivienSINGIER/cpu-render">REPO ▶</a>
+            <a class="btn" href="https://github.com/vivienSINGIER/cpu-render/tree/dev/Demos">ESSAYER LES DÉMOS</a>
+        </div>
+        <div class="strip-data">
+            <div>ÉQUIPE<b>3 DEVS</b></div><div>LANGAGE<b>C++</b></div><div>PARALLÉLISME<b>OPENMP</b></div>
+            <div>AFFICHAGE<b>SDL3</b></div><div>DÉMOS<b>8</b></div><div>STATUT<b class="ok">● STABLE</b></div>
+        </div>
+    </div>
+</header>
+
+<section class="section">
+    <div class="container">
+        <div class="section-head reveal"><span class="code">LEVEL MAP // <b>3</b> CHECKPOINTS</span><h2>Le parcours</h2><span class="line"><i class="trail"></i><i class="cycle"></i></span></div>
+        <div class="map" id="map">
+            <span class="rider" aria-hidden="true"></span>
+            <div class="checkpoint">
+                <div class="txt"><small>CHECKPOINT 01</small><h3>L'objectif</h3>
+                    <p>Reconstruire un pipeline graphique complet sans carte graphique, en équipe de 3 développeurs : vertex et pixel shaders logiciels,
+                        clipping, rastérisation, compute shaders et affichage de l'image finale via SDL3.</p></div>
+                <div class="media hud" data-hover-video><video muted loop playsinline poster="../Assets/Projects/CPU-Render/BP-Cube.jpg"><source src="../Assets/Projects/CPU-Render/BP-Cube-compressed.mp4" type="video/mp4"></video>
+                    <div class="readout"><span>CLIP // BLINN-PHONG CUBE</span><span class="live">HOVER ▶</span></div></div>
+            </div>
+            <div class="checkpoint">
+                <div class="txt"><small>CHECKPOINT 02</small><h3>L'architecture</h3>
+                    <p>L'écran est découpé en tuiles de 32 pixels et les triangles sont répartis par tuile, puis traités en parallèle avec OpenMP.
+                        Le moteur gère Blinn-Phong, PBR (GGX, IBL), cubemaps, ombres multi-lumières, transparence, réfraction, particules et animation squelettale.</p></div>
+                <div class="media hud" data-hover-video><video muted loop playsinline poster="../Assets/Projects/CPU-Render/pbr.jpg"><source src="../Assets/Projects/CPU-Render/pbr-compressed.mp4" type="video/mp4"></video>
+                    <div class="readout"><span>CLIP // PBR</span><span class="live">HOVER ▶</span></div></div>
+            </div>
+            <div class="checkpoint">
+                <div class="txt"><small>CHECKPOINT 03</small><h3>Ma contribution</h3>
+                    <p>Compute shaders, shadow mapping, PBR, mipmaps de cubemaps, eau réfléchissante et érosion hydraulique du terrain, simulée goutte par
+                        goutte sur un bruit de Perlin. Le projet est livré avec 8 démos exécutables.</p></div>
+                <div class="media hud" data-hover-video><video muted loop playsinline poster="../Assets/Projects/CPU-Render/terrain.jpg"><source src="../Assets/Projects/CPU-Render/terrain-compressed.mp4" type="video/mp4"></video>
+                    <div class="readout"><span>CLIP // ÉROSION HYDRAULIQUE</span><span class="live">HOVER ▶</span></div></div>
+            </div>
+            <div class="goal"><a class="btn solid" href="../Engine/engine.html">GOAL ▶ VOIR MON MOTEUR</a></div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="section-head reveal"><span class="code">BONUS // <b>4</b> CLIPS</span><h2>Galerie</h2><span class="line"><i class="trail"></i><i class="cycle"></i></span></div>
+        <div class="gallery">
+            <div class="shot hud" data-hover-video><video muted loop playsinline poster="../Assets/Projects/CPU-Render/snowglobe.jpg"><source src="../Assets/Projects/CPU-Render/snowglobe-compressed.mp4" type="video/mp4"></video><span>SNOWGLOBE</span></div>
+            <div class="shot hud" data-hover-video><video muted loop playsinline poster="../Assets/Projects/CPU-Render/BP.jpg"><source src="../Assets/Projects/CPU-Render/BP-compressed.mp4" type="video/mp4"></video><span>BLINN-PHONG</span></div>
+            <div class="shot hud" data-hover-video><video muted loop playsinline poster="../Assets/Projects/CPU-Render/transparency.jpg"><source src="../Assets/Projects/CPU-Render/transparency-compressed.mp4" type="video/mp4"></video><span>TRANSPARENCE</span></div>
+            <div class="shot hud" data-hover-video><video muted loop playsinline poster="../Assets/Projects/CPU-Render/animation.jpg"><source src="../Assets/Projects/CPU-Render/animation-compressed.mp4" type="video/mp4"></video><span>ANIMATION</span></div>
+        </div>
+    </div>
+</section>
+
+<section class="section" style="border-bottom:0">
+    <div class="container duo">
+        <div>
+            <div class="section-head reveal"><span class="code">CO-OP // <b>3</b> PLAYERS</span><h2>Équipe</h2><span class="line"><i class="trail"></i><i class="cycle"></i></span></div>
+            <div class="players">
+                <details class="player you"><summary><span class="slot">P1</span><span class="name">Vivien Singier</span><span class="role">DEV</span></summary>
+                    <ul><li><a href="https://github.com/vivienSINGIER">github.com/vivienSINGIER</a></li></ul></details>
+                <details class="player"><summary><span class="slot">P2</span><span class="name">ColynCO</span><span class="role">DEV</span></summary>
+                    <ul><li><a href="https://github.com/ColynCO">github.com/ColynCO</a></li></ul></details>
+                <details class="player"><summary><span class="slot">P3</span><span class="name">nf73-GC</span><span class="role">DEV</span></summary>
+                    <ul><li><a href="https://github.com/nf73-GC">github.com/nf73-GC</a></li></ul></details>
+            </div>
+        </div>
+        <div>
+            <div class="section-head reveal"><span class="code">CONTINUE?</span><h2>Suite</h2><span class="line"><i class="trail"></i><i class="cycle"></i></span></div>
+            <nav class="stage-nav" aria-label="Autres projets" style="grid-template-columns:1fr 1fr">
+                <a class="prev" href="../Projects/wall-breaker.html"><small>◀ PREV STAGE</small><b>Wall Breaker</b></a>
+                <a class="next" href="../Projects/lebon.html"><small>NEXT STAGE ▶</small><b>Lebon</b></a>
+                <a class="select" href="g-arcade-ares.html#projects" style="grid-column:1/-1;padding:.8rem">STAGE SELECT</a>
+            </nav>
+        </div>
+    </div>
+</section>
+
+<footer class="container"><span>END OF LINE — <b>BUILT PIECE BY PIECE</b></span><span class="foot-btns">
+    <button type="button" class="foot-btn" id="levelup">LEVEL UP ▲</button>
+    <button type="button" class="foot-btn" id="reboot">REBOOT ↻</button>
+    <button type="button" class="foot-btn team" data-team-toggle>SWITCH TEAM ⇄</button>
+</span></footer>
+<div id="toast" aria-live="polite"></div>
+
+<script src="g-project.js"></script>
+<script>
+// scroll-drawn trail: the rider follows the reader's position through the map, lights checkpoints, derezzes at the goal
+(function () {
+    const map = document.getElementById("map");
+    const cps = [...map.querySelectorAll(".checkpoint")];
+    let ticking = false;
+    function update() {
+        ticking = false;
+        const r = map.getBoundingClientRect(), mark = innerHeight * .6;   // the "pen" sits 60% down the screen
+        const prog = Math.min(1, Math.max(0, (mark - r.top) / r.height));
+        map.style.setProperty("--prog", prog.toFixed(4));
+        cps.forEach(c => {
+            const cr = c.getBoundingClientRect();
+            c.classList.toggle("lit", cr.top + cr.height / 2 < mark);
+        });
+        map.classList.toggle("done", prog >= .995);
+    }
+    addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+    addEventListener("resize", update);
+    update();
+})();
+</script>
+<script src="lab.js"></script>
+</body>
+</html>

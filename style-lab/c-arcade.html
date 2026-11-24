@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+<link rel="icon" href="../Assets/favicon.ico" sizes="any"/>
+<title>[C] Arcade - Vivien Singier</title>
+<style>
+:root {
+    --bg: #04030c;
+    --cab: #1736ff;      /* cabinet blue */
+    --cyan: #3cf4ff;
+    --yellow: #ffe14d;
+    --red: #ff2e63;
+    --green: #4dff88;
+    --text: #e8ecff;
+    --text-dim: #8a90c0;
+    --pixel: "Press Start 2P", monospace;
+    --crt: "VT323", monospace;
+    --px: 4px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: var(--crt); font-size: 22px; line-height: 1.35;
+    text-shadow: 0 0 4px rgba(120, 200, 255, .35);
+}
+/* CRT overlay: scanlines + vignette + flicker */
+body::before, body::after { content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 1000; }
+body::before { background: repeating-linear-gradient(to bottom, rgba(0,0,0,.28) 0 2px, transparent 2px 4px); }
+body::after { background: radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,.65) 100%); animation: flicker 6s infinite steps(1); }
+@keyframes flicker { 0%, 96%, 100% { opacity: 1; } 97% { opacity: .85; } 98% { opacity: 1; } 99% { opacity: .9; } }
+
+a { color: inherit; }
+::selection { background: var(--yellow); color: #000; }
+:focus-visible { outline: var(--px) solid var(--yellow); outline-offset: var(--px); }
+h1, h2, h3, h4 { font-family: var(--pixel); font-weight: 400; margin: 0; line-height: 1.5; }
+.container { max-width: 1060px; margin: 0 auto; padding: 0 clamp(1rem, 4vw, 2rem); }
+
+/* stepped pixel border */
+.px-box { box-shadow: 0 calc(-1 * var(--px)) 0 0 var(--c, var(--cab)), 0 var(--px) 0 0 var(--c, var(--cab)), calc(-1 * var(--px)) 0 0 0 var(--c, var(--cab)), var(--px) 0 0 0 var(--c, var(--cab)); }
+
+.blink { animation: blink 1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+
+/* ---------- SCORE BAR / NAV ---------- */
+.scorebar { position: sticky; top: 0; z-index: 50; background: var(--bg); border-bottom: var(--px) solid var(--cab); }
+.scorebar .row { display: flex; justify-content: space-between; align-items: center; padding: .7rem 0; gap: 1rem; flex-wrap: wrap; font-family: var(--pixel); font-size: .6rem; }
+.score { display: flex; gap: 2rem; }
+.score div span { display: block; color: var(--text); margin-top: .35rem; }
+.score .p1 { color: var(--red); }
+.score .hi { color: var(--yellow); }
+.scorebar ul { display: flex; gap: 1.2rem; list-style: none; padding: 0; margin: 0; }
+.scorebar ul a { text-decoration: none; color: var(--cyan); }
+.scorebar ul a:hover { color: var(--yellow); }
+.scorebar ul a:hover::before { content: "▶"; margin-right: .3rem; }
+
+/* ---------- ATTRACT SCREEN ---------- */
+.attract { min-height: 86vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 4rem 0; position: relative; overflow: hidden; }
+.attract::before { /* pixel grid floor */
+    content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 40%;
+    background-image: linear-gradient(var(--cab) 4px, transparent 4px), linear-gradient(90deg, var(--cab) 4px, transparent 4px);
+    background-size: 48px 48px; opacity: .35;
+    -webkit-mask-image: linear-gradient(transparent, #000); mask-image: linear-gradient(transparent, #000);
+}
+.attract > * { position: relative; }
+.player { font-family: var(--pixel); font-size: .7rem; color: var(--red); letter-spacing: .2em; }
+.attract h1 {
+    font-size: clamp(1.6rem, 6vw, 3.6rem); margin: 1.4rem 0 .6rem; color: var(--cyan);
+    text-shadow: 4px 4px 0 var(--cab), 8px 8px 0 rgba(23, 54, 255, .45), 0 0 18px rgba(60, 244, 255, .6);
+}
+.attract h2 { font-size: clamp(.6rem, 1.6vw, .85rem); color: var(--yellow); line-height: 2; max-width: 40ch; margin: 0 auto; }
+.attract p { max-width: 46ch; margin: 2rem auto; color: var(--text-dim); }
+.attract em { color: var(--green); font-style: normal; }
+.coin { font-family: var(--pixel); font-size: .85rem; color: var(--yellow); margin: 2.4rem 0 1.6rem; }
+.btn {
+    --c: var(--cyan);
+    display: inline-block; font-family: var(--pixel); font-size: .65rem; text-decoration: none; padding: 1rem 1.3rem; margin: .6rem;
+    color: var(--c); background: var(--bg);
+}
+.btn.primary { --c: var(--yellow); background: var(--yellow); color: #000; }
+.btn:hover { --c: var(--red); color: #fff; background: var(--red); }
+.btn:active { transform: translate(2px, 2px); }
+
+/* ---------- SECTIONS ---------- */
+.section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
+.section-head { text-align: center; margin-bottom: 3rem; }
+.section-head .lvl { font-family: var(--pixel); font-size: .6rem; color: var(--red); }
+.section-head h2 { font-size: clamp(1rem, 3vw, 1.6rem); color: var(--yellow); margin-top: 1rem; text-shadow: 3px 3px 0 var(--red); }
+
+.cabinet { --c: var(--cab); background: #000; padding: 1.4rem; }
+.cabinet .marquee { font-family: var(--pixel); font-size: .6rem; display: flex; justify-content: space-between; color: var(--cyan); margin-bottom: 1rem; flex-wrap: wrap; gap: .5rem; }
+.cabinet .marquee .live { color: var(--green); }
+.engine { display: grid; grid-template-columns: 1.4fr 1fr; gap: 1.6rem; }
+.engine .screen { --c: var(--cyan); position: relative; }
+.engine video { display: block; width: 100%; aspect-ratio: 16/9; object-fit: cover; image-rendering: pixelated; }
+.engine h3 { font-size: .75rem; color: var(--cyan); line-height: 1.8; }
+.engine p { color: var(--text-dim); margin: 1rem 0; }
+.stats { margin: 1rem 0 1.6rem; display: grid; gap: .35rem; }
+.stat { display: grid; grid-template-columns: 7ch 1fr; align-items: center; gap: .8rem; }
+.stat .bar { height: 12px; background: repeating-linear-gradient(90deg, var(--green) 0 10px, transparent 10px 14px); }
+
+.stages { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 2rem; }
+.stage { --c: var(--cab); display: block; text-decoration: none; background: #000; position: relative; transition: transform .1s steps(2); }
+.stage:hover, .stage:focus-visible { --c: var(--yellow); transform: translate(-3px, -3px); outline: none; }
+.stage:hover::before, .stage:focus-visible::before { content: "▶"; position: absolute; left: -1.8rem; top: 40%; font-size: 1.4rem; color: var(--yellow); animation: blink .6s steps(1) infinite; }
+.stage video { display: block; width: 100%; aspect-ratio: 4/3; object-fit: cover; filter: contrast(1.15) saturate(1.3); }
+.stage .body { padding: .9rem 1rem 1.1rem; }
+.stage .num { font-family: var(--pixel); font-size: .55rem; color: var(--red); }
+.stage h4 { font-size: .7rem; color: var(--cyan); margin: .5rem 0; }
+.stage p { margin: 0; font-size: 1.05rem; color: var(--text-dim); }
+
+.hiscore { max-width: 640px; margin: 0 auto; font-family: var(--pixel); font-size: clamp(.55rem, 1.6vw, .75rem); }
+.hiscore .r { display: grid; grid-template-columns: 4ch 1fr 9ch; gap: 1rem; padding: .7rem 0; }
+.hiscore .r:nth-child(1) { color: var(--yellow); }
+.hiscore .r:nth-child(2) { color: var(--cyan); }
+.hiscore .r:nth-child(3) { color: var(--red); }
+.hiscore .r:nth-child(n+4) { color: var(--text); }
+.hiscore .h { color: var(--text-dim); border-bottom: var(--px) dashed var(--cab); }
+.hiscore .r span:last-child { text-align: right; }
+
+.continue { text-align: center; }
+.continue .q { font-family: var(--pixel); font-size: clamp(1rem, 3vw, 1.5rem); color: var(--yellow); }
+.continue .cd { font-family: var(--pixel); font-size: 3rem; color: var(--red); margin: 1rem 0 2rem; }
+.contact { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; }
+.contact a { word-break: break-all; }
+
+footer { text-align: center; font-family: var(--pixel); font-size: .55rem; color: var(--text-dim); padding: 3rem 1rem 6rem; line-height: 2.2; }
+footer b { color: var(--cyan); font-weight: 400; }
+
+@media (max-width: 760px) {
+    .engine { grid-template-columns: 1fr; }
+    .scorebar ul { gap: .8rem; }
+    body { font-size: 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .blink, body::after, .stage::before { animation: none !important; }
+}
+</style>
+</head>
+<body>
+
+<header class="scorebar">
+    <div class="container row">
+        <div class="score">
+            <div class="p1">1UP<span id="score">000000</span></div>
+            <div class="hi">HI-SCORE<span>999999</span></div>
+        </div>
+        <ul>
+            <li><a href="#engine">ENGINE</a></li>
+            <li><a href="#projects">STAGES</a></li>
+            <li><a href="#skills">SCORES</a></li>
+            <li><a href="#contact">CONTACT</a></li>
+        </ul>
+    </div>
+</header>
+
+<section class="attract">
+    <div class="container">
+        <div class="player">PLAYER 1 — C++ DEVELOPER</div>
+        <h1>VIVIEN<br>SINGIER</h1>
+        <h2>CHERCHER POUR COMPRENDRE · CONSTRUIRE POUR APPRENDRE</h2>
+        <p>Développeur C++ spécialisé en moteurs de jeu : je ne me contente pas que du bon fonctionnement d'un projet,
+            je cherche <em>pourquoi</em> et surtout <em>comment</em>.</p>
+        <div class="coin blink">INSERT COIN</div>
+        <a href="#engine" class="btn primary px-box">PRESS START</a>
+        <a href="https://github.com/vivienSINGIER" class="btn px-box">GITHUB</a>
+    </div>
+</section>
+
+<section class="section" id="engine">
+    <div class="container">
+        <div class="section-head"><div class="lvl">— LEVEL 01 —</div><h2>MAIN QUEST</h2></div>
+        <div class="cabinet px-box">
+            <div class="marquee"><span>IDLE_ENGINE.EXE</span><span class="live blink">● ACTIVE DEV</span></div>
+            <div class="engine">
+                <div class="screen px-box">
+                    <video autoplay muted loop playsinline poster="../Assets/Engine/teaser-poster.png"><source src="../Assets/Engine/teaser-compressed.mp4" type="video/mp4"></video>
+                </div>
+                <div>
+                    <h3>MOTEUR DE JEU PERSO</h3>
+                    <p>Rendu DirectX12 (bientôt Vulkan), maths custom, collisions et ECS. Construit pièce par pièce pour comprendre.</p>
+                    <div class="stats">
+                        <div class="stat">RENDER<div class="bar" style="width:85%"></div></div>
+                        <div class="stat">MATH<div class="bar" style="width:75%"></div></div>
+                        <div class="stat">PHYSICS<div class="bar" style="width:35%"></div></div>
+                        <div class="stat">ECS<div class="bar" style="width:50%"></div></div>
+                    </div>
+                    <a href="../Engine/engine.html" class="btn primary px-box">CONTINUE ▶</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="projects">
+    <div class="container">
+        <div class="section-head"><div class="lvl">— LEVEL 02 —</div><h2>SELECT STAGE</h2></div>
+        <div class="stages">
+            <a class="stage px-box" href="../Projects/cpu-render.html" data-hover-video>
+                <video muted loop playsinline poster="../Assets/Projects/CPU-Render/snowglobe.jpg"><source src="../Assets/Projects/CPU-Render/snowglobe-compressed.mp4" type="video/mp4"></video>
+                <div class="body"><span class="num">STAGE 1-1</span><h4>CPU RENDER</h4><p>Rendu 3D temps réel 100% logiciel.</p></div>
+            </a>
+            <a class="stage px-box" href="../Projects/lebon.html" data-hover-video>
+                <video muted loop playsinline poster="../Assets/Projects/Lebon/benchmark.png"><source src="../Assets/Projects/Lebon/modes-compressed.mp4" type="video/mp4"></video>
+                <div class="body"><span class="num">STAGE 1-2</span><h4>LEBON</h4><p>Langage créole, VM et JIT x86-64.</p></div>
+            </a>
+            <a class="stage px-box" href="../Projects/ion.html" data-hover-video>
+                <video muted loop playsinline poster="../Assets/Projects/ION/screenshot.png"><source src="../Assets/Projects/ION/wave-compressed.mp4" type="video/mp4"></video>
+                <div class="body"><span class="num">STAGE 1-3</span><h4>ION</h4><p>Arena shooter en 3 semaines.</p></div>
+            </a>
+            <a class="stage px-box" href="../Projects/babarchive.html" data-hover-video>
+                <video muted loop playsinline poster="../Assets/Projects/Babarchive/demo.jpg"><source src="../Assets/Projects/Babarchive/demo-compressed.mp4" type="video/mp4"></video>
+                <div class="body"><span class="num">STAGE 1-4</span><h4>BABARCHIVE</h4><p>Archive binaire &amp; pipeline d'assets.</p></div>
+            </a>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="skills">
+    <div class="container">
+        <div class="section-head"><div class="lvl">— LEVEL 03 —</div><h2>HIGH SCORES</h2></div>
+        <div class="hiscore">
+            <div class="r h"><span>RNK</span><span>SKILL</span><span>LVL</span></div>
+            <div class="r"><span>1ST</span><span>C++</span><span>99</span></div>
+            <div class="r"><span>2ND</span><span>DIRECTX 12</span><span>80</span></div>
+            <div class="r"><span>3RD</span><span>MATHS 3D</span><span>78</span></div>
+            <div class="r"><span>4TH</span><span>HLSL</span><span>70</span></div>
+            <div class="r"><span>5TH</span><span>QUATERNIONS</span><span>68</span></div>
+            <div class="r"><span>6TH</span><span>PYTHON</span><span>60</span></div>
+            <div class="r"><span>7TH</span><span>GIT</span><span>60</span></div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="contact">
+    <div class="container continue">
+        <div class="q">CONTINUE?</div>
+        <div class="cd" id="cd">9</div>
+        <div class="contact">
+            <a class="btn primary px-box" href="mailto:vivien.singier@gmail.com">EMAIL</a>
+            <a class="btn px-box" href="https://github.com/vivienSINGIER">GITHUB</a>
+            <a class="btn px-box" href="https://linkedin.com/in/VivienSingier">LINKEDIN</a>
+            <a class="btn px-box" href="../Assets/resume.pdf" download>CV.PDF</a>
+        </div>
+    </div>
+</section>
+
+<footer>© 2026 V.SINGIER — <b>BUILT PIECE BY PIECE</b><br>CREDIT 00</footer>
+
+<script>
+// score climbs as you scroll
+const scoreEl = document.getElementById("score");
+addEventListener("scroll", () => {
+    const s = Math.round(scrollY * 7.3);
+    scoreEl.textContent = String(s).padStart(6, "0").slice(-6);
+}, { passive: true });
+// continue countdown loops
+let n = 9; const cd = document.getElementById("cd");
+setInterval(() => { n = n <= 0 ? 9 : n - 1; cd.textContent = n; }, 1000);
+</script>
+<script src="lab.js"></script>
+</body>
+</html>

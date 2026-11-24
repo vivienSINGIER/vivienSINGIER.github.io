@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" href="../Assets/favicon.ico" sizes="any"/>
+<title>[D] Ares - Vivien Singier</title>
+<style>
+:root {
+    --bg: #070505;
+    --bg-2: #0e0909;
+    --red: #ff2626;
+    --red-hot: #ff5a4a;
+    --red-dim: rgba(255, 38, 38, .22);
+    --red-faint: rgba(255, 38, 38, .07);
+    --white: #fff3f0;
+    --text: #e6dcda;
+    --text-dim: #8c7a77;
+    --display: "Chakra Petch", sans-serif;
+    --mono: "JetBrains Mono", monospace;
+    --glow: 0 0 2px var(--red), 0 0 10px var(--red), 0 0 30px var(--red-dim);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+    margin: 0; background: var(--bg); color: var(--text); font-family: var(--mono); font-size: 15px; line-height: 1.7;
+    background-image: radial-gradient(var(--red-faint) 1px, transparent 1px);
+    background-size: 22px 22px;
+}
+a { color: inherit; }
+::selection { background: var(--red); color: #000; }
+:focus-visible { outline: 1px solid var(--red); outline-offset: 4px; }
+h1, h2, h3, h4 { font-family: var(--display); font-weight: 700; margin: 0; text-transform: uppercase; }
+.container { max-width: 1180px; margin: 0 auto; padding: 0 clamp(1rem, 4vw, 2.5rem); }
+
+/* HUD brackets */
+.hud { position: relative; }
+.hud::before, .hud::after { content: ""; position: absolute; width: 18px; height: 18px; border: 2px solid var(--red); pointer-events: none; }
+.hud::before { top: -6px; left: -6px; border-right: 0; border-bottom: 0; }
+.hud::after { bottom: -6px; right: -6px; border-left: 0; border-top: 0; }
+
+/* ---------- NAV ---------- */
+.nav { position: sticky; top: 0; z-index: 50; background: rgba(7,5,5,.88); backdrop-filter: blur(6px); border-bottom: 1px solid var(--red-dim); }
+.nav-inner { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: .8rem 0; flex-wrap: wrap; font-size: .75rem; }
+.logo { font-family: var(--display); font-size: 1.05rem; letter-spacing: .3em; }
+.logo span { color: var(--red); text-shadow: var(--glow); }
+.nav ul { display: flex; gap: 0; list-style: none; padding: 0; margin: 0; }
+.nav ul a { display: block; padding: .3rem .9rem; text-decoration: none; color: var(--text-dim); letter-spacing: .15em; text-transform: uppercase; border-left: 1px solid var(--red-dim); }
+.nav ul a:hover { color: var(--white); background: var(--red); }
+.timer { color: var(--red); letter-spacing: .15em; }
+.timer b { font-weight: 500; color: var(--white); }
+
+/* ---------- HERO ---------- */
+.hero { position: relative; min-height: 90vh; display: flex; align-items: center; overflow: hidden; border-bottom: 1px solid var(--red-dim); }
+.beam { position: absolute; top: 0; bottom: 0; width: 2px; background: var(--red); box-shadow: var(--glow); opacity: .8; }
+.beam.b1 { left: 8%; }
+.beam.b2 { right: 14%; opacity: .4; }
+.scan { position: absolute; left: 0; right: 0; height: 120px; top: -120px; background: linear-gradient(transparent, var(--red-dim) 85%, var(--red)); opacity: .5; animation: scan 4.5s cubic-bezier(.6,0,.4,1) infinite; pointer-events: none; }
+@keyframes scan { to { top: 100%; } }
+.hero-content { position: relative; padding: 4rem 0; padding-left: calc(8% + 1.5rem); max-width: 1000px; }
+.sys { font-size: .75rem; letter-spacing: .25em; color: var(--red); text-transform: uppercase; }
+.sys::before { content: "■ "; animation: pulse 1s infinite; }
+@keyframes pulse { 50% { opacity: .2; } }
+.hero h1 { font-size: clamp(2.4rem, 8vw, 6rem); line-height: .95; margin: 1.2rem 0 1.6rem; color: var(--white); letter-spacing: -.01em; }
+.hero h1 .red { color: var(--red); text-shadow: var(--glow); }
+
+.glitch { position: relative; display: inline-block; }
+.glitch::before, .glitch::after { content: attr(data-text); position: absolute; inset: 0; opacity: 0; }
+.glitch::before { color: var(--red); transform: translate(-3px, 0); clip-path: inset(10% 0 55% 0); }
+.glitch::after { color: #6cf; transform: translate(3px, 0); clip-path: inset(60% 0 8% 0); }
+.glitch:hover::before, .glitch:hover::after, .glitch.auto::before, .glitch.auto::after { animation: glitch .35s steps(2) infinite; opacity: .9; }
+@keyframes glitch {
+    0% { clip-path: inset(10% 0 60% 0); transform: translate(-4px, -1px); }
+    50% { clip-path: inset(50% 0 20% 0); transform: translate(4px, 1px); }
+    100% { clip-path: inset(30% 0 40% 0); transform: translate(-2px, 2px); }
+}
+.hero p { max-width: 58ch; color: var(--text-dim); }
+.hero em { font-style: normal; color: var(--red-hot); border-bottom: 1px solid var(--red); }
+.actions { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2rem; }
+
+.btn {
+    font-family: var(--display); text-decoration: none; text-transform: uppercase; letter-spacing: .2em; font-size: .8rem;
+    padding: .95rem 1.6rem; border: 1px solid var(--red); color: var(--red); background: transparent;
+    position: relative; overflow: hidden; transition: color .25s;
+    clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%);
+}
+.btn::before { content: ""; position: absolute; inset: 0; background: var(--red); transform: translateX(-101%); transition: transform .25s cubic-bezier(.7,0,.2,1); z-index: -1; }
+.btn { isolation: isolate; }
+.btn:hover { color: #000; }
+.btn:hover::before { transform: none; }
+.btn.primary { background: var(--red); color: #000; box-shadow: var(--glow); }
+.btn.primary::before { background: var(--white); }
+
+/* ---------- SECTIONS ---------- */
+.section { padding: clamp(4rem, 9vw, 7rem) 0; border-bottom: 1px solid var(--red-dim); }
+.section-head { display: grid; grid-template-columns: auto 1fr; gap: .3rem 1.5rem; align-items: end; margin-bottom: 3rem; }
+.section-head .code { font-size: .72rem; color: var(--red); letter-spacing: .2em; grid-column: 1 / -1; }
+.section-head h2 { font-size: clamp(1.8rem, 5vw, 3.2rem); line-height: 1; color: var(--white); }
+.section-head .line { height: 2px; background: linear-gradient(90deg, var(--red), transparent); box-shadow: var(--glow); margin-bottom: .6rem; }
+
+.engine { display: grid; grid-template-columns: 1.5fr 1fr; gap: 2.5rem; align-items: center; }
+.engine .screen { background: #000; }
+.engine video { display: block; width: 100%; aspect-ratio: 16/9; object-fit: cover; }
+.readout { font-size: .72rem; color: var(--red); display: flex; justify-content: space-between; margin-top: .8rem; letter-spacing: .12em; }
+.engine h3 { font-size: 1.3rem; color: var(--white); line-height: 1.2; margin-bottom: 1rem; }
+.engine p { color: var(--text-dim); }
+.kv { margin: 1.4rem 0 2rem; border-top: 1px solid var(--red-dim); }
+.kv div { display: flex; justify-content: space-between; padding: .45rem 0; border-bottom: 1px solid var(--red-dim); font-size: .8rem; }
+.kv dt, .kv span:first-child { color: var(--text-dim); }
+.kv span:last-child { color: var(--white); }
+
+/* project list + single preview */
+.projects { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+.list { border-top: 1px solid var(--red-dim); }
+.row {
+    display: grid; grid-template-columns: 3.2rem 1fr auto; gap: 1rem; align-items: center; padding: 1.3rem .6rem;
+    border-bottom: 1px solid var(--red-dim); text-decoration: none; transition: background .2s, padding .2s;
+}
+.row .n { font-size: .75rem; color: var(--red); }
+.row h4 { font-size: 1.3rem; color: var(--white); line-height: 1.15; }
+.row p { margin: .2rem 0 0; font-size: .82rem; color: var(--text-dim); }
+.row .arr { color: var(--red); font-family: var(--display); font-size: 1.3rem; transition: transform .2s; }
+.row .thumb { display: none; }
+.row:hover, .row:focus-visible, .row.on { background: linear-gradient(90deg, var(--red-faint), transparent); padding-left: 1.2rem; outline: none; }
+.row:hover .arr, .row.on .arr { transform: translateX(6px); }
+.row.on h4 { color: var(--red); text-shadow: var(--glow); }
+.preview-wrap { position: sticky; top: 90px; }
+.preview { background: #000; }
+.preview video { display: block; width: 100%; aspect-ratio: 4/3; object-fit: cover; }
+
+
+.skills { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 1px; background: var(--red-dim); border: 1px solid var(--red-dim); }
+.skill { background: var(--bg); padding: 1.3rem 1.2rem; display: flex; justify-content: space-between; align-items: center; transition: background .2s; }
+.skill b { font-family: var(--display); font-size: 1.05rem; color: var(--white); font-weight: 500; text-transform: uppercase; }
+.skill span { font-size: .7rem; color: var(--red); }
+.skill:hover { background: var(--red-faint); }
+
+.contact { display: grid; grid-template-columns: 1.2fr 1fr; gap: 3rem; align-items: center; }
+.contact .big { font-family: var(--display); font-size: clamp(1.4rem, 4vw, 2.6rem); line-height: 1.1; color: var(--white); text-transform: uppercase; }
+.contact .big a { color: var(--red); text-shadow: var(--glow); text-decoration: none; word-break: break-all; }
+.links { display: flex; flex-direction: column; gap: .8rem; }
+.links .btn { text-align: left; }
+
+footer { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; padding: 2rem 0 5rem; font-size: .72rem; color: var(--text-dim); letter-spacing: .15em; text-transform: uppercase; }
+footer b { color: var(--red); font-weight: 500; }
+
+@media (max-width: 860px) {
+    .engine, .projects, .contact { grid-template-columns: 1fr; }
+    .preview-wrap { display: none; }
+    .row { grid-template-columns: 1fr; }
+    .row .n, .row .arr { display: none; }
+    .row .thumb { display: block; width: 100%; aspect-ratio: 16/9; object-fit: cover; margin-bottom: .8rem; }
+    .hero-content { padding-left: 1.2rem; }
+    .beam.b1 { left: 4px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .scan, .sys::before, .glitch::before, .glitch::after { animation: none !important; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+    <div class="container nav-inner">
+        <div class="logo">V<span>/</span>SINGIER</div>
+        <ul>
+            <li><a href="#engine">Engine</a></li>
+            <li><a href="#projects">Projets</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="timer">PERSISTENCE <b id="timer">29:00</b></div>
+    </div>
+</nav>
+
+<header class="hero">
+    <span class="beam b1" aria-hidden="true"></span><span class="beam b2" aria-hidden="true"></span>
+    <div class="scan" aria-hidden="true"></div>
+    <div class="container hero-content">
+        <div class="sys">system : program manifested // c++ dev</div>
+        <h1>
+            <span class="glitch auto" data-text="Chercher">Chercher</span> pour <span class="red">comprendre</span>.<br>
+            <span class="glitch" data-text="Construire">Construire</span> pour <span class="red">apprendre</span>.
+        </h1>
+        <p>En tant que développeur C++ spécialisé en moteurs de jeu, je ne me contente pas que du bon fonctionnement d'un projet,
+            mais de chercher <em>pourquoi</em> et surtout <em>comment</em>&nbsp;?</p>
+        <div class="actions">
+            <a href="#engine" class="btn primary">Mon moteur de jeu</a>
+            <a href="https://github.com/vivienSINGIER" class="btn">Mon GitHub</a>
+        </div>
+    </div>
+</header>
+
+<section class="section" id="engine">
+    <div class="container">
+        <div class="section-head"><span class="code">[01] CORE_PROCESS</span><h2>Le moteur</h2><span class="line"></span></div>
+        <div class="engine">
+            <div>
+                <div class="screen hud">
+                    <video autoplay muted loop playsinline poster="../Assets/Engine/teaser-poster.png"><source src="../Assets/Engine/teaser-compressed.mp4" type="video/mp4"></video>
+                </div>
+                <div class="readout"><span>IDLE_ENGINE_MAIN</span><span>● REC / ACTIVE DEV</span></div>
+            </div>
+            <div>
+                <h3>Rendu, Math &amp; Architecture</h3>
+                <p>Une librairie de rendu DirectX12 (bientôt Vulkan), une bibliothèque de maths custom, des collisions
+                    et un ECS. Construit pièce par pièce pour comprendre au lieu de simplement utiliser.</p>
+                <div class="kv">
+                    <div><span>LANG</span><span>C++ / HLSL</span></div>
+                    <div><span>API</span><span>DirectX 12 → Vulkan</span></div>
+                    <div><span>ARCH</span><span>ECS</span></div>
+                    <div><span>STATUS</span><span>ongoing</span></div>
+                </div>
+                <a href="../Engine/engine.html" class="btn primary">Accéder au core →</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="projects">
+    <div class="container">
+        <div class="section-head"><span class="code">[02] PROGRAM_INDEX</span><h2>Projets</h2><span class="line"></span></div>
+        <div class="projects">
+            <div class="list">
+                <a class="row on" href="../Projects/cpu-render.html" data-video="../Assets/Projects/CPU-Render/snowglobe-compressed.mp4" data-poster="../Assets/Projects/CPU-Render/snowglobe.jpg">
+                    <span class="n">P_01</span>
+                    <div><img class="thumb" src="../Assets/Projects/CPU-Render/snowglobe.jpg" alt=""><h4>CPU Render</h4><p>Rendu 3D temps réel 100% logiciel</p></div>
+                    <span class="arr">→</span>
+                </a>
+                <a class="row" href="../Projects/lebon.html" data-video="../Assets/Projects/Lebon/modes-compressed.mp4" data-poster="../Assets/Projects/Lebon/benchmark.png">
+                    <span class="n">P_02</span>
+                    <div><img class="thumb" src="../Assets/Projects/Lebon/benchmark.png" alt=""><h4>Lebon Interpreter</h4><p>Langage créole, VM à registres, JIT x86-64</p></div>
+                    <span class="arr">→</span>
+                </a>
+                <a class="row" href="../Projects/ion.html" data-video="../Assets/Projects/ION/wave-compressed.mp4" data-poster="../Assets/Projects/ION/screenshot.png">
+                    <span class="n">P_03</span>
+                    <div><img class="thumb" src="../Assets/Projects/ION/screenshot.png" alt=""><h4>ION — Arena Shooter</h4><p>3 semaines, 3 devs, 2 artistes</p></div>
+                    <span class="arr">→</span>
+                </a>
+                <a class="row" href="../Projects/babarchive.html" data-video="../Assets/Projects/Babarchive/demo-compressed.mp4" data-poster="../Assets/Projects/Babarchive/demo.jpg">
+                    <span class="n">P_04</span>
+                    <div><img class="thumb" src="../Assets/Projects/Babarchive/demo.jpg" alt=""><h4>Babarchive</h4><p>Archive binaire &amp; pipeline d'assets</p></div>
+                    <span class="arr">→</span>
+                </a>
+            </div>
+            <div class="preview-wrap">
+                <div class="preview hud">
+                    <video id="preview" autoplay muted loop playsinline poster="../Assets/Projects/CPU-Render/snowglobe.jpg" src="../Assets/Projects/CPU-Render/snowglobe-compressed.mp4"></video>
+                </div>
+                <div class="readout"><span id="pv-label">P_01 // CPU RENDER</span><span>● LIVE FEED</span></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="skills">
+    <div class="container">
+        <div class="section-head"><span class="code">[03] CAPABILITIES</span><h2>Compétences</h2><span class="line"></span></div>
+        <div class="skills">
+            <div class="skill"><b>C++</b><span>core</span></div>
+            <div class="skill"><b>DirectX 12</b><span>gfx</span></div>
+            <div class="skill"><b>HLSL</b><span>gfx</span></div>
+            <div class="skill"><b>Algèbre Linéaire</b><span>math</span></div>
+            <div class="skill"><b>Quaternions</b><span>math</span></div>
+            <div class="skill"><b>Maths 3D</b><span>math</span></div>
+            <div class="skill"><b>Python</b><span>script</span></div>
+            <div class="skill"><b>Git</b><span>tool</span></div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="contact" style="border-bottom:0">
+    <div class="container">
+        <div class="section-head"><span class="code">[04] UPLINK</span><h2>Contact</h2><span class="line"></span></div>
+        <div class="contact">
+            <div class="big">Ouvrir un canal :<br><a href="mailto:vivien.singier@gmail.com">vivien.singier@gmail.com</a></div>
+            <div class="links">
+                <a class="btn" href="https://github.com/vivienSINGIER">GitHub / vivienSINGIER</a>
+                <a class="btn" href="https://linkedin.com/in/VivienSingier">LinkedIn / VivienSingier</a>
+                <a class="btn primary" href="../Assets/resume.pdf" download>Télécharger le CV</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="container"><span>Construit pièce par pièce</span><span>Program status: <b>persistent</b></span></footer>
+
+<script>
+// 29-minute persistence countdown (loops)
+let t = 29 * 60; const tEl = document.getElementById("timer");
+setInterval(() => {
+    t = t <= 0 ? 29 * 60 : t - 1;
+    tEl.textContent = String(Math.floor(t / 60)).padStart(2, "0") + ":" + String(t % 60).padStart(2, "0");
+}, 1000);
+
+// project rows drive the single preview screen
+const pv = document.getElementById("preview"), pvLabel = document.getElementById("pv-label");
+const rows = document.querySelectorAll(".row");
+rows.forEach(row => {
+    const activate = () => {
+        if (row.classList.contains("on")) return;
+        rows.forEach(r => r.classList.remove("on"));
+        row.classList.add("on");
+        pv.poster = row.dataset.poster;
+        pv.src = row.dataset.video;
+        pv.play().catch(() => {});
+        pvLabel.textContent = row.querySelector(".n").textContent + " // " + row.querySelector("h4").textContent.toUpperCase();
+    };
+    row.addEventListener("mouseenter", activate);
+    row.addEventListener("focus", activate);
+});
+</script>
+<script src="lab.js"></script>
+</body>
+</html>

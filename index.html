@@ -1,88 +1,101 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Rajdhani:wght@400;500;600&family=Press+Start+2P&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="Core/style.css"/>
 <link rel="stylesheet" href="Index/style.css"/>
 <link rel="icon" href="Assets/favicon.ico" sizes="any"/>
 <link rel="apple-touch-icon" href="Assets/apple-touch-icon.png"/>
-<script type="text/javascript" src="Core/script.js" defer></script>
-<script type="text/javascript" src="Index/script.js" defer></script>
+<script>
+// before first paint: boot once per session (?boot forces it), restore the saved team
+(function () {
+    var r = document.documentElement, show = true;
+    try { if (sessionStorage.getItem("vs-booted") && !/[?&]boot\b/.test(location.search)) show = false; } catch (e) {}
+    if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) show = false;
+    if (show) r.classList.add("booting");
+    try { if (localStorage.getItem("vs-team") === "orange") r.dataset.team = "orange"; } catch (e) {}
+})();
+</script>
+<script src="Core/script.js" defer></script>
+<script src="Index/script.js" defer></script>
 <title>Vivien Singier - C++ Developer</title>
 </head>
-
 <body>
 
+<div id="boot" aria-hidden="true">
+    <div class="screen">
+        <pre id="boot-log"></pre>
+        <div class="bar"><i id="boot-fill"></i></div>
+    </div>
+    <div class="power"></div>
+    <div class="laser"></div>
+    <div class="skip">CLICK / ANY KEY TO SKIP</div>
+</div>
+
 <nav class="nav">
-    <div class="nav-inner">
-        <div class="nav-logo"> vivien_singier<span>.dev</span></div>
-
-        <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
-            <span class="nav-menu">// menu</span>
-            <span class="nav-close">// close</span>
-        </button>
-
-        <ul class="nav-links">
-            <li><a class="active" href="#hero">Home</a></li>
-            <li><a href="#engine">Engine</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#skills">Skills</a></li>
-            <li><a href="#contact">Contact</a></li>
+    <div class="container nav-inner">
+        <div class="logo">V<span>/</span>SINGIER</div>
+        <ul>
+            <li><a href="#engine">ENGINE</a></li>
+            <li><a href="#projects">STAGES</a></li>
+            <li><a href="#skills">SKILLS</a></li>
+            <li><a href="#contact">CONTACT</a></li>
         </ul>
+        <div class="readouts">
+            <div class="sc"><span id="player">1UP</span><b id="score">000000</b></div>
+            <button type="button" class="team-nav" data-team-toggle aria-label="Changer d'équipe">⇄ TEAM</button>
+        </div>
     </div>
 </nav>
 
-<section class="hero" id="hero">
-    <div class="container">
-        <div class="section-tag reveal">system_status : introducing...</div>
-        <div class="section-head reveal">
-            <h1> Chercher pour Comprendre, Construire pour Apprendre </h1>
-            <p> En tant que développeur C++ spécialisé en moteurs de jeu, je ne me contente 
-                pas que du bon fonctionnement d'un projet, mais de chercher <em>pourquoi</em> et surtout <em>comment</em> ?</p>
-            <div class="hero-links">
-                <a href="#engine" class="btn primary">Mon moteur de jeu</a>
-                <a href="https://github.com/vivienSINGIER" class="btn">Mon GitHub</a>
-            </div>
+<header class="hero">
+    <span class="beam b1" aria-hidden="true"></span><span class="beam b2" aria-hidden="true"></span>
+    <div class="floor" aria-hidden="true"></div>
+    <svg class="trails" viewBox="0 0 1200 800" preserveAspectRatio="none" aria-hidden="true">
+        <path class="tb" data-role="crasher" d="M-20 660 H520 V720 H900"/>
+        <path class="to" data-role="survivor" d="M1220 680 H900 V770 H-20"/>
+    </svg>
+    <div class="scan" aria-hidden="true"></div>
+    <div class="container hero-content">
+        <div class="sys"><b>PLAYER 1</b> READY // C++ DEVELOPER</div>
+        <h1>
+            <span class="glitch auto" data-text="Chercher">Chercher</span> pour <span class="lit">comprendre</span>.<br>
+            <span class="glitch" data-text="Construire">Construire</span> pour <span class="lit">apprendre</span>.
+        </h1>
+        <p>En tant que développeur C++ spécialisé en moteurs de jeu, je ne me contente pas que du bon fonctionnement d'un projet,
+            mais de chercher <em>pourquoi</em> et surtout <em>comment</em>&nbsp;?</p>
+        <div class="coin blink">INSERT COIN</div>
+        <div class="actions">
+            <a href="#engine" class="btn solid">PRESS START</a>
+            <a href="https://github.com/vivienSINGIER" class="btn">GITHUB</a>
         </div>
     </div>
-</section>
+</header>
 
 <section class="section" id="engine">
     <div class="container">
-        <div class="section-tag reveal">system_status : building...</div>
-        <div class="section-head reveal">
-            <h2>Mon moteur de jeu</h2>
-            <span class="eyebrow"> [ongoing] </span>
-        </div>
-
-        <div class="engine-feature reveal">
-            <div class="viewport">
-                <span class="vp-label active">// IDLE_ENGINE_MAIN</span>
-                <div class="vp-status active">
-                    <span class="status-dot">●</span>
-                    <span class="status-dev"> active dev</span>
+        <div class="section-head reveal"><span class="code">LEVEL <b>01</b> // MAIN QUEST</span><h2>Le moteur</h2><span class="line"><i class="trail"></i><i class="cycle"></i></span></div>
+        <div class="engine">
+            <div>
+                <div class="screen hud">
+                    <video autoplay muted loop playsinline poster="Assets/Engine/teaser-poster.png"><source src="Assets/Engine/teaser-compressed.mp4" type="video/mp4"></video>
                 </div>
-                <video class="vp-video" autoplay muted loop playsinline poster="Assets/Engine/teaser-poster.png">
-                    <source src="Assets/Engine/teaser-compressed.mp4" type="video/mp4">
-                </video>
+                <div class="readout"><span>IDLE_ENGINE.EXE</span><span class="live blink">● ACTIVE DEV</span></div>
             </div>
-
-            <div class="engine-desc">
-                <h3>Moteur de jeu personnalisé - Rendu, Math & Architecture</h3>
-                <p>Un moteur de jeu construit entièrement par mes soins : Une librairie de rendu avec DirectX12 et bientôt Vulkan,
-                    une bibliothèque de mathématiques custom, un début de détection de collisions et un ECS en cours de développement.
-                    Tout cela construit par pièces pour en comprendre le fonctionnement au lieu de simplement l'utiliser.</p>
-                <div class="engine-tag-row">
-                    <span class="engine-tag">C++</span>
-                    <span class="engine-tag">DirectX12</span>
-                    <span class="engine-tag">HLSL</span>
-                    <span class="engine-tag">Algèbre linéaires</span>
-                    <span class="engine-tag">ECS</span>
+            <div>
+                <h3>Rendu, Math &amp; Architecture</h3>
+                <p>Une librairie de rendu DirectX12 (bientôt Vulkan), une bibliothèque de maths custom, des collisions
+                    et un ECS. Construit pièce par pièce pour comprendre au lieu de simplement utiliser.</p>
+                <div class="kv">
+                    <div><span>RENDER</span><span class="bar" style="width:100%"></span><span class="st">DX12</span></div>
+                    <div><span>MATH</span><span class="bar" style="width:100%"></span><span class="st">CUSTOM</span></div>
+                    <div><span>PHYSICS</span><span class="bar" style="width:35%"></span><span class="st wip">WIP</span></div>
+                    <div><span>ECS</span><span class="bar" style="width:50%"></span><span class="st wip">WIP</span></div>
                 </div>
-                <a href="Engine/engine.html" class="btn primary">En savoir plus →</a>
+                <a href="Engine/engine.html" class="btn solid">CONTINUE ▶</a>
             </div>
         </div>
     </div>
@@ -90,258 +103,123 @@
 
 <section class="section" id="projects">
     <div class="container">
-        <div class="section-tag reveal">system_status : exploring...</div>
-        <div class="section-head reveal">
-            <h2>Mes autres projets</h2>
-            <p class="section-desc">Voici une sélection de mes projets personnels,
-                allant des jeux vidéo aux outils de développement.</p>
+        <div class="section-head reveal"><span class="code">LEVEL <b>02</b> // SELECT STAGE</span><h2>Projets</h2><span class="line"><i class="trail"></i><i class="cycle"></i></span></div>
+                <div class="worlds" role="group" aria-label="Filtrer les projets">
+                    <button type="button" data-f="all" class="on">TOUS</button>
+                    <button type="button" data-f="cpp">C++</button>
+                    <button type="button" data-f="engine">MOTEUR</button>
+                    <button type="button" data-f="math">MATH</button>
+                    <button type="button" data-f="game">JEUX</button>
+                    <button type="button" data-f="tool">OUTILS</button>
+                    <button type="button" data-f="python">PYTHON</button>
+                </div>
+        <div class="projects">
+                <div class="list" id="list">
+                    <a class="row on" data-cat="cpp engine" href="Projects/cpu-render.html" data-video="Assets/Projects/CPU-Render/snowglobe-compressed.mp4" data-poster="Assets/Projects/CPU-Render/snowglobe.jpg">
+                        <span class="cur">▶</span>
+                        <div><img class="thumb" loading="lazy" src="Assets/Projects/CPU-Render/snowglobe.jpg" alt=""><span class="n">STAGE</span><h4>CPU Render</h4><p>Rendu 3D temps réel 100% logiciel, sans API GPU</p></div>
+                        <span class="go">GO!</span>
+                    </a>
+                    <a class="row" data-cat="cpp tool" href="Projects/lebon.html" data-video="Assets/Projects/Lebon/modes-compressed.mp4" data-poster="Assets/Projects/Lebon/benchmark.png">
+                        <span class="cur">▶</span>
+                        <div><img class="thumb" loading="lazy" src="Assets/Projects/Lebon/benchmark.png" alt=""><span class="n">STAGE</span><h4>Lebon Interpreter</h4><p>Langage créole, VM à registres, JIT x86-64</p></div>
+                        <span class="go">GO!</span>
+                    </a>
+                    <a class="row" data-cat="cpp tool engine" href="Projects/babarchive.html" data-video="Assets/Projects/Babarchive/demo-compressed.mp4" data-poster="Assets/Projects/Babarchive/demo.jpg">
+                        <span class="cur">▶</span>
+                        <div><img class="thumb" loading="lazy" src="Assets/Projects/Babarchive/demo.jpg" alt=""><span class="n">STAGE</span><h4>Babarchive</h4><p>Archive binaire, compression &amp; outil CLI</p></div>
+                        <span class="go">GO!</span>
+                    </a>
+                    <a class="row" data-cat="math tool cpp" href="Projects/math-drawing-project.html" data-video="Assets/Projects/Math-Drawing/teaser-compressed.mp4" data-poster="Assets/Projects/Math-Drawing/yin-yang.png">
+                        <span class="cur">▶</span>
+                        <div><img class="thumb" loading="lazy" src="Assets/Projects/Math-Drawing/yin-yang.png" alt=""><span class="n">STAGE</span><h4>Math Drawing</h4><p>Courbes SFML : Lagrange, Hermite, Bézier</p></div>
+                        <span class="go">GO!</span>
+                    </a>
+                    <a class="row" data-cat="game cpp engine" href="Projects/labybl.html" data-video="Assets/Projects/LabyBL/demo-compressed.mp4" data-poster="Assets/Projects/LabyBL/Splashscreen.png">
+                        <span class="cur">▶</span>
+                        <div><img class="thumb" loading="lazy" src="Assets/Projects/LabyBL/Splashscreen.png" alt=""><span class="n">STAGE</span><h4>LabyBL</h4><p>Survie collaborative sur moteur C++ custom</p></div>
+                        <span class="go">GO!</span>
+                    </a>
+                    <a class="row" data-cat="game cpp" href="Projects/ion.html" data-video="Assets/Projects/ION/wave-compressed.mp4" data-poster="Assets/Projects/ION/screenshot.png">
+                        <span class="cur">▶</span>
+                        <div><img class="thumb" loading="lazy" src="Assets/Projects/ION/screenshot.png" alt=""><span class="n">STAGE</span><h4>ION — Arena Shooter</h4><p>3 semaines, 3 devs, 2 artistes</p></div>
+                        <span class="go">GO!</span>
+                    </a>
+                    <a class="row" data-cat="cpp tool" href="Projects/pathfinding.html" data-video="Assets/Projects/Pathfinding/2d-compressed.mp4" data-poster="Assets/Projects/Pathfinding/screenshot.png">
+                        <span class="cur">▶</span>
+                        <div><img class="thumb" loading="lazy" src="Assets/Projects/Pathfinding/screenshot.png" alt=""><span class="n">STAGE</span><h4>Pathfinding Sandbox</h4><p>Recherche de chemin en 2D et 3D</p></div>
+                        <span class="go">GO!</span>
+                    </a>
+                    <a class="row" data-cat="cpp game" href="Projects/poly-run.html" data-video="Assets/Projects/PolyRun/demo-compressed.mp4" data-poster="Assets/Projects/PolyRun/screenshot.png">
+                        <span class="cur">▶</span>
+                        <div><img class="thumb" loading="lazy" src="Assets/Projects/PolyRun/screenshot.png" alt=""><span class="n">STAGE</span><h4>Poly Run</h4><p>Prototype de runner en 3D</p></div>
+                        <span class="go">GO!</span>
+                    </a>
+                    <a class="row" data-cat="python game" href="Projects/space-invaderz.html" data-video="Assets/Projects/SpaceInvaderz/demo-compressed.mp4" data-poster="Assets/Projects/SpaceInvaderz/screenshot.png">
+                        <span class="cur">▶</span>
+                        <div><img class="thumb" loading="lazy" src="Assets/Projects/SpaceInvaderz/screenshot.png" alt=""><span class="n">STAGE</span><h4>Space Invaderz</h4><p>Shoot'em up Python, projet de lycée</p></div>
+                        <span class="go">GO!</span>
+                    </a>
+                    <a class="row" data-cat="python game" href="Projects/wall-breaker.html" data-video="Assets/Projects/WallBreaker/demo-compressed.mp4" data-poster="Assets/Projects/WallBreaker/screenshot1.png">
+                        <span class="cur">▶</span>
+                        <div><img class="thumb" loading="lazy" src="Assets/Projects/WallBreaker/screenshot1.png" alt=""><span class="n">STAGE</span><h4>Wall Breaker</h4><p>Casse-brique Python, projet de lycée</p></div>
+                        <span class="go">GO!</span>
+                    </a>
+                </div>
+                <div class="preview hud">
+                    <span class="flash" id="flash">READY?</span>
+                    <video id="preview" autoplay muted loop playsinline poster="Assets/Projects/CPU-Render/snowglobe.jpg" src="Assets/Projects/CPU-Render/snowglobe-compressed.mp4"></video>
+                </div>
+                <div class="pager">
+                    <button type="button" id="prev">◀ PREV</button>
+                    <div class="mid"><span id="page-label">WORLD 1/2</span><span class="dots" id="dots"></span></div>
+                    <button type="button" id="next">NEXT ▶</button>
+                </div>
+                <div class="readout pv-readout"><span id="pv-label">STAGE 1-1 // CPU RENDER</span><span class="live">● NOW PLAYING</span></div>
         </div>
-
-        <div class="projects-filters reveal">
-            <button class="filter-btn active" data-filter="all">tous</button>
-            <button class="filter-btn" data-filter="cpp">c++</button>
-            <button class="filter-btn" data-filter="engine">moteur</button>
-            <button class="filter-btn" data-filter="math">math</button>
-            <button class="filter-btn" data-filter="game">jeux</button>
-            <button class="filter-btn" data-filter="tool">outils</button>
-            <button class="filter-btn" data-filter="python">python</button>
-            <button class="filter-btn" data-filter="other">autres</button>
-        </div>
-
-        <div class="projects-grid">
-
-            <article class="project-item reveal" data-category="cpp engine">
-                <div class="viewport">
-                    <span class="vp-label">// CPU_RENDER_MAIN</span>
-                    <div class="vp-status">
-                        <span class="status-stable">[stable]</span>
-                        <span class="status-dot">●</span>
-                        <span class="status-running"> running</span>
-                    </div>
-                    <video muted loop poster="Assets/Projects/CPU-Render/snowglobe.jpg">
-                        <source src="Assets/Projects/CPU-Render/snowglobe-compressed.mp4" type="video/mp4">
-                    </video>
-                </div>
-                <div class="project-desc">
-                    <h4>CPU Render</h4>
-                    <p>Un moteur de rendu 3D temps réel entièrement logiciel, sans aucune API GPU</p>
-                    <a class="project-link" href="Projects/cpu-render.html">Voir le projet >></a>
-                </div>
-            </article>
-
-            <article class="project-item reveal" data-category="cpp tool">
-                <div class="viewport">
-                    <span class="vp-label">// LEBON_MAIN</span>
-                    <div class="vp-status">
-                        <span class="status-stable">[stable]</span>
-                        <span class="status-dot">●</span>
-                        <span class="status-running"> running</span>
-                    </div>
-                    <video muted loop poster="Assets/Projects/Lebon/benchmark.png">
-                        <source src="Assets/Projects/Lebon/modes-compressed.mp4" type="video/mp4">
-                    </video>
-                </div>
-                <div class="project-desc">
-                    <h4>Lebon Interpreter</h4>
-                    <p>Un langage à mots-clés créoles avec interpréteur, VM à registres et compilateur JIT x86-64</p>
-                    <a class="project-link" href="Projects/lebon.html">Voir le projet >></a>
-                </div>
-            </article>
-
-            <article class="project-item reveal" data-category="cpp tool engine">
-                <div class="viewport">
-                    <span class="vp-label">// BABARCHIVE_MAIN</span>
-                    <div class="vp-status">
-                        <span class="status-stable">[stable]</span>
-                        <span class="status-dot">●</span>
-                        <span class="status-running"> running</span>
-                    </div>
-                    <video muted loop poster="Assets/Projects/Babarchive/demo.jpg">
-                        <source src="Assets/Projects/Babarchive/demo-compressed.mp4" type="video/mp4">
-                    </video>
-                </div>
-                <div class="project-desc">
-                    <h4>Babarchive</h4>
-                    <p>Un format d'archive binaire et un pipeline d'assets avec compression et outil en ligne de commande</p>
-                    <a class="project-link" href="Projects/babarchive.html">Voir le projet >></a>
-                </div>
-            </article>
-
-            <article class="project-item reveal" data-category="math tool cpp">
-                <div class="viewport">
-                    <span class="vp-label">// MATH_DRAWING</span>
-                    <div class="vp-status">
-                        <span class="status-stable">[stable]</span>
-                        <span class="status-dot">●</span>
-                        <span class="status-running"> running</span>
-                    </div>
-                    <video muted loop poster="Assets/Projects/Math-Drawing/yin-yang.png">
-                        <source src="Assets/Projects/Math-Drawing/teaser-compressed.mp4" type="video/mp4">
-                    </video>
-                </div>
-                <div class="project-desc">
-                    <h4>Math Drawing</h4>
-                    <p>Un outil de dessin de courbe fait avec SFML. Il contient certaines méthodes d'interpolation comme
-                        Lagrange, l'Hermite ou Bézier</p>
-                    <a class="project-link" href="Projects/math-drawing-project.html">Voir le projet >></a>
-                </div>
-            </article>
-
-            <article class="project-item reveal" data-category="game cpp engine">
-                <div class="viewport">
-                    <span class="vp-label">// LABY_BL_MAIN</span>
-                    <div class="vp-status">
-                        <span class="status-stable">[stable]</span>
-                        <span class="status-dot">●</span>
-                        <span class="status-running"> running</span>
-                    </div>
-                    <video muted loop poster="Assets/Projects/LabyBL/Splashscreen.png">
-                        <source src="Assets/Projects/LabyBL/demo-compressed.mp4" type="video/mp4">
-                    </video>
-                </div>
-                <div class="project-desc">
-                    <h4>LabyBL</h4>
-                    <p>Un prototype de jeu de survie collaboratif réalisé sur un moteur c++ custom</p>
-                    <a class="project-link" href="Projects/labybl.html">Voir le projet >></a>
-                </div>
-            </article>
-
-            <article class="project-item reveal" data-category="game cpp">
-                <div class="viewport">
-                    <span class="vp-label">// ION_MAIN</span>
-                    <div class="vp-status">
-                        <span class="status-stable">[stable]</span>
-                        <span class="status-dot">●</span>
-                        <span class="status-running"> running</span>
-                    </div>
-                    <video muted loop poster="Assets/Projects/ION/screenshot.png">
-                        <source src="Assets/Projects/ION/wave-compressed.mp4" type="video/mp4">
-                    </video>
-                </div>
-                <div class="project-desc">
-                    <h4>ION - Arena Shooter</h4>
-                    <p>Un arena shooter dévelopé en 3 semaines sur un moteur c++ custom dans une équipe de
-                        3 devs et 2 artistes</p>
-                    <a class="project-link" href="Projects/ion.html">Voir le projet >></a>
-                </div>
-            </article>
-
-            <article class="project-item reveal" data-category="cpp tool">
-                <div class="viewport">
-                    <span class="vp-label">// PATHFINDING_MAIN</span>
-                    <div class="vp-status">
-                        <span class="status-stable">[stable]</span>
-                        <span class="status-dot">●</span>
-                        <span class="status-running"> running</span>
-                    </div>
-                    <video muted loop poster="Assets/Projects/Pathfinding/screenshot.png">
-                        <source src="Assets/Projects/Pathfinding/2d-compressed.mp4" type="video/mp4">
-                    </video>
-                </div>
-                <div class="project-desc">
-                    <h4>Pathfinding Sandbox</h4>
-                    <p>Deux scènes d'expérimentation sur les algorithmes de recherches de chemin en 2D et 3D</p>
-                    <a class="project-link" href="Projects/pathfinding.html">Voir le projet >></a>
-                </div>
-            </article>
-
-            <article class="project-item reveal" data-category="cpp game">
-                <div class="viewport">
-                    <span class="vp-label">// POLY_RAIN_MAIN</span>
-                    <div class="vp-status">
-                        <span class="status-stable">[stable]</span>
-                        <span class="status-dot">●</span>
-                        <span class="status-running"> running</span>
-                    </div>
-                    <video muted loop poster="Assets/Projects/PolyRun/screenshot.png">
-                        <source src="Assets/Projects/PolyRun/demo-compressed.mp4" type="video/mp4">
-                    </video>
-                </div>
-                <div class="project-desc">
-                    <h4>Poly Run</h4>
-                    <p>Un prototype de jeu type Runner en 3D</p>
-                    <a class="project-link" href="Projects/poly-run.html">Voir le projet >></a>
-                </div>
-            </article>
-
-            <article class="project-item reveal" data-category="python game">
-                <div class="viewport">
-                    <span class="vp-label">// SPACE_INVADERZ_MAIN</span>
-                    <div class="vp-status">
-                        <span class="status-stable">[stable]</span>
-                        <span class="status-dot">●</span>
-                        <span class="status-running"> running</span>
-                    </div>
-                    <video muted loop poster="Assets/Projects/SpaceInvaderz/screenshot.png">
-                        <source src="Assets/Projects/SpaceInvaderz/demo-compressed.mp4" type="video/mp4">
-                    </video>
-                </div>
-                <div class="project-desc">
-                    <h4>Space Invaderz</h4>
-                    <p>Un jeu python type "space invaders" développé dans le cadre d'un projet de lycée</p>
-                    <a class="project-link" href="Projects/space-invaderz.html">Voir le projet >></a>
-                </div>
-            </article>
-
-            <article class="project-item reveal" data-category="python game">
-                <div class="viewport">
-                    <span class="vp-label">// WALL_BREAKER_MAIN</span>
-                    <div class="vp-status">
-                        <span class="status-stable">[stable]</span>
-                        <span class="status-dot">●</span>
-                        <span class="status-running"> running</span>
-                    </div>
-                    <video muted loop poster="Assets/Projects/WallBreaker/screenshot1.png">
-                        <source src="Assets/Projects/WallBreaker/demo-compressed.mp4" type="video/mp4">
-                    </video>
-                </div>
-                <div class="project-desc">
-                    <h4>Wall Breaker</h4>
-                    <p>Un jeu python type "casse-brique" développé dans le cadre d'un projet de lycée</p>
-                    <a class="project-link" href="Projects/wall-breaker.html">Voir le projet >></a>
-                </div>
-            </article>
-
-        </div>
+        <div class="keys">↑↓ SELECT · ←→ WORLD · ENTER GO</div>
     </div>
 </section>
 
 <section class="section" id="skills">
     <div class="container">
-        <div class="section-head reveal">
-            <h2>Mes Compétences</h2>
-        </div>
-        <div class="skills-list reveal">
-            <span class="tag">C++</span>
-            <span class="tag">DirectX 12</span>
-            <span class="tag">HLSL</span>
-            <span class="tag">Algèbre Linéaire</span>
-            <span class="tag">Quaternions</span>
-            <span class="tag">Mathématiques 3D</span>
-            <span class="tag">Python</span>
-            <span class="tag">Git</span>
+        <div class="section-head reveal"><span class="code">LEVEL <b>03</b> // POWER-UPS</span><h2>Compétences</h2><span class="line"><i class="trail"></i><i class="cycle"></i></span></div>
+        <div class="skills">
+            <div class="skill"><b>C++</b><span>CORE</span></div>
+            <div class="skill"><b>DirectX 12</b><span>GFX</span></div>
+            <div class="skill"><b>HLSL</b><span>GFX</span></div>
+            <div class="skill"><b>Algèbre Linéaire</b><span>MATH</span></div>
+            <div class="skill"><b>Quaternions</b><span>MATH</span></div>
+            <div class="skill"><b>Maths 3D</b><span>MATH</span></div>
+            <div class="skill"><b>Python</b><span>SCRIPT</span></div>
+            <div class="skill"><b>Git</b><span>TOOL</span></div>
         </div>
     </div>
 </section>
 
-<section class="section" id="contact" style="border-bottom: none;">
+<section class="section" id="contact" style="border-bottom:0">
     <div class="container">
-        <div class="section-head reveal">
-            <h2>Contactez-moi</h2>
-        </div>
-        <div class="contact-row reveal">
-            <button class="copy-email" id="copy-email" >vivien.singier@gmail.com
-                <span class="copy-tooltip" id="copy-tooltip">copier</span>
-            </button>
-            <a href="https://github.com/vivienSINGIER">github.com/vivienSINGIER</a>
-            <a href="https://linkedin.com/in/VivienSingier">linkedin.com/in/VivienSingier</a>
-            <a href="Assets/resume.pdf" download>télécharger mon CV</a>
+        <div class="section-head reveal"><span class="code">LEVEL <b>04</b> // UPLINK</span><h2>Contact</h2><span class="line"><i class="trail"></i><i class="cycle"></i></span></div>
+        <div class="contact">
+            <div>
+                <div class="continue"><span class="q">CONTINUE?</span><span class="cd" id="cd">9</span></div>
+                <div class="big"><a href="mailto:vivien.singier@gmail.com">vivien.singier@gmail.com</a></div>
+            </div>
+            <div class="links">
+                <a class="btn" href="https://github.com/vivienSINGIER">GITHUB / VIVIENSINGIER</a>
+                <a class="btn" href="https://linkedin.com/in/VivienSingier">LINKEDIN / VIVIENSINGIER</a>
+                <a class="btn solid" href="Assets/resume.pdf" download>TÉLÉCHARGER LE CV</a>
+            </div>
         </div>
     </div>
 </section>
 
-<footer class="page-footer reveal">
-    Construit pièce par pièce, comme tout le reste
-</footer>
+<footer class="container"><span>END OF LINE — <b>BUILT PIECE BY PIECE</b></span><span class="foot-btns">
+    <span>CREDIT 01</span>
+    <button type="button" class="foot-btn" id="levelup">LEVEL UP ▲</button>
+    <button type="button" class="foot-btn" id="reboot">REBOOT ↻</button>
+    <button type="button" class="foot-btn team" data-team-toggle>SWITCH TEAM ⇄</button>
+</span></footer>
+<div id="toast" aria-live="polite"></div>
 </body>
 </html>

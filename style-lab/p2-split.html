@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Rajdhani:wght@400;500;600&family=Press+Start+2P&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="g-project.css"/>
+<link rel="icon" href="../Assets/favicon.ico" sizes="any"/>
+<title>[P2] Split Screen - CPU Render</title>
+<style>
+/* ---- P2 · SPLIT SCREEN: player 1 screen (media, sticky) | player 2 screen (the write-up) ---- */
+.split { display: grid; grid-template-columns: 1.15fr 1fr; gap: 0; border-bottom: 1px solid var(--blue-dim); }
+.screen-l { position: relative; border-right: 1px solid var(--blue-dim); }
+.screen-l .stick { position: sticky; top: 64px; padding: 2rem var(--gutter) 2.5rem; }
+.screen-r { padding: 2rem var(--gutter) 3rem; }
+.split .section { border-bottom: 0; padding: 0; overflow: visible; }   /* visible: needed for the sticky column */
+.split .screen-r { padding: 2rem clamp(1.5rem, 4vw, 3.5rem) 3rem; }   /* breathing room from the middle bar */
+.screen-r > :not(.bg-cycles), .screen-l .stick { position: relative; z-index: 1; }
+.screen-l .stick { position: sticky; }
+.split-label { font-family: var(--pixel); font-size: .5rem; color: var(--text-dim); display: flex; justify-content: space-between; margin-bottom: 1rem; }
+.split-label b { color: var(--orange); font-weight: 400; }
+.screen-l .clips { grid-template-columns: repeat(7, 1fr); }
+.screen-l .clips span { font-size: .35rem; }
+.mini-head { font-family: var(--pixel); font-size: .55rem; color: var(--yellow); margin: 2.2rem 0 .8rem; }
+
+.screen-r h1 { font-family: var(--display); font-size: clamp(1.8rem, 4.2vw, 3.2rem); line-height: 1.05; letter-spacing: .06em; text-transform: uppercase; color: var(--white);
+    text-shadow: 0 0 2px #fff, 0 0 18px var(--blue-soft); margin: .8rem 0 1.2rem; }
+.screen-r .code { font-family: var(--pixel); font-size: .55rem; color: var(--text-dim); }
+.screen-r .code b { color: var(--orange); font-weight: 400; }
+.screen-r .lead { color: var(--text); font-size: 1.15rem; margin: 0 0 1.4rem; }
+.screen-r .tags { margin-bottom: 1.6rem; }
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--blue-dim); border: 1px solid var(--blue-dim); margin: 2rem 0; }
+.stats div { background: var(--bg); padding: .9rem .8rem; }
+.stats small { display: block; font-family: var(--pixel); font-size: .42rem; color: var(--text-dim); margin-bottom: .5rem; }
+.stats b { font-family: var(--display); font-weight: 400; font-size: .85rem; color: var(--white); }
+.stats b.ok { color: var(--blue); text-shadow: var(--glow); }
+.chapter { margin-top: 2.6rem; }
+.chapter h3 { font-family: var(--pixel); font-size: .55rem; color: var(--blue); margin-bottom: .9rem; line-height: 1.8; }
+.chapter h3 b { color: var(--orange); font-weight: 400; }
+.chapter p { margin: 0; color: var(--text-dim); }
+.screen-r .stage-nav { margin-top: 3rem; grid-template-columns: 1fr 1fr; }
+.screen-r .stage-nav .select { grid-column: 1 / -1; grid-row: 2; padding: .8rem; }
+
+@media (min-width: 861px) {
+    html[data-team="orange"] .split { grid-template-columns: 1fr 1.15fr; }
+    html[data-team="orange"] .screen-l { order: 2; border-right: 0; border-left: 1px solid var(--blue-dim); }
+}
+@media (max-width: 860px) {
+    .split { grid-template-columns: 1fr; }
+    .screen-l { border-right: 0; border-bottom: 1px solid var(--blue-dim); }
+    .screen-l .stick { position: static; }
+    .screen-l .clips { grid-template-columns: repeat(4, 1fr); }
+    .stats { grid-template-columns: 1fr 1fr; }
+}
+</style>
+<script>
+(function () {
+    var r = document.documentElement, show = !matchMedia("(prefers-reduced-motion: reduce)").matches;
+    try { if (localStorage.getItem("vs-team") === "orange") r.dataset.team = "orange"; } catch (e) {}
+    try { if (sessionStorage.getItem("vs-intro-" + location.pathname) && !/[?&]intro\b/.test(location.search)) show = false; } catch (e) {}
+    if (show) r.classList.add("intro-on");
+})();
+</script>
+</head>
+<body>
+
+<div id="stage-intro" aria-hidden="true"><span class="s">STAGE 1-1</span><span class="t">CPU Render</span><span class="r">READY?</span><div class="laser"></div></div>
+
+<nav class="nav">
+    <div class="container nav-inner">
+        <a class="logo" href="g-arcade-ares.html">V<span>/</span>SINGIER</a>
+        <ul>
+            <li><a class="back" href="g-arcade-ares.html#projects">◀ STAGES</a></li>
+            <li><a href="g-arcade-ares.html#engine">ENGINE</a></li>
+            <li><a href="g-arcade-ares.html#contact">CONTACT</a></li>
+        </ul>
+        <button type="button" class="team-nav" data-team-toggle aria-label="Changer d'équipe">⇄ TEAM</button>
+    </div>
+</nav>
+
+<main class="split">
+    <!-- left screen: media + players, stays in view while reading -->
+    <section class="screen-l section">
+        <div class="stick">
+            <div class="split-label"><span>SCREEN <b>1P</b> // REPLAY</span><span class="blink">● LIVE</span></div>
+            <div class="viewer" data-viewer tabindex="0" aria-label="Lecteur de démos, flèches gauche et droite pour changer">
+                <div class="viewer-screen hud">
+                    <span class="flash">READY?</span>
+                    <video autoplay muted loop playsinline></video>
+                    <button type="button" class="nav-arrow prev" aria-label="Clip précédent">◀</button>
+                    <button type="button" class="nav-arrow next" aria-label="Clip suivant">▶</button>
+                </div>
+                <div class="readout"><span data-viewer-label></span><span class="live">● NOW PLAYING</span></div>
+                <div class="clips">
+                    <button type="button" class="clip on" data-label="SNOWGLOBE" data-src="../Assets/Projects/CPU-Render/snowglobe-compressed.mp4" data-poster="../Assets/Projects/CPU-Render/snowglobe.jpg"><img src="../Assets/Projects/CPU-Render/snowglobe.jpg" alt="Snowglobe"><span>01</span></button>
+                    <button type="button" class="clip" data-label="TERRAIN" data-src="../Assets/Projects/CPU-Render/terrain-compressed.mp4" data-poster="../Assets/Projects/CPU-Render/terrain.jpg"><img src="../Assets/Projects/CPU-Render/terrain.jpg" alt="Terrain" loading="lazy"><span>02</span></button>
+                    <button type="button" class="clip" data-label="PBR" data-src="../Assets/Projects/CPU-Render/pbr-compressed.mp4" data-poster="../Assets/Projects/CPU-Render/pbr.jpg"><img src="../Assets/Projects/CPU-Render/pbr.jpg" alt="PBR" loading="lazy"><span>03</span></button>
+                    <button type="button" class="clip" data-label="BLINN-PHONG CUBE" data-src="../Assets/Projects/CPU-Render/BP-Cube-compressed.mp4" data-poster="../Assets/Projects/CPU-Render/BP-Cube.jpg"><img src="../Assets/Projects/CPU-Render/BP-Cube.jpg" alt="Blinn-Phong cube" loading="lazy"><span>04</span></button>
+                    <button type="button" class="clip" data-label="BLINN-PHONG" data-src="../Assets/Projects/CPU-Render/BP-compressed.mp4" data-poster="../Assets/Projects/CPU-Render/BP.jpg"><img src="../Assets/Projects/CPU-Render/BP.jpg" alt="Blinn-Phong" loading="lazy"><span>05</span></button>
+                    <button type="button" class="clip" data-label="TRANSPARENCE" data-src="../Assets/Projects/CPU-Render/transparency-compressed.mp4" data-poster="../Assets/Projects/CPU-Render/transparency.jpg"><img src="../Assets/Projects/CPU-Render/transparency.jpg" alt="Transparence" loading="lazy"><span>06</span></button>
+                    <button type="button" class="clip" data-label="ANIMATION" data-src="../Assets/Projects/CPU-Render/animation-compressed.mp4" data-poster="../Assets/Projects/CPU-Render/animation.jpg"><img src="../Assets/Projects/CPU-Render/animation.jpg" alt="Animation" loading="lazy"><span>07</span></button>
+                </div>
+            </div>
+
+            <div class="mini-head">▶ PLAYERS 3/3</div>
+            <div class="players">
+                <details class="player you"><summary><span class="slot">P1</span><span class="name">Vivien Singier</span><span class="role">DEV</span></summary>
+                    <ul><li><a href="https://github.com/vivienSINGIER">github.com/vivienSINGIER</a></li></ul></details>
+                <details class="player"><summary><span class="slot">P2</span><span class="name">ColynCO</span><span class="role">DEV</span></summary>
+                    <ul><li><a href="https://github.com/ColynCO">github.com/ColynCO</a></li></ul></details>
+                <details class="player"><summary><span class="slot">P3</span><span class="name">nf73-GC</span><span class="role">DEV</span></summary>
+                    <ul><li><a href="https://github.com/nf73-GC">github.com/nf73-GC</a></li></ul></details>
+            </div>
+        </div>
+    </section>
+
+    <!-- right screen: the write-up -->
+    <section class="screen-r section">
+        <div class="split-label"><span>SCREEN <b>2P</b> // BRIEFING</span><span>STAGE 1-1</span></div>
+        <div class="code"><b>C++</b> · RENDU LOGICIEL</div>
+        <h1>CPU Render</h1>
+        <p class="lead">Un moteur de rendu 3D temps réel entièrement logiciel en C++ : tout le pipeline graphique tourne sur le processeur, sans aucune API GPU.</p>
+        <div class="tags">
+            <span class="tag">C++</span><span class="tag">RENDU LOGICIEL</span><span class="tag">PBR</span>
+            <span class="tag">SHADOW MAPPING</span><span class="tag">OPENMP</span><span class="tag">PROCÉDURAL</span>
+        </div>
+        <div class="actions">
+            <a class="btn solid" href="https://github.com/vivienSINGIER/cpu-render">REPO ▶</a>
+            <a class="btn" href="https://github.com/vivienSINGIER/cpu-render/tree/dev/Demos">ESSAYER LES DÉMOS</a>
+        </div>
+
+        <div class="stats">
+            <div><small>ÉQUIPE</small><b>3 devs</b></div>
+            <div><small>LANGAGE</small><b>C++</b></div>
+            <div><small>PARALLÉLISME</small><b>OpenMP</b></div>
+            <div><small>AFFICHAGE</small><b>SDL3</b></div>
+            <div><small>DÉMOS</small><b>8</b></div>
+            <div><small>STATUT</small><b class="ok">Stable</b></div>
+        </div>
+
+        <div class="chapter">
+            <h3><b>01</b> // L'OBJECTIF</h3>
+            <p>Reconstruire un pipeline graphique complet sans carte graphique, en équipe de 3 développeurs : vertex et pixel shaders logiciels,
+                clipping, rastérisation, compute shaders et affichage de l'image finale via SDL3.</p>
+        </div>
+        <div class="chapter">
+            <h3><b>02</b> // L'ARCHITECTURE</h3>
+            <p>Pour tenir le temps réel, l'écran est découpé en tuiles de 32 pixels et les triangles sont répartis par tuile, puis traités en parallèle
+                avec OpenMP. Sur cette base, le moteur gère le Blinn-Phong, le PBR (GGX, IBL), les cubemaps, les ombres multi-lumières, la transparence
+                et la réfraction, les particules et l'animation squelettale.</p>
+        </div>
+        <div class="chapter">
+            <h3><b>03</b> // MA CONTRIBUTION</h3>
+            <p>J'ai principalement travaillé sur les compute shaders, le shadow mapping, le PBR, les mipmaps de cubemaps, l'eau réfléchissante et
+                l'érosion hydraulique du terrain, simulée goutte par goutte sur un bruit de Perlin. Le projet est livré avec 8 démos exécutables,
+                chacune centrée sur une partie du moteur.</p>
+        </div>
+        <div class="chapter"><a class="btn solid" href="../Engine/engine.html">VOIR MON MOTEUR ▶</a></div>
+
+        <nav class="stage-nav" aria-label="Autres projets">
+            <a class="prev" href="../Projects/wall-breaker.html"><small>◀ PREV STAGE</small><b>Wall Breaker</b></a>
+            <a class="next" href="../Projects/lebon.html"><small>NEXT STAGE ▶</small><b>Lebon Interpreter</b></a>
+            <a class="select" href="g-arcade-ares.html#projects">STAGE SELECT</a>
+        </nav>
+    </section>
+</main>
+
+<footer class="container"><span>END OF LINE — <b>BUILT PIECE BY PIECE</b></span><span class="foot-btns">
+    <button type="button" class="foot-btn" id="levelup">LEVEL UP ▲</button>
+    <button type="button" class="foot-btn" id="reboot">REBOOT ↻</button>
+    <button type="button" class="foot-btn team" data-team-toggle>SWITCH TEAM ⇄</button>
+</span></footer>
+<div id="toast" aria-live="polite"></div>
+
+<script src="g-project.js"></script>
+<script src="lab.js"></script>
+</body>
+</html>

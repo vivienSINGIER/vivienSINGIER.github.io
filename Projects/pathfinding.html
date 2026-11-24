@@ -1,148 +1,139 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../Core/style.css"/>
-    <link rel="stylesheet" href="Style-Script/log-style.css"/>
-    <link rel="icon" href="../Assets/favicon.ico" sizes="any"/>
-    <link rel="apple-touch-icon" href="../Assets/apple-touch-icon.png"/>
-    <script type="text/javascript" src="../Core/script.js" defer></script>
-    <script type="text/javascript" src="Style-Script/log-script.js" defer></script>
-    <title>Pathfinding Sandbox</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Rajdhani:wght@400;500;600&family=Press+Start+2P&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../Core/style.css"/>
+<link rel="stylesheet" href="Style-Script/briefing-style.css"/>
+<link rel="icon" href="../Assets/favicon.ico" sizes="any"/>
+<link rel="apple-touch-icon" href="../Assets/apple-touch-icon.png"/>
+<script>
+// before first paint: stage intro once per session (?intro forces it), restore the saved team
+(function () {
+    var r = document.documentElement, show = !matchMedia("(prefers-reduced-motion: reduce)").matches;
+    try { if (localStorage.getItem("vs-team") === "orange") r.dataset.team = "orange"; } catch (e) {}
+    try { if (sessionStorage.getItem("vs-intro-" + location.pathname) && !/[?&]intro\b/.test(location.search)) show = false; } catch (e) {}
+    if (show) r.classList.add("intro-on");
+})();
+</script>
+<script src="../Core/script.js" defer></script>
+<title>Pathfinding Sandbox - Vivien Singier</title>
 </head>
-
 <body>
 
+<div id="stage-intro" aria-hidden="true"><span class="s">STAGE 07</span><span class="t">Pathfinding Sandbox</span><span class="r">READY?</span><div class="laser"></div></div>
+
 <nav class="nav">
-    <div class="nav-inner">
-        <div class="nav-logo"> vivien_singier<span>.dev</span></div>
-
-        <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
-            <span class="nav-menu">// menu</span>
-            <span class="nav-close">// close</span>
-        </button>
-
-        <ul class="nav-links">
-            <li><a href="../index.html#hero">Home</a></li>
-            <li><a href="../index.html#engine">Engine</a></li>
-            <li><a href="../index.html#projects">Projects</a></li>
-            <li><a href="../index.html#skills">Skills</a></li>
-            <li><a href="../index.html#contact">Contact</a></li>
+    <div class="container nav-inner">
+        <a class="logo" href="../index.html">V<span>/</span>SINGIER</a>
+        <ul>
+            <li><a class="back" href="../index.html#projects">◀ STAGES</a></li>
+            <li><a href="../Engine/engine.html">ENGINE</a></li>
+            <li><a href="../index.html#contact">CONTACT</a></li>
         </ul>
+        <button type="button" class="team-nav" data-team-toggle aria-label="Changer d'équipe">⇄ TEAM</button>
     </div>
 </nav>
 
-<section class="section override" id="intro">
-    <div class="container">
-        <a href="../index.html#projects" class="section-link reveal">Retour aux projets</a>
-
-        <div class="dossier-head reveal">
-            <div class="section-tag">log_entry: pathfinding</div>
-            <h1 class="project-name">Pathfinding Sandbox</h1>
-            
-            <div class="project-info">
-                <p class="project-intro">2 scènes d'expérimentation sur les algorithmes de recherche de chemin en 2D et 3D</p>
-
-                <div class="project-tags">
-                    <span class="skill-tag">Pathfinding</span>
-                    <span class="skill-tag">IA</span>
-                    <span class="skill-tag">Algorithmie</span>
-                    <span class="skill-tag">C++</span>
-                </div>
+<section class="section brief">
+    <div class="container brief-grid">
+        <div>
+            <div class="code"><b>STAGE 07</b> // C++ · IA · OUTILS</div>
+            <h1>Pathfinding Sandbox</h1>
+            <p class="lead">2 scènes d'expérimentation sur les algorithmes de recherche de chemin en 2D et 3D</p>
+            <div class="tags"><span class="tag">Pathfinding</span><span class="tag">IA</span><span class="tag">Algorithmie</span><span class="tag">C++</span></div>
+            <div class="actions">
+                <a class="btn solid" href="https://github.com/vivienSINGIER/PathFinding">REPO ▶</a>
+                <a class="btn" href="https://github.com/vivienSINGIER/PathFinding/releases">ESSAYER LA DÉMO</a>
             </div>
+        </div>
+        <aside class="stage-data hud">
+            <h3>▶ STAGE DATA</h3>
+            <dl>
+                <div><dt>ÉQUIPE</dt><dd>2 DEVS</dd></div>
+                <div><dt>LANGAGE</dt><dd>C++</dd></div>
+                <div><dt>ALGORITHME</dt><dd>A*</dd></div>
+                <div><dt>SCÈNES</dt><dd>2D + 3D</dd></div>
+                <div><dt>STATUT</dt><dd class="ok">● STABLE</dd></div>
+            </dl>
+        </aside>
+    </div>
+</section>
 
-            <div class="project-links">
-                <a class="btn primary" href="https://github.com/vivienSINGIER/PathFinding">ProjectRepo →</a>
-                <a class="btn" href="https://github.com/vivienSINGIER/PathFinding/releases">Essayer la démo →</a>
+<section class="section">
+    <div class="container">
+        <div class="section-head reveal"><span class="code">REPLAY // <b>2</b> MÉDIAS</span><h2>Démos</h2><span class="line"><i class="trail"></i><i class="cycle"></i></span></div>
+        <div class="viewer" data-viewer tabindex="0" aria-label="Lecteur de médias, flèches gauche et droite pour changer">
+            <div class="viewer-screen hud">
+                <span class="flash">READY?</span>
+                <video autoplay muted loop playsinline></video>
+                <img class="still" alt="" hidden>
+                <button type="button" class="nav-arrow prev" aria-label="Média précédent">◀</button>
+                <button type="button" class="nav-arrow next" aria-label="Média suivant">▶</button>
+            </div>
+            <div class="readout"><span data-viewer-label></span><span class="live">● NOW PLAYING</span></div>
+            <div class="clips">
+                <button type="button" class="clip on" data-label="SCÈNE 2D" data-src="../Assets/Projects/Pathfinding/2d-compressed.mp4" data-poster="../Assets/Projects/Pathfinding/screenshot.png"><img src="../Assets/Projects/Pathfinding/screenshot.png" alt=""><span>01</span></button>
+                <button type="button" class="clip" data-label="SCÈNE 3D" data-src="../Assets/Projects/Pathfinding/3d-compressed.mp4"><video muted preload="metadata" src="../Assets/Projects/Pathfinding/3d-compressed.mp4#t=0.5"></video><span>02</span></button>
             </div>
         </div>
     </div>
 </section>
 
-<section class="section" id="demo">
+<section class="section">
     <div class="container">
-        <div class="viewport carousel reveal">
-            <span class="vp-label">// PATH_FINDING_MAIN</span>
-            <span class="vp-status">[stable]</span>
-
-            <div class="carousel-track">
-                <div class="carousel-slide active">
-                    <video muted loop playsinline>
-                        <source src="../Assets/Projects/Pathfinding/2d-compressed.mp4" type="video/mp4">
-                    </video>
-                </div>
-                <div class="carousel-slide">
-                    <video muted loop playsinline>
-                        <source src="../Assets/Projects/Pathfinding/3d-compressed.mp4" type="video/mp4">
-                    </video>
-                </div>
-                <!-- add more .carousel-slide blocks as needed -->
-            </div>
-
-            <button class="carousel-btn prev"><</button>
-            <button class="carousel-btn next">></button>
-            <div class="carousel-dots">
-                <span class="carousel-dot active"></span>
-                <span class="carousel-dot"></span>
-            </div>
-            <span class="carousel-counter">1 / 2</span>
-        </div>
-    </div>
-</section>
-
-<section class="section" id="about">
-    <div class="container">
-        <div class="section-head reveal">
-            <h2>A propos</h2>
-        </div>
-        
-        <div class="dossier-desc reveal">
-                
-            <p class="project-desc">Le projet contient deux scènes permettant d'expérimenter avec la recherche de chemin en utilisant
+        <div class="section-head reveal"><span class="code">MISSION // <b>3</b> OBJECTIFS</span><h2>À propos</h2><span class="line"><i class="trail"></i><i class="cycle"></i></span></div>
+        <div class="objectives">
+            <div class="objective">
+                <small>OBJ. 01</small><h3>Les scènes</h3>
+                <p>Le projet contient deux scènes permettant d'expérimenter avec la recherche de chemin en utilisant
                 l'algorithme A* (A-Star).</p>
-            <p class="project-desc">L'ajout de la 3D m'a permis d'expérimenter un peu plus avec un moteur custom et
-                d'approfondir l'algorithme de recherche en y ajoutant de la hauteur.</p>
-            <p class="project-desc">Les compétences acquises lors du développement servent de complément à ma maitrîse des machines
-                à états (où State Machines), ce qui m'a aidé lors du development des IA du projet ION.</p>
-
-            <a class="btn primary" href="ion.html">Voir le projet lié →</a>
-        </div>
-    </div>
-</section>
-
-<section class="section" id="collaborators" style="border-bottom: none;">
-    <div class="container">
-        <div class="section-head reveal">
-            <h2>Collaborateurs</h2>
-            <span class="eyebrow">clicker une ligne</span>
-        </div>
-            
-        <div class="collaborator-list">
-            <div class="collaborator" tabindex="0">
-                <div class="collab-row">
-                    <span class="collab-name">Baptiste COMBEAU</span>
-                    <span class="collab-role">Développeur</span>
-                </div>
-
-                <ul class="collab-contacts" inert>
-                    <li><button class="copy-email">
-                        bcombeau974@gmail.com
-                        <span class="copy-tooltip">copier</span>
-                    </button></li>
-                    <li><a href="https://github.com/Ic3Scout">github.com/Ic3Scout</a></li>
-                </ul>
             </div>
+            <div class="objective">
+                <small>OBJ. 02</small><h3>La 3D</h3>
+                <p>L'ajout de la 3D m'a permis d'expérimenter un peu plus avec un moteur custom et
+                d'approfondir l'algorithme de recherche en y ajoutant de la hauteur.</p>
+            </div>
+            <div class="objective">
+                <small>OBJ. 03</small><h3>Les acquis</h3>
+                <p>Les compétences acquises lors du développement servent de complément à ma maitrîse des machines
+                à états (où State Machines), ce qui m'a aidé lors du development des IA du projet ION.</p>
+            </div>
+        </div>
+        <div class="after"><a class="btn solid" href="ion.html">VOIR LE PROJET LIÉ ▶</a></div>
+    </div>
+</section>
 
+<section class="section">
+    <div class="container">
+        <div class="section-head reveal"><span class="code">CO-OP // <b>2</b> PLAYERS</span><h2>Équipe</h2><span class="line"><i class="trail"></i><i class="cycle"></i></span></div>
+        <div class="players">
+            <details class="player you"><summary><span class="slot">P1</span><span class="name">Vivien Singier</span><span class="role">DEV</span></summary>
+                <ul><li><a href="https://github.com/vivienSINGIER">github.com/vivienSINGIER</a></li></ul></details>
+            <details class="player"><summary><span class="slot">P2</span><span class="name">Baptiste COMBEAU</span><span class="role">DEV</span></summary>
+                <ul><li><button type="button" data-copy="bcombeau974@gmail.com" title="Copier">bcombeau974@gmail.com</button></li><li><a href="https://github.com/Ic3Scout">github.com/Ic3Scout</a></li></ul></details>
         </div>
     </div>
 </section>
 
-<footer class="page-footer reveal">
-    Construit pièce par pièce, comme tout le reste
-</footer>
+<section class="section last">
+    <div class="container">
+        <nav class="stage-nav" aria-label="Autres projets">
+            <a class="prev" href="ion.html"><small>◀ PREV STAGE</small><b>ION</b></a>
+            <a class="select" href="../index.html#projects">STAGE<br>SELECT</a>
+            <a class="next" href="poly-run.html"><small>NEXT STAGE ▶</small><b>Poly Run</b></a>
+        </nav>
+    </div>
+</section>
+
+<footer class="container"><span>END OF LINE — <b>BUILT PIECE BY PIECE</b></span><span class="foot-btns">
+    <button type="button" class="foot-btn" id="levelup">LEVEL UP ▲</button>
+    <button type="button" class="foot-btn" id="reboot">REBOOT ↻</button>
+    <button type="button" class="foot-btn team" data-team-toggle>SWITCH TEAM ⇄</button>
+</span></footer>
+<div id="toast" aria-live="polite"></div>
 
 </body>
 </html>

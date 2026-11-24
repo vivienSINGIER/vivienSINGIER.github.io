@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Michroma&family=Press+Start+2P&family=Chakra+Petch:wght@700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+<link rel="icon" href="../Assets/favicon.ico" sizes="any"/>
+<title>Style Lab</title>
+<style>
+:root { --bg: #050507; --line: #23232b; --text: #eaeaf0; --dim: #8a8a96; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text); font-family: "JetBrains Mono", monospace; font-size: 15px; line-height: 1.6; }
+.wrap { max-width: 1180px; margin: 0 auto; padding: 3rem clamp(1rem, 4vw, 2.5rem) 6rem; }
+header h1 { font-size: 1.1rem; letter-spacing: .3em; font-weight: 500; margin: 0; }
+header p { color: var(--dim); max-width: 70ch; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.2rem; margin-top: 2.5rem; }
+.opt { display: flex; flex-direction: column; text-decoration: none; color: inherit; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; transition: transform .2s, border-color .2s; }
+.opt:hover { transform: translateY(-4px); border-color: var(--accent); }
+.swatch { height: 180px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+.swatch span { position: relative; text-align: center; }
+.info { padding: 1.1rem 1.2rem 1.4rem; }
+.info .k { font-size: .7rem; color: var(--accent); letter-spacing: .2em; }
+.info h2 { margin: .3rem 0 .6rem; font-size: 1rem; }
+.info p { margin: 0 0 .8rem; color: var(--dim); font-size: .85rem; }
+.info ul { margin: 0; padding-left: 1rem; color: var(--dim); font-size: .8rem; }
+.pal { display: flex; gap: 4px; margin-top: .9rem; }
+.pal i { width: 22px; height: 22px; border-radius: 3px; border: 1px solid #ffffff22; }
+
+.a { --accent: #18e6ff; }
+.a .swatch { background: #02040a; }
+.a .swatch::before { content: ""; position: absolute; left: -50%; right: -50%; bottom: -20%; height: 75%; background-image: linear-gradient(90deg, #18e6ff 1.5px, transparent 1.5px), linear-gradient(#18e6ff 1.5px, transparent 1.5px); background-size: 34px 34px; transform: perspective(200px) rotateX(60deg); opacity: .6; }
+.a .swatch span { font-family: Orbitron; font-weight: 700; color: #18e6ff; letter-spacing: .15em; text-shadow: 0 0 10px #18e6ff; }
+
+.b { --accent: #c9f6ff; }
+.b .swatch { background: radial-gradient(circle at 50% 50%, #0b1418, #000 70%); }
+.b .swatch::before { content: ""; position: absolute; width: 120px; height: 120px; border-radius: 50%; border: 2px solid #c9f6ff; box-shadow: 0 0 14px #c9f6ff, inset 0 0 20px #c9f6ff55; }
+.b .swatch span { font-family: Michroma; font-size: .75rem; letter-spacing: .4em; color: #fff; }
+
+.c { --accent: #ffe14d; }
+.c .swatch { background: #04030c; }
+.c .swatch::after { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(#0006 0 2px, transparent 2px 4px); }
+.c .swatch span { font-family: "Press Start 2P"; font-size: .7rem; color: #3cf4ff; line-height: 2.2; text-shadow: 3px 3px 0 #1736ff; }
+.c .swatch span b { color: #ffe14d; font-weight: 400; text-shadow: none; }
+
+.d { --accent: #ff2626; }
+.d .swatch { background: #070505; }
+.d .swatch::before { content: ""; position: absolute; left: 18%; top: 0; bottom: 0; width: 2px; background: #ff2626; box-shadow: 0 0 12px #ff2626; }
+.d .swatch span { font-family: "Chakra Petch"; font-weight: 700; font-size: 1.7rem; color: #fff; text-transform: uppercase; }
+.d .swatch span em { font-style: normal; color: #ff2626; text-shadow: 0 0 12px #ff2626; }
+
+.e { --accent: #ff8a1c; }
+.e:hover { border-color: #2ad4ff; box-shadow: 4px 0 0 #ff8a1c; }
+.e .swatch { background: linear-gradient(90deg, rgba(42,212,255,.12), #010204 40%, #010204 60%, rgba(255,138,28,.12)); }
+.e .swatch::after { content: ""; position: absolute; left: 0; right: 0; bottom: 34%; height: 2px; background: linear-gradient(90deg, #2ad4ff, #fff, #ff8a1c); box-shadow: 0 0 10px #fff4; }
+.e .swatch span { display: flex; align-items: center; gap: .8rem; font-family: Michroma; font-size: .55rem; letter-spacing: .25em; }
+.e .eb { color: #2ad4ff; text-shadow: 0 0 8px #2ad4ff; font-weight: 400; }
+.e .eo { color: #ff8a1c; text-shadow: 0 0 8px #ff8a1c; font-weight: 400; }
+.e .ed { width: 54px; height: 54px; border-radius: 50%; border: 2px solid; border-color: #2ad4ff #ff8a1c #ff8a1c #2ad4ff; transform: rotate(-45deg); box-shadow: -4px 0 14px #2ad4ff66, 4px 0 14px #ff8a1c66; }
+
+.f { --accent: #2ad4ff; }
+.f .swatch { background: #010205; }
+.f .swatch::before { content: ""; position: absolute; left: -50%; right: -50%; bottom: -20%; height: 60%; background-image: linear-gradient(90deg, #2ad4ff 2px, transparent 2px), linear-gradient(#2ad4ff 2px, transparent 2px); background-size: 34px 34px; transform: perspective(200px) rotateX(60deg); opacity: .45; }
+.f .swatch::after { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(#0005 0 1px, transparent 1px 3px); }
+.f .swatch span { font-family: "Press Start 2P"; font-size: .62rem; line-height: 2.4; color: #2ad4ff; text-shadow: 0 0 8px #2ad4ff; }
+.f .swatch span b { color: #ffe14d; font-weight: 400; text-shadow: 0 0 8px #ffe14d88; }
+
+.g { --accent: #2ad4ff; }
+.g .swatch { background: #010205; justify-content: flex-start; padding-left: 22%; }
+.g .swatch::before { content: ""; position: absolute; left: 14%; top: 0; bottom: 0; width: 2px; background: #2ad4ff; box-shadow: 0 0 12px #2ad4ff; }
+.g .swatch::after { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(#0005 0 1px, transparent 1px 3px); }
+.g .swatch span { text-align: left; font-family: Michroma; font-size: 1.1rem; letter-spacing: .2em; color: #fff; line-height: 2.2; }
+.g .swatch span i { font-style: normal; color: #2ad4ff; text-shadow: 0 0 10px #2ad4ff; }
+.g .swatch span b { font-family: "Press Start 2P"; font-size: .55rem; font-weight: 400; letter-spacing: 0; color: #ffe14d; }
+
+.notes { margin-top: 3rem; border-top: 1px solid var(--line); padding-top: 1.5rem; color: var(--dim); font-size: .85rem; }
+.notes b { color: var(--text); font-weight: 500; }
+</style>
+</head>
+<body>
+<div class="wrap">
+    <header>
+        <h1>STYLE LAB — DIRECTIONS TRON / ARCADE</h1>
+        <p>Pages de test temporaires. Chaque option reprend le même contenu (hero, moteur, 4 projets, compétences, contact) avec
+            les vrais assets, pour comparer à contenu égal. Barre en bas de page pour passer d'une option à l'autre.</p>
+    </header>
+
+    <div class="grid">
+        <a class="opt a" href="a-grid-1982.html">
+            <div class="swatch"><span>THE GRID</span></div>
+            <div class="info">
+                <div class="k">OPTION A · FILM 1982</div>
+                <h2>Grid 1982</h2>
+                <p>Vecteurs cyan purs, sol en perspective animé, traînées de light cycles, panneaux à coins coupés.</p>
+                <ul><li>Bouton « switch faction » : cyan ↔ orange</li><li>Orbitron + Share Tech Mono</li></ul>
+                <div class="pal"><i style="background:#02040a"></i><i style="background:#18e6ff"></i><i style="background:#ff8a1c"></i><i style="background:#d8f8ff"></i></div>
+            </div>
+        </a>
+        <a class="opt b" href="b-legacy.html">
+            <div class="swatch"><span>LEGACY</span></div>
+            <div class="info">
+                <div class="k">OPTION B · FILM 2010</div>
+                <h2>Legacy</h2>
+                <p>Noir brillant, bandes de lumière blanc-glacier, disque d'identité, beaucoup d'espace. Le plus « premium » et sobre.</p>
+                <ul><li>Les bandes s'allument au scroll</li><li>Michroma + Rajdhani</li></ul>
+                <div class="pal"><i style="background:#000"></i><i style="background:#c9f6ff"></i><i style="background:#ff9b3d"></i><i style="background:#e9f3f5"></i></div>
+            </div>
+        </a>
+        <a class="opt c" href="c-arcade.html">
+            <div class="swatch"><span>INSERT COIN<br><b>PLAYER 1</b></span></div>
+            <div class="info">
+                <div class="k">OPTION C · BORNE D'ARCADE</div>
+                <h2>Arcade Cabinet</h2>
+                <p>Scanlines CRT, police pixel, barre de score, « Select Stage » pour les projets, tableau hi-score pour les skills.</p>
+                <ul><li>Score qui monte au scroll, « Continue? » en compte à rebours</li><li>Press Start 2P + VT323</li></ul>
+                <div class="pal"><i style="background:#04030c"></i><i style="background:#1736ff"></i><i style="background:#3cf4ff"></i><i style="background:#ffe14d"></i><i style="background:#ff2e63"></i></div>
+            </div>
+        </a>
+        <a class="opt d" href="d-ares.html">
+            <div class="swatch"><span>Ares <em>//</em></span></div>
+            <div class="info">
+                <div class="k">OPTION D · FILM 2025</div>
+                <h2>Ares</h2>
+                <p>Lasers rouges, crochets HUD, glitch, minuteur de persistance 29:00. Liste de projets qui pilote un seul écran de preview.</p>
+                <ul><li>Le plus agressif / moderne</li><li>Chakra Petch + JetBrains Mono</li></ul>
+                <div class="pal"><i style="background:#070505"></i><i style="background:#ff2626"></i><i style="background:#fff3f0"></i><i style="background:#8c7a77"></i></div>
+            </div>
+        </a>
+        <a class="opt e" href="e-duality.html">
+            <div class="swatch"><span><b class="eb">COMPRENDRE</b> <i class="ed"></i> <b class="eo">CONSTRUIRE</b></span></div>
+            <div class="info">
+                <div class="k">OPTION E · MIX A + B</div>
+                <h2>Duality</h2>
+                <p>La sobriété et le disque de Legacy, la grille et les coins coupés de 1982. Bleu = Comprendre, orange = Construire.</p>
+                <ul><li>Hero coupé en deux, disque bicolore, light cycles qui se rejoignent</li><li>Filtre projets par « faction », skills face à face</li></ul>
+                <div class="pal"><i style="background:#010204"></i><i style="background:#2ad4ff"></i><i style="background:#f2fbff"></i><i style="background:#ff8a1c"></i></div>
+            </div>
+        </a>
+        <a class="opt f" href="f-arcade-grid.html">
+            <div class="swatch"><span>PLAYER 1<br><b>INSERT COIN</b></span></div>
+            <div class="info">
+                <div class="k">OPTION F · E + ARCADE</div>
+                <h2>Arcade Grid</h2>
+                <p>La base A+B, avec moins de dualité (orange en simple accent) et plus d'arcade : score bar, Select Stage, hi-score, Continue?</p>
+                <ul><li>Scanlines légères, labels pixel, titres Michroma</li><li>Grille + light cycles conservés</li></ul>
+                <div class="pal"><i style="background:#010205"></i><i style="background:#2ad4ff"></i><i style="background:#ffe14d"></i><i style="background:#ff8a1c"></i></div>
+            </div>
+        </a>
+        <a class="opt g" href="g-arcade-ares.html">
+            <div class="swatch"><span>V<i>/</i>SINGIER<br><b>▶ STAGE 1-1</b></span></div>
+            <div class="info">
+                <div class="k">OPTION G · STYLE F + FORMAT D</div>
+                <h2>Arcade Ares</h2>
+                <p>La mise en page d'Ares (hero aligné à gauche, liste de projets + écran de preview, tuiles de skills) habillée en F.</p>
+                <ul><li>Score dans la nav, glitch bleu/orange</li><li>Curseur ▶ et « READY? » sur la preview</li></ul>
+                <div class="pal"><i style="background:#010205"></i><i style="background:#2ad4ff"></i><i style="background:#ffe14d"></i><i style="background:#ff8a1c"></i></div>
+            </div>
+        </a>
+    </div>
+
+    <header style="margin-top:4rem">
+        <h1>PAGES PROJET — TEMPLATES STYLE G</h1>
+        <p>Trois mises en page pour les pages projet, toutes remplies avec le vrai contenu de CPU Render. Elles partagent
+            <code>g-project.css</code> / <code>g-project.js</code> (palette, nav, lignes light cycle, arènes en fond, lecteur de clips, équipe).</p>
+    </header>
+    <div class="grid">
+        <a class="opt g" href="p1-briefing.html">
+            <div class="swatch"><span>BRIEFING<br><b>▶ STAGE DATA</b></span></div>
+            <div class="info"><div class="k">P1 · CLASSIQUE</div><h2>Briefing</h2>
+                <p>Titre + carte « stage data », grand lecteur de clips pleine largeur, 3 objectifs en colonnes, équipe, stage précédent/suivant.</p></div>
+        </a>
+        <a class="opt g" href="p2-split.html">
+            <div class="swatch"><span>1P | 2P<br><b>▶ SPLIT SCREEN</b></span></div>
+            <div class="info"><div class="k">P2 · DOSSIER</div><h2>Split Screen</h2>
+                <p>Écran gauche fixe (lecteur + équipe) pendant que l'écran droit défile (texte, stats, chapitres). La version arcade du template dossier.</p></div>
+        </a>
+        <a class="opt g" href="p3-level-map.html">
+            <div class="swatch"><span>◆──◆──◆<br><b>▶ LEVEL MAP</b></span></div>
+            <div class="info"><div class="k">P3 · RÉCIT</div><h2>Level Map</h2>
+                <p>Hero vidéo plein écran, puis un tracé lumineux dessiné au scroll qui allume des checkpoints (texte + clip), galerie bonus, équipe.</p></div>
+        </a>
+    </div>
+
+    <div class="notes">
+        <b>Mix possible :</b> les éléments sont indépendants — ex. la palette/typo de B avec le sol de grille de A,
+        ou la structure « Select Stage / Hi-score » de C dans le style visuel de A ou D.
+    </div>
+</div>
+<script src="lab.js"></script>
+</body>
+</html>

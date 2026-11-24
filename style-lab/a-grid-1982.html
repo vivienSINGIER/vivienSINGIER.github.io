@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link rel="icon" href="../Assets/favicon.ico" sizes="any"/>
+<title>[A] Grid 1982 - Vivien Singier</title>
+<style>
+:root {
+    --bg: #02040a;
+    --panel: rgba(0, 20, 30, 0.6);
+    --c: #18e6ff;          /* program cyan */
+    --c-dim: rgba(24, 230, 255, 0.18);
+    --c-faint: rgba(24, 230, 255, 0.07);
+    --alt: #ff8a1c;        /* rival orange */
+    --text: #d8f8ff;
+    --text-dim: #6fa3b0;
+    --display: "Orbitron", sans-serif;
+    --mono: "Share Tech Mono", monospace;
+    --glow: 0 0 2px var(--c), 0 0 8px var(--c), 0 0 22px var(--c-dim);
+}
+body[data-faction="rival"] {
+    --c: #ff8a1c;
+    --c-dim: rgba(255, 138, 28, 0.2);
+    --c-faint: rgba(255, 138, 28, 0.07);
+    --alt: #18e6ff;
+    --text: #ffeedd;
+    --text-dim: #b08a6a;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: var(--mono); font-size: 16px; line-height: 1.6;
+    transition: color .4s;
+}
+a { color: inherit; }
+::selection { background: var(--c); color: var(--bg); }
+:focus-visible { outline: 2px solid var(--c); outline-offset: 3px; }
+h1, h2, h3, h4 { font-family: var(--display); margin: 0; letter-spacing: .06em; text-transform: uppercase; }
+.container { max-width: 1100px; margin: 0 auto; padding: 0 clamp(1rem, 4vw, 2.5rem); }
+
+/* ---------- NAV ---------- */
+.nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(2, 4, 10, .85); backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--c);
+    box-shadow: 0 0 18px var(--c-dim);
+}
+.nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .9rem 0; flex-wrap: wrap; }
+.logo { font-family: var(--display); font-weight: 900; letter-spacing: .2em; color: var(--c); text-shadow: var(--glow); }
+.nav ul { display: flex; gap: 1.6rem; list-style: none; margin: 0; padding: 0; font-size: .85rem; }
+.nav ul a { text-decoration: none; color: var(--text-dim); letter-spacing: .15em; text-transform: uppercase; }
+.nav ul a:hover { color: var(--c); text-shadow: var(--glow); }
+.faction {
+    font-family: var(--mono); font-size: .75rem; letter-spacing: .15em; cursor: pointer;
+    background: transparent; color: var(--alt); border: 1px solid var(--alt); padding: .35rem .7rem;
+}
+.faction:hover { background: var(--alt); color: var(--bg); }
+
+/* ---------- HERO ---------- */
+.hero { position: relative; min-height: 88vh; display: flex; align-items: center; overflow: hidden; border-bottom: 1px solid var(--c-dim); }
+.floor {
+    position: absolute; left: -50%; right: -50%; bottom: -10%; height: 70%;
+    background-image:
+        linear-gradient(to right, var(--c) 1.5px, transparent 1.5px),
+        linear-gradient(to bottom, var(--c) 1.5px, transparent 1.5px);
+    background-size: 70px 70px;
+    transform: perspective(380px) rotateX(62deg);
+    transform-origin: center top;
+    animation: drive 2.4s linear infinite;
+    opacity: .55;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 45%);
+            mask-image: linear-gradient(to bottom, transparent 0%, #000 45%);
+}
+@keyframes drive { to { background-position: 0 70px; } }
+.horizon {
+    position: absolute; left: 0; right: 0; top: 30%; height: 2px;
+    background: var(--c); box-shadow: 0 0 30px 6px var(--c-dim);
+}
+.trails { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.trails path { fill: none; stroke-width: 3; stroke-linecap: square; stroke-dasharray: 2400; stroke-dashoffset: 2400; }
+.trails .t1 { stroke: var(--c); filter: drop-shadow(0 0 6px var(--c)); animation: ride 6s linear infinite; }
+.trails .t2 { stroke: var(--alt); filter: drop-shadow(0 0 6px var(--alt)); animation: ride 6s linear infinite 1.4s; }
+@keyframes ride { 0% { stroke-dashoffset: 2400; } 70% { stroke-dashoffset: 0; opacity: 1; } 100% { stroke-dashoffset: 0; opacity: 0; } }
+
+.hero-content { position: relative; z-index: 2; padding: 4rem 0 30vh; }
+.tag { font-size: .8rem; letter-spacing: .25em; color: var(--c); text-transform: uppercase; margin-bottom: 1rem; }
+.tag::before { content: "▶ "; }
+.hero h1 {
+    font-size: clamp(2rem, 6vw, 4.4rem); font-weight: 900; line-height: 1.05;
+    color: transparent; -webkit-text-stroke: 1.5px var(--c);
+    text-shadow: 0 0 18px var(--c-dim);
+    max-width: 14ch;
+}
+.hero h1 span { color: var(--c); -webkit-text-stroke: 0; text-shadow: var(--glow); }
+.hero p { max-width: 56ch; color: var(--text-dim); margin: 1.5rem 0 2rem; }
+.hero em { color: var(--alt); font-style: normal; }
+
+/* ---------- BUTTONS ---------- */
+.btn {
+    --cut: 12px;
+    display: inline-block; text-decoration: none; text-transform: uppercase; letter-spacing: .18em; font-size: .8rem;
+    padding: .9rem 1.6rem; margin: 0 .6rem .6rem 0; color: var(--c);
+    background: var(--c-faint);
+    border: 1px solid var(--c);
+    clip-path: polygon(var(--cut) 0, 100% 0, 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, 0 100%, 0 var(--cut));
+    transition: background .2s, color .2s, box-shadow .2s;
+}
+.btn:hover, .btn.primary { background: var(--c); color: var(--bg); box-shadow: var(--glow); }
+.btn.primary:hover { background: transparent; color: var(--c); }
+
+/* ---------- SECTIONS ---------- */
+.section { padding: clamp(4rem, 9vw, 7rem) 0; border-bottom: 1px solid var(--c-dim); position: relative; }
+.section-head { display: flex; align-items: baseline; gap: 1.2rem; margin-bottom: 2.5rem; flex-wrap: wrap; }
+.section-head .num { font-family: var(--display); font-size: .85rem; color: var(--alt); letter-spacing: .2em; }
+.section-head h2 { font-size: clamp(1.4rem, 3.5vw, 2.2rem); color: var(--c); text-shadow: var(--glow); }
+.section-head .rule { flex: 1; min-width: 60px; height: 1px; background: linear-gradient(to right, var(--c), transparent); }
+
+/* panel w/ cut corners and circuit edges */
+.panel {
+    --cut: 22px;
+    position: relative; background: color-mix(in srgb, var(--c) 70%, transparent);
+    clip-path: polygon(var(--cut) 0, 100% 0, 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, 0 100%, 0 var(--cut));
+    padding: 1px;
+}
+.panel-inner {
+    background: var(--bg);
+    clip-path: polygon(var(--cut) 0, 100% 0, 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, 0 100%, 0 var(--cut));
+    height: 100%;
+}
+
+.engine { display: grid; grid-template-columns: 1.4fr 1fr; gap: 0; isolation: isolate; }
+.screen { position: relative; aspect-ratio: 16/9; overflow: hidden; border-right: 1px solid var(--c-dim); }
+.screen video { width: 100%; height: 100%; object-fit: cover; display: block; filter: saturate(.7) contrast(1.05); }
+.screen::after { content: ""; position: absolute; inset: 0; background: linear-gradient(var(--c-faint), transparent 40%); pointer-events: none; }
+.screen .label { position: absolute; top: .7rem; left: 1.6rem; z-index: 2; font-size: .75rem; color: var(--c); letter-spacing: .15em; text-shadow: var(--glow); }
+.engine-desc { padding: 2rem; }
+.engine-desc h3 { font-size: 1rem; color: var(--text); margin-bottom: 1rem; line-height: 1.4; }
+.engine-desc p { color: var(--text-dim); font-size: .92rem; }
+.chips { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1.2rem 0 1.6rem; }
+.chip { font-size: .72rem; letter-spacing: .12em; padding: .25rem .6rem; border: 1px solid var(--c-dim); color: var(--c); text-transform: uppercase; }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.4rem; isolation: isolate; }
+.card { text-decoration: none; display: block; transition: transform .25s, filter .25s; }
+.card:hover, .card:focus-visible { transform: translateY(-4px); filter: brightness(1.25); outline: none; }
+.card .thumb { aspect-ratio: 16/10; overflow: hidden; position: relative; }
+.card .thumb video { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(.6) brightness(.8); transition: filter .25s; }
+.card:hover video { filter: none; }
+.card .thumb::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--c); box-shadow: var(--glow); }
+.card .body { padding: 1rem 1.3rem 1.4rem; }
+.card .id { font-size: .7rem; color: var(--alt); letter-spacing: .2em; }
+.card h4 { font-size: .95rem; color: var(--c); margin: .3rem 0 .5rem; }
+.card p { font-size: .85rem; color: var(--text-dim); margin: 0; }
+
+.skills { display: flex; flex-wrap: wrap; gap: .8rem; }
+.skill {
+    font-family: var(--display); font-size: .8rem; letter-spacing: .12em; padding: .7rem 1.1rem;
+    border: 1px solid var(--c); color: var(--c); position: relative; text-transform: uppercase;
+}
+.skill::before { content: ""; position: absolute; left: -1px; top: -1px; width: 8px; height: 8px; background: var(--c); box-shadow: var(--glow); }
+
+.contact { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
+.contact a { text-decoration: none; padding: 1.2rem; border: 1px solid var(--c-dim); display: block; transition: border-color .2s, box-shadow .2s; }
+.contact a:hover { border-color: var(--c); box-shadow: inset 0 0 20px var(--c-dim), var(--glow); }
+.contact small { display: block; font-size: .7rem; letter-spacing: .2em; color: var(--alt); text-transform: uppercase; }
+.contact span { color: var(--c); word-break: break-all; }
+
+footer { text-align: center; padding: 3rem 1rem 5rem; font-size: .8rem; letter-spacing: .25em; color: var(--text-dim); text-transform: uppercase; }
+footer b { color: var(--c); font-weight: normal; }
+
+@media (max-width: 780px) {
+    .engine { grid-template-columns: 1fr; }
+    .screen { border-right: 0; border-bottom: 1px solid var(--c-dim); }
+    .nav ul { gap: 1rem; font-size: .75rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .floor, .trails path { animation: none; }
+    .trails path { stroke-dashoffset: 0; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+    <div class="container nav-inner">
+        <div class="logo">V.SINGIER</div>
+        <ul>
+            <li><a href="#engine">Engine</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <button class="faction" id="faction" type="button">▣ switch faction</button>
+    </div>
+</nav>
+
+<header class="hero">
+    <div class="floor" aria-hidden="true"></div>
+    <div class="horizon" aria-hidden="true"></div>
+    <svg class="trails" viewBox="0 0 1200 800" preserveAspectRatio="none" aria-hidden="true">
+        <path class="t1" d="M-20 700 H380 V560 H760 V640 H1220"/>
+        <path class="t2" d="M1220 600 H900 V720 H520 V620 H-20"/>
+    </svg>
+    <div class="container hero-content">
+        <div class="tag">user_detected : entering the grid</div>
+        <h1>Chercher pour <span>Comprendre</span>, Construire pour <span>Apprendre</span></h1>
+        <p>En tant que développeur C++ spécialisé en moteurs de jeu, je ne me contente pas que du bon fonctionnement d'un projet,
+            mais de chercher <em>pourquoi</em> et surtout <em>comment</em>&nbsp;?</p>
+        <a href="#engine" class="btn primary">Mon moteur de jeu</a>
+        <a href="https://github.com/vivienSINGIER" class="btn">Mon GitHub</a>
+    </div>
+</header>
+
+<section class="section" id="engine">
+    <div class="container">
+        <div class="section-head"><span class="num">SECTOR_01</span><h2>Mon moteur de jeu</h2><span class="rule"></span></div>
+        <div class="panel"><div class="panel-inner engine">
+            <div class="screen">
+                <span class="label">// IDLE_ENGINE_MAIN ● ACTIVE</span>
+                <video autoplay muted loop playsinline poster="../Assets/Engine/teaser-poster.png">
+                    <source src="../Assets/Engine/teaser-compressed.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="engine-desc">
+                <h3>Moteur de jeu personnalisé — Rendu, Math &amp; Architecture</h3>
+                <p>Une librairie de rendu DirectX12 (bientôt Vulkan), une bibliothèque de mathématiques custom, un début de détection
+                    de collisions et un ECS en cours de développement. Construit pièce par pièce pour en comprendre le fonctionnement.</p>
+                <div class="chips"><span class="chip">C++</span><span class="chip">DirectX12</span><span class="chip">HLSL</span><span class="chip">ECS</span></div>
+                <a href="../Engine/engine.html" class="btn primary">En savoir plus →</a>
+            </div>
+        </div></div>
+    </div>
+</section>
+
+<section class="section" id="projects">
+    <div class="container">
+        <div class="section-head"><span class="num">SECTOR_02</span><h2>Programmes</h2><span class="rule"></span></div>
+        <div class="grid">
+            <a class="card panel" href="../Projects/cpu-render.html" data-hover-video><div class="panel-inner">
+                <div class="thumb"><video muted loop playsinline poster="../Assets/Projects/CPU-Render/snowglobe.jpg"><source src="../Assets/Projects/CPU-Render/snowglobe-compressed.mp4" type="video/mp4"></video></div>
+                <div class="body"><span class="id">PRG.001</span><h4>CPU Render</h4><p>Moteur de rendu 3D temps réel entièrement logiciel, sans API GPU.</p></div>
+            </div></a>
+            <a class="card panel" href="../Projects/lebon.html" data-hover-video><div class="panel-inner">
+                <div class="thumb"><video muted loop playsinline poster="../Assets/Projects/Lebon/benchmark.png"><source src="../Assets/Projects/Lebon/modes-compressed.mp4" type="video/mp4"></video></div>
+                <div class="body"><span class="id">PRG.002</span><h4>Lebon Interpreter</h4><p>Langage créole, VM à registres et JIT x86-64.</p></div>
+            </div></a>
+            <a class="card panel" href="../Projects/ion.html" data-hover-video><div class="panel-inner">
+                <div class="thumb"><video muted loop playsinline poster="../Assets/Projects/ION/screenshot.png"><source src="../Assets/Projects/ION/wave-compressed.mp4" type="video/mp4"></video></div>
+                <div class="body"><span class="id">PRG.003</span><h4>ION — Arena Shooter</h4><p>Arena shooter en 3 semaines sur moteur C++ custom.</p></div>
+            </div></a>
+            <a class="card panel" href="../Projects/babarchive.html" data-hover-video><div class="panel-inner">
+                <div class="thumb"><video muted loop playsinline poster="../Assets/Projects/Babarchive/demo.jpg"><source src="../Assets/Projects/Babarchive/demo-compressed.mp4" type="video/mp4"></video></div>
+                <div class="body"><span class="id">PRG.004</span><h4>Babarchive</h4><p>Format d'archive binaire et pipeline d'assets.</p></div>
+            </div></a>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="skills">
+    <div class="container">
+        <div class="section-head"><span class="num">SECTOR_03</span><h2>Compétences</h2><span class="rule"></span></div>
+        <div class="skills">
+            <span class="skill">C++</span><span class="skill">DirectX 12</span><span class="skill">HLSL</span><span class="skill">Algèbre Linéaire</span>
+            <span class="skill">Quaternions</span><span class="skill">Mathématiques 3D</span><span class="skill">Python</span><span class="skill">Git</span>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="contact" style="border-bottom:0">
+    <div class="container">
+        <div class="section-head"><span class="num">SECTOR_04</span><h2>Communication</h2><span class="rule"></span></div>
+        <div class="contact">
+            <a href="mailto:vivien.singier@gmail.com"><small>Email</small><span>vivien.singier@gmail.com</span></a>
+            <a href="https://github.com/vivienSINGIER"><small>GitHub</small><span>vivienSINGIER</span></a>
+            <a href="https://linkedin.com/in/VivienSingier"><small>LinkedIn</small><span>VivienSingier</span></a>
+            <a href="../Assets/resume.pdf" download><small>CV</small><span>télécharger.pdf</span></a>
+        </div>
+    </div>
+</section>
+
+<footer>End of line — <b>construit pièce par pièce</b></footer>
+
+<script>
+document.getElementById("faction").addEventListener("click", () => {
+    const b = document.body;
+    b.dataset.faction = b.dataset.faction === "rival" ? "" : "rival";
+});
+</script>
+<script src="lab.js"></script>
+</body>
+</html>

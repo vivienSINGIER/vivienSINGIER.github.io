@@ -1,158 +1,114 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../Core/style.css"/>
-    <link rel="stylesheet" href="Style-Script/dossier-style.css"/>
-    <link rel="icon" href="../Assets/favicon.ico" sizes="any"/>
-    <link rel="apple-touch-icon" href="../Assets/apple-touch-icon.png"/>
-    <script type="text/javascript" src="../Core/script.js" defer></script>
-    <script type="text/javascript" src="Style-Script/dossier-script.js" defer></script>
-    <title>Vivien Singier - C++ Developer</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Rajdhani:wght@400;500;600&family=Press+Start+2P&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../Core/style.css"/>
+<link rel="stylesheet" href="Style-Script/split-style.css"/>
+<link rel="icon" href="../Assets/favicon.ico" sizes="any"/>
+<link rel="apple-touch-icon" href="../Assets/apple-touch-icon.png"/>
+<script>
+// before first paint: stage intro once per session (?intro forces it), restore the saved team
+(function () {
+    var r = document.documentElement, show = !matchMedia("(prefers-reduced-motion: reduce)").matches;
+    try { if (localStorage.getItem("vs-team") === "orange") r.dataset.team = "orange"; } catch (e) {}
+    try { if (sessionStorage.getItem("vs-intro-" + location.pathname) && !/[?&]intro\b/.test(location.search)) show = false; } catch (e) {}
+    if (show) r.classList.add("intro-on");
+})();
+</script>
+<script src="../Core/script.js" defer></script>
+<title>Nom du Projet - Vivien Singier</title>
 </head>
-
 <body>
 
+<div id="stage-intro" aria-hidden="true"><span class="s">STAGE XX</span><span class="t">Nom du Projet</span><span class="r">READY?</span><div class="laser"></div></div>
+
 <nav class="nav">
-    <div class="nav-inner">
-        <div class="nav-logo"> vivien_singier<span>.dev</span></div>
-
-        <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
-            <span class="nav-menu">// menu</span>
-            <span class="nav-close">// close</span>
-        </button>
-
-        <ul class="nav-links">
-            <li><a href="../index.html#hero">Home</a></li>
-            <li><a href="../index.html#engine">Engine</a></li>
-            <li><a href="../index.html#projects">Projects</a></li>
-            <li><a href="../index.html#skills">Skills</a></li>
-            <li><a href="../index.html#contact">Contact</a></li>
+    <div class="container nav-inner">
+        <a class="logo" href="../index.html">V<span>/</span>SINGIER</a>
+        <ul>
+            <li><a class="back" href="../index.html#projects">◀ STAGES</a></li>
+            <li><a href="../Engine/engine.html">ENGINE</a></li>
+            <li><a href="../index.html#contact">CONTACT</a></li>
         </ul>
+        <button type="button" class="team-nav" data-team-toggle aria-label="Changer d'équipe">⇄ TEAM</button>
     </div>
 </nav>
 
-<section class="section" style="padding-top: 2.5rem; border-bottom: none;">
-    <div class="container">
-
-        <a href="../index.html#projects" class="section-link reveal">Retour aux projets</a>
-
-        <div class="dossier-grid reveal">
-            <aside class="dossier-sidebar reveal">
-                <div class="viewport carousel">
-                    <span class="vp-label">// PROJECT_MAIN</span>
-                    <span class="vp-status">[stable]</span>
-    
-                    <div class="carousel-track">
-                        <div class="carousel-slide active">
-                            <video autoplay muted loop playsinline poster="assets/img/project-1-poster.jpg">
-                                <source src="assets/video/project-1.mp4" type="video/mp4">
-                            </video>
-                        </div>
-                        <div class="carousel-slide">
-                            <img src="assets/img/project-2.jpg" alt="Screenshot of Project Name">
-                        </div>
-                        <div class="carousel-slide">
-                            <video autoplay muted loop playsinline poster="assets/img/project-3-poster.jpg">
-                                <source src="assets/video/project-3.mp4" type="video/mp4">
-                            </video>
-                        </div>
-                        <!-- add more .carousel-slide blocks as needed -->
-                    </div>
-    
-                    <button class="carousel-btn prev"><</button>
-                    <button class="carousel-btn next">></button>
-                    <div class="carousel-dots">
-                        <span class="carousel-dot active"></span>
-                        <span class="carousel-dot"></span>
-                        <span class="carousel-dot"></span>
-                    </div>
-                    <span class="carousel-counter">1 / 3</span>
+<main class="split">
+    <!-- left screen: media + players, stays in view while reading -->
+    <section class="screen-l section">
+        <div class="stick">
+            <div class="split-label"><span>SCREEN <b>1P</b> // REPLAY</span><span class="blink">● LIVE</span></div>
+            <div class="viewer" data-viewer tabindex="0" aria-label="Lecteur de médias, flèches gauche et droite pour changer">
+                <div class="viewer-screen hud">
+                    <span class="flash">READY?</span>
+                    <video autoplay muted loop playsinline></video>
+                    <img class="still" alt="" hidden>
+                    <button type="button" class="nav-arrow prev" aria-label="Média précédent">◀</button>
+                    <button type="button" class="nav-arrow next" aria-label="Média suivant">▶</button>
                 </div>
-                
-                <div>
-                    <h3>Collaborateurs</h3>
-                    <div class="collaborator-list">
-                        <div class="collaborator" tabindex="0">
-                            Nom du collaborateur
-                            <span class="collab-role">dev</span>
-                            <div class="collab-tooltip">
-                                <div class="collab-tooltip-name">Nom du collaborateur</div>
-                                <ul class="collab-tooltip-contacts">
-                                    <li><button class="copy-email">
-                                        nom@mail.com
-                                        <span class="copy-tooltip">copier</span>
-                                    </button></li>
-                                    <li><a href="#">lien/n1.com</a></li>
-                                    <li><a href="#">lien/n2.com</a></li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="collaborator" tabindex="0">
-                            Nom du collaborateur
-                            <span class="collab-role">dev</span>
-                            <div class="collab-tooltip">
-                                <div class="collab-tooltip-name">Nom du collaborateur</div>
-                                <ul class="collab-tooltip-contacts">
-                                    <li><button class="copy-email">
-                                        nom@mail.com
-                                        <span class="copy-tooltip">copier</span>
-                                    </button></li>
-                                    <li><a href="#">lien/n1.com</a></li>
-                                    <li><a href="#">lien/n2.com</a></li>
-                                </ul>
-                            </div>
-                        </div>
-<!--                        Ajouter un collaborateur si besoins-->
-                    </div>
-                </div>
-                
-            </aside>
-            
-            <div class="dossier-head reveal">
-                <div class="section-tag">log_entry: nom-projet</div>
-                <h1 class="project-name">Nom du Projet</h1>
-                <p class="project-intro">Une phrase ou deux pour introduire le projet, ses enjeux et les technologies utilisées.</p>
-                
-                <div class="project-tags">
-                    <span class="skill-tag">skill n1</span>
-                    <span class="skill-tag">skill n2</span>
-                    <span class="skill-tag">skill n3</span>
-                    <span class="skill-tag">skill n4</span>
-                </div>
-                
-                <div class="project-links">
-                    <a class="btn primary" href="https://github.com/vivienSINGIER/projectRepo">ProjectRepo →</a>
-                    <a class="btn" href="https://github.com/vivienSINGIER/projectRepo/release">Essayer la démo →</a>
-                </div>
-                
-                <div class="section-head reveal">
-                    <h2>A propos</h2>
-                </div>
-
-                <div class="dossier-desc reveal">
-
-                    <p class="project-desc">Un paragraphe expliquant dans un premier temps l'objectif du projet et ses attentes.
-                        En listant tous les gros points du cahier des charges s'il y en a un.</p>
-                    <p class="project-desc">Un second paragraphe expliquant et justifiant toutes les décisions prises sur l'architecture du projet
-                        ou sur son gameplay.</p>
-                    <p class="project-desc">Un dernier paragraphe servant de conclusion, il décrit le ressenti sur ce projet, les points à améliorer.
-                        Il peut servir aussi à faire le lien avec d'autres projets. </p>
-
-                    <a class="btn primary" href="../../ProjectName/project.html">Voir projet liés →</a>
+                <div class="readout"><span data-viewer-label></span><span class="live">● NOW PLAYING</span></div>
+                <div class="clips">
+                    <!-- un bouton .clip par média : data-src (+ data-poster) pour une vidéo, data-img (+ data-alt) pour une image -->
+                    <button type="button" class="clip on" data-label="DÉMO" data-src="../Assets/Projects/NomProjet/demo-compressed.mp4" data-poster="../Assets/Projects/NomProjet/demo.jpg"><img src="../Assets/Projects/NomProjet/demo.jpg" alt=""><span>01</span></button>
+                    <button type="button" class="clip" data-label="CAPTURE" data-img="../Assets/Projects/NomProjet/screenshot.png" data-alt="Description de la capture"><img src="../Assets/Projects/NomProjet/screenshot.png" alt="" loading="lazy"><span>02</span></button>
                 </div>
             </div>
-        </div>
-    </div>
-</section>
 
-<footer class="page-footer reveal">
-    Construit pièce par pièce, comme tout le reste
-</footer>
+            <div class="mini-head">▶ PLAYERS 2/2</div>
+            <div class="players">
+                <details class="player you"><summary><span class="slot">P1</span><span class="name">Vivien Singier</span><span class="role">DEV</span></summary>
+                    <ul><li><a href="https://github.com/vivienSINGIER">github.com/vivienSINGIER</a></li></ul></details>
+                <details class="player"><summary><span class="slot">P2</span><span class="name">Nom du collaborateur</span><span class="role">RÔLE</span></summary>
+                    <ul><li><button type="button" data-copy="email@exemple.com" title="Copier">email@exemple.com</button></li><li><a href="https://github.com/pseudo">github.com/pseudo</a></li></ul></details>
+            </div>
+        </div>
+    </section>
+
+    <!-- right screen: the write-up -->
+    <section class="screen-r section">
+        <div class="split-label"><span>SCREEN <b>2P</b> // BRIEFING</span><span>STAGE XX</span></div>
+        <div class="code"><b>CATÉGORIE · CATÉGORIE</b></div>
+        <h1>Nom du Projet</h1>
+        <p class="lead">Une phrase ou deux pour introduire le projet, ses enjeux et les technologies utilisées.</p>
+        <div class="tags"><span class="tag">skill n1</span><span class="tag">skill n2</span><span class="tag">skill n3</span><span class="tag">skill n4</span></div>
+        <div class="actions">
+                <a class="btn solid" href="https://github.com/vivienSINGIER/projectRepo">REPO ▶</a>
+                <a class="btn" href="https://github.com/vivienSINGIER/projectRepo/releases">ESSAYER LA DÉMO</a>
+        </div>
+
+        <div class="stats">
+            <div><small>DURÉE</small><b>X SEMAINES</b></div>
+            <div><small>ÉQUIPE</small><b>X DEVS</b></div>
+            <div><small>LANGAGE</small><b>C++</b></div>
+            <div><small>CLÉ</small><b>VALEUR</b></div>
+            <div><small>MON RÔLE</small><b>RÔLE</b></div>
+            <div><small>STATUT</small><b class="ok">Stable</b></div>
+        </div>
+
+        <div class="chapter">
+            <h3><b>01</b> // TITRE 1</h3>
+            <p>Un paragraphe expliquant dans un premier temps l'objectif du projet et ses attentes.</p>
+        </div>
+        <div class="chapter">
+            <h3><b>02</b> // TITRE 2</h3>
+            <p>Un second paragraphe expliquant et justifiant les décisions prises sur l'architecture du projet.</p>
+        </div>
+        <div class="chapter">
+            <h3><b>03</b> // TITRE 3</h3>
+            <p>Un dernier paragraphe servant de conclusion : le ressenti sur ce projet, les points à améliorer.</p>
+        </div>    </section>
+</main>
+
+<footer class="container"><span>END OF LINE — <b>BUILT PIECE BY PIECE</b></span><span class="foot-btns">
+    <button type="button" class="foot-btn" id="levelup">LEVEL UP ▲</button>
+    <button type="button" class="foot-btn" id="reboot">REBOOT ↻</button>
+    <button type="button" class="foot-btn team" data-team-toggle>SWITCH TEAM ⇄</button>
+</span></footer>
+<div id="toast" aria-live="polite"></div>
 
 </body>
 </html>

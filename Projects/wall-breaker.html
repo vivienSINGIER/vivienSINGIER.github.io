@@ -1,113 +1,106 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../Core/style.css"/>
-    <link rel="stylesheet" href="Style-Script/log-style.css"/>
-    <link rel="icon" href="../Assets/favicon.ico" sizes="any"/>
-    <link rel="apple-touch-icon" href="../Assets/apple-touch-icon.png"/>
-    <script type="text/javascript" src="../Core/script.js" defer></script>
-    <script type="text/javascript" src="Style-Script/log-script.js" defer></script>
-    <title>Wall Breaker</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Rajdhani:wght@400;500;600&family=Press+Start+2P&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../Core/style.css"/>
+<link rel="stylesheet" href="Style-Script/briefing-style.css"/>
+<link rel="icon" href="../Assets/favicon.ico" sizes="any"/>
+<link rel="apple-touch-icon" href="../Assets/apple-touch-icon.png"/>
+<script>
+// before first paint: stage intro once per session (?intro forces it), restore the saved team
+(function () {
+    var r = document.documentElement, show = !matchMedia("(prefers-reduced-motion: reduce)").matches;
+    try { if (localStorage.getItem("vs-team") === "orange") r.dataset.team = "orange"; } catch (e) {}
+    try { if (sessionStorage.getItem("vs-intro-" + location.pathname) && !/[?&]intro\b/.test(location.search)) show = false; } catch (e) {}
+    if (show) r.classList.add("intro-on");
+})();
+</script>
+<script src="../Core/script.js" defer></script>
+<title>Wall Breaker - Vivien Singier</title>
 </head>
-
 <body>
 
+<div id="stage-intro" aria-hidden="true"><span class="s">STAGE 10</span><span class="t">Wall Breaker</span><span class="r">READY?</span><div class="laser"></div></div>
+
 <nav class="nav">
-    <div class="nav-inner">
-        <div class="nav-logo"> vivien_singier<span>.dev</span></div>
-
-        <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
-            <span class="nav-menu">// menu</span>
-            <span class="nav-close">// close</span>
-        </button>
-
-        <ul class="nav-links">
-            <li><a href="../index.html#hero">Home</a></li>
-            <li><a href="../index.html#engine">Engine</a></li>
-            <li><a href="../index.html#projects">Projects</a></li>
-            <li><a href="../index.html#skills">Skills</a></li>
-            <li><a href="../index.html#contact">Contact</a></li>
+    <div class="container nav-inner">
+        <a class="logo" href="../index.html">V<span>/</span>SINGIER</a>
+        <ul>
+            <li><a class="back" href="../index.html#projects">◀ STAGES</a></li>
+            <li><a href="../Engine/engine.html">ENGINE</a></li>
+            <li><a href="../index.html#contact">CONTACT</a></li>
         </ul>
+        <button type="button" class="team-nav" data-team-toggle aria-label="Changer d'équipe">⇄ TEAM</button>
     </div>
 </nav>
 
-<section class="section override" id="intro">
-    <div class="container">
-        <a href="../index.html#projects" class="section-link reveal">Retour aux projets</a>
-
-        <div class="dossier-head reveal">
-            <div class="section-tag">log_entry: wall-breaker</div>
-            <h1 class="project-name">Wall breaker</h1>
-            
-            <div class="project-info">
-                <p class="project-intro">Un jeu type "Casse-Brique" réalisé en Python dans le cadre d'un projet de lycée en NSI.</p>
-
-                <div class="project-tags">
-                    <span class="skill-tag">Python</span>
-                    <span class="skill-tag">Gameplay</span>
-                    <span class="skill-tag">OOP</span>
-                </div>
+<section class="section brief">
+    <div class="container brief-grid">
+        <div>
+            <div class="code"><b>STAGE 10</b> // PYTHON · JEU</div>
+            <h1>Wall Breaker</h1>
+            <p class="lead">Un jeu type "Casse-Brique" réalisé en Python dans le cadre d'un projet de lycée en NSI.</p>
+            <div class="tags"><span class="tag">Python</span><span class="tag">Gameplay</span><span class="tag">OOP</span></div>
+            <div class="actions">
+                <a class="btn solid" href="https://github.com/vivienSINGIER/WallBreaker">REPO ▶</a>
+                <a class="btn" href="https://github.com/vivienSINGIER/WallBreaker/releases">ESSAYER LA DÉMO</a>
             </div>
+        </div>
+        <aside class="stage-data hud">
+            <h3>▶ STAGE DATA</h3>
+            <dl>
+                <div><dt>LANGAGE</dt><dd>PYTHON</dd></div>
+                <div><dt>CADRE</dt><dd>LYCÉE · NSI</dd></div>
+                <div><dt>GENRE</dt><dd>CASSE-BRIQUE</dd></div>
+                <div><dt>STATUT</dt><dd class="ok">● STABLE</dd></div>
+            </dl>
+        </aside>
+    </div>
+</section>
 
-            <div class="project-links">
-                <a class="btn primary" href="https://github.com/vivienSINGIER/WallBreaker">Project Repo →</a>
-                <a class="btn" href="https://github.com/vivienSINGIER/WallBreaker/releases">Essayer la démo →</a>
+<section class="section">
+    <div class="container">
+        <div class="section-head reveal"><span class="code">REPLAY // <b>6</b> MÉDIAS</span><h2>Médias</h2><span class="line"><i class="trail"></i><i class="cycle"></i></span></div>
+        <div class="viewer" data-viewer tabindex="0" aria-label="Lecteur de médias, flèches gauche et droite pour changer">
+            <div class="viewer-screen hud">
+                <span class="flash">READY?</span>
+                <video autoplay muted loop playsinline></video>
+                <img class="still" alt="" hidden>
+                <button type="button" class="nav-arrow prev" aria-label="Média précédent">◀</button>
+                <button type="button" class="nav-arrow next" aria-label="Média suivant">▶</button>
+            </div>
+            <div class="readout"><span data-viewer-label></span><span class="live">● NOW PLAYING</span></div>
+            <div class="clips">
+                <button type="button" class="clip on" data-label="DÉMO" data-src="../Assets/Projects/WallBreaker/demo-compressed.mp4" data-poster="../Assets/Projects/WallBreaker/screenshot1.png"><img src="../Assets/Projects/WallBreaker/screenshot1.png" alt=""><span>01</span></button>
+                <button type="button" class="clip" data-label="ÉCRAN 1" data-img="../Assets/Projects/WallBreaker/screenshot1.png" data-alt="Capture d'écran 1 de Wall Breaker"><img src="../Assets/Projects/WallBreaker/screenshot1.png" alt="" loading="lazy"><span>02</span></button>
+                <button type="button" class="clip" data-label="ÉCRAN 2" data-img="../Assets/Projects/WallBreaker/screenshot2.png" data-alt="Capture d'écran 2 de Wall Breaker"><img src="../Assets/Projects/WallBreaker/screenshot2.png" alt="" loading="lazy"><span>03</span></button>
+                <button type="button" class="clip" data-label="ÉCRAN 3" data-img="../Assets/Projects/WallBreaker/screenshot3.png" data-alt="Capture d'écran 3 de Wall Breaker"><img src="../Assets/Projects/WallBreaker/screenshot3.png" alt="" loading="lazy"><span>04</span></button>
+                <button type="button" class="clip" data-label="ÉCRAN 4" data-img="../Assets/Projects/WallBreaker/screenshot4.png" data-alt="Capture d'écran 4 de Wall Breaker"><img src="../Assets/Projects/WallBreaker/screenshot4.png" alt="" loading="lazy"><span>05</span></button>
+                <button type="button" class="clip" data-label="ÉCRAN 5" data-img="../Assets/Projects/WallBreaker/screenshot5.png" data-alt="Capture d'écran 5 de Wall Breaker"><img src="../Assets/Projects/WallBreaker/screenshot5.png" alt="" loading="lazy"><span>06</span></button>
             </div>
         </div>
     </div>
 </section>
 
-<section class="section" id="demo">
+<section class="section last">
     <div class="container">
-        <div class="viewport carousel reveal">
-            <span class="vp-label">// WALL_BREAKER_MAIN</span>
-            <span class="vp-status">[stable]</span>
-
-            <div class="carousel-track">
-                <div class="carousel-slide active">
-                    <video muted loop playsinline>
-                        <source src="../Assets/Projects/WallBreaker/demo-compressed.mp4" type="video/mp4">
-                    </video>
-                </div>
-                <div class="carousel-slide">
-                    <img src="../Assets/Projects/WallBreaker/screenshot1.png" alt="Screenshot of Project Name">
-                </div>
-                <div class="carousel-slide">
-                    <img src="../Assets/Projects/WallBreaker/screenshot2.png" alt="Screenshot of Project Name">
-                </div>
-                <div class="carousel-slide">
-                    <img src="../Assets/Projects/WallBreaker/screenshot3.png" alt="Screenshot of Project Name">
-                </div>
-                <div class="carousel-slide">
-                    <img src="../Assets/Projects/WallBreaker/screenshot4.png" alt="Screenshot of Project Name">
-                </div>
-                <div class="carousel-slide">
-                    <img src="../Assets/Projects/WallBreaker/screenshot5.png" alt="Screenshot of Project Name">
-                </div>
-            </div>
-
-            <button class="carousel-btn prev"><</button>
-            <button class="carousel-btn next">></button>
-            <div class="carousel-dots">
-                <span class="carousel-dot active"></span>
-                <span class="carousel-dot"></span>
-                <span class="carousel-dot"></span>
-                <span class="carousel-dot"></span>
-                <span class="carousel-dot"></span>
-            </div>
-            <span class="carousel-counter">1 / 5</span>
-
-        </div>
+        <nav class="stage-nav" aria-label="Autres projets">
+            <a class="prev" href="space-invaderz.html"><small>◀ PREV STAGE</small><b>Space InvaderZ</b></a>
+            <a class="select" href="../index.html#projects">STAGE<br>SELECT</a>
+            <a class="next" href="cpu-render.html"><small>NEXT STAGE ▶</small><b>CPU Render</b></a>
+        </nav>
     </div>
 </section>
 
-<footer class="page-footer reveal">
-    Construit pièce par pièce, comme tout le reste
-</footer>
+<footer class="container"><span>END OF LINE — <b>BUILT PIECE BY PIECE</b></span><span class="foot-btns">
+    <button type="button" class="foot-btn" id="levelup">LEVEL UP ▲</button>
+    <button type="button" class="foot-btn" id="reboot">REBOOT ↻</button>
+    <button type="button" class="foot-btn team" data-team-toggle>SWITCH TEAM ⇄</button>
+</span></footer>
+<div id="toast" aria-live="polite"></div>
 
 </body>
 </html>

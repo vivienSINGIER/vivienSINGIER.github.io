@@ -1,0 +1,45 @@
+/* =====================================================================
+   PROJECT PAGE · SPLIT SCREEN
+   left screen (media + players) stays in view, right screen scrolls the write-up
+   (shared look lives in Core/style.css)
+   ===================================================================== */
+.split { display: grid; grid-template-columns: 1.15fr 1fr; border-bottom: 1px solid var(--blue-dim); }
+.split .section { border-bottom: 0; padding: 0; overflow: visible; }   /* visible: needed for the sticky column */
+.screen-l { position: relative; border-right: 1px solid var(--blue-dim); }
+.screen-l .stick { position: sticky; top: 64px; z-index: 1; padding: 2rem var(--gutter) 2.5rem; }
+.split .screen-r { padding: 2rem clamp(1.5rem, 4vw, 3.5rem) 3rem; }
+.screen-r > :not(.bg-cycles) { position: relative; z-index: 1; }
+.split-label { font-family: var(--pixel); font-size: .5rem; color: var(--text-dim); display: flex; justify-content: space-between; margin-bottom: 1rem; }
+.split-label b { color: var(--orange); font-weight: 400; }
+.screen-l .clips { grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); }
+.screen-l .clips span { font-size: .35rem; }
+.mini-head { font-family: var(--pixel); font-size: .55rem; color: var(--yellow); margin: 2.2rem 0 .8rem; }
+
+.screen-r h1 { font-family: var(--display); font-size: clamp(1.8rem, 4.2vw, 3.2rem); line-height: 1.05; letter-spacing: .06em; text-transform: uppercase; color: var(--white);
+    text-shadow: 0 0 2px #fff, 0 0 18px var(--blue-soft); margin: .8rem 0 1.2rem; }
+.screen-r .code { font-family: var(--pixel); font-size: .55rem; color: var(--text-dim); }
+.screen-r .code b { color: var(--orange); font-weight: 400; }
+.screen-r .lead { color: var(--text); font-size: 1.15rem; margin: 0 0 1.4rem; }
+.screen-r .tags { margin-bottom: 1.6rem; }
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--blue-dim); border: 1px solid var(--blue-dim); margin: 2rem 0; }
+.stats div { background: var(--bg); padding: .9rem .8rem; }
+.stats small { display: block; font-family: var(--pixel); font-size: .42rem; color: var(--text-dim); margin-bottom: .5rem; }
+.stats b { font-family: var(--display); font-weight: 400; font-size: .85rem; color: var(--white); }
+.stats b.ok { color: var(--blue); text-shadow: var(--glow); }
+.chapter { margin-top: 2.6rem; }
+.chapter h3 { font-family: var(--pixel); font-size: .55rem; color: var(--blue); margin-bottom: .9rem; line-height: 1.8; }
+.chapter h3 b { color: var(--orange); font-weight: 400; }
+.chapter p { margin: 0; color: var(--text-dim); }
+.screen-r .stage-nav { margin-top: 3rem; grid-template-columns: 1fr 1fr; }
+.screen-r .stage-nav .select { grid-column: 1 / -1; grid-row: 2; padding: .8rem; }
+
+@media (min-width: 861px) {
+    html[data-team="orange"] .split { grid-template-columns: 1fr 1.15fr; }
+    html[data-team="orange"] .screen-l { order: 2; border-right: 0; border-left: 1px solid var(--blue-dim); }
+}
+@media (max-width: 860px) {
+    .split { grid-template-columns: 1fr; }
+    .screen-l { border-right: 0; border-bottom: 1px solid var(--blue-dim); }
+    .screen-l .stick { position: relative; }
+    .stats { grid-template-columns: 1fr 1fr; }
+}

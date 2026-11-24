@@ -1,164 +1,145 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../Core/style.css"/>
-    <link rel="stylesheet" href="Style-Script/log-style.css"/>
-    <link rel="icon" href="../Assets/favicon.ico" sizes="any"/>
-    <link rel="apple-touch-icon" href="../Assets/apple-touch-icon.png"/>
-    <script type="text/javascript" src="../Core/script.js" defer></script>
-    <script type="text/javascript" src="Style-Script/log-script.js" defer></script>
-    <title>Lebon Interpreter</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Rajdhani:wght@400;500;600&family=Press+Start+2P&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../Core/style.css"/>
+<link rel="stylesheet" href="Style-Script/briefing-style.css"/>
+<link rel="icon" href="../Assets/favicon.ico" sizes="any"/>
+<link rel="apple-touch-icon" href="../Assets/apple-touch-icon.png"/>
+<script>
+// before first paint: stage intro once per session (?intro forces it), restore the saved team
+(function () {
+    var r = document.documentElement, show = !matchMedia("(prefers-reduced-motion: reduce)").matches;
+    try { if (localStorage.getItem("vs-team") === "orange") r.dataset.team = "orange"; } catch (e) {}
+    try { if (sessionStorage.getItem("vs-intro-" + location.pathname) && !/[?&]intro\b/.test(location.search)) show = false; } catch (e) {}
+    if (show) r.classList.add("intro-on");
+})();
+</script>
+<script src="../Core/script.js" defer></script>
+<title>Lebon Interpreter - Vivien Singier</title>
 </head>
-
 <body>
 
+<div id="stage-intro" aria-hidden="true"><span class="s">STAGE 02</span><span class="t">Lebon Interpreter</span><span class="r">READY?</span><div class="laser"></div></div>
+
 <nav class="nav">
-    <div class="nav-inner">
-        <div class="nav-logo"> vivien_singier<span>.dev</span></div>
-
-        <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
-            <span class="nav-menu">// menu</span>
-            <span class="nav-close">// close</span>
-        </button>
-
-        <ul class="nav-links">
-            <li><a href="../index.html#hero">Home</a></li>
-            <li><a href="../index.html#engine">Engine</a></li>
-            <li><a href="../index.html#projects">Projects</a></li>
-            <li><a href="../index.html#skills">Skills</a></li>
-            <li><a href="../index.html#contact">Contact</a></li>
+    <div class="container nav-inner">
+        <a class="logo" href="../index.html">V<span>/</span>SINGIER</a>
+        <ul>
+            <li><a class="back" href="../index.html#projects">◀ STAGES</a></li>
+            <li><a href="../Engine/engine.html">ENGINE</a></li>
+            <li><a href="../index.html#contact">CONTACT</a></li>
         </ul>
+        <button type="button" class="team-nav" data-team-toggle aria-label="Changer d'équipe">⇄ TEAM</button>
     </div>
 </nav>
 
-<section class="section override" id="intro">
-    <div class="container">
-        <a href="../index.html#projects" class="section-link reveal">Retour aux projets</a>
-
-        <div class="dossier-head reveal">
-            <div class="section-tag">log_entry: lebon</div>
-            <h1 class="project-name">Lebon Interpreter</h1>
-
-            <div class="project-info">
-                <p class="project-intro">Un langage de programmation à mots-clés créoles et sa chaîne d'exécution complète en C++, de l'analyse du code source jusqu'à un compilateur JIT x86-64.</p>
-
-                <div class="project-tags">
-                    <span class="skill-tag">C++</span>
-                    <span class="skill-tag">Compilateur</span>
-                    <span class="skill-tag">JIT x86-64</span>
-                    <span class="skill-tag">Machine virtuelle</span>
-                    <span class="skill-tag">Bytecode</span>
-                    <span class="skill-tag">Benchmarking</span>
-                </div>
+<section class="section brief">
+    <div class="container brief-grid">
+        <div>
+            <div class="code"><b>STAGE 02</b> // C++ · LANGAGE · OUTILS</div>
+            <h1>Lebon Interpreter</h1>
+            <p class="lead">Un langage de programmation à mots-clés créoles et sa chaîne d'exécution complète en C++, de l'analyse du code source jusqu'à un compilateur JIT x86-64.</p>
+            <div class="tags"><span class="tag">C++</span><span class="tag">Compilateur</span><span class="tag">JIT x86-64</span><span class="tag">Machine virtuelle</span><span class="tag">Bytecode</span><span class="tag">Benchmarking</span></div>
+            <div class="actions">
+                <a class="btn solid" href="https://github.com/vivienSINGIER/LebonInterpreter">REPO ▶</a>
             </div>
+        </div>
+        <aside class="stage-data hud">
+            <h3>▶ STAGE DATA</h3>
+            <dl>
+                <div><dt>ÉQUIPE</dt><dd>3 DEVS</dd></div>
+                <div><dt>LANGAGE</dt><dd>C++</dd></div>
+                <div><dt>EXÉCUTION</dt><dd>AST · VM · JIT</dd></div>
+                <div><dt>JIT VS AST</dt><dd>×48,9 (FIBO)</dd></div>
+                <div><dt>STATUT</dt><dd class="ok">● STABLE</dd></div>
+            </dl>
+        </aside>
+    </div>
+</section>
 
-            <div class="project-links">
-                <a class="btn primary" href="https://github.com/vivienSINGIER/LebonInterpreter">ProjectRepo →</a>
+<section class="section">
+    <div class="container">
+        <div class="section-head reveal"><span class="code">REPLAY // <b>4</b> MÉDIAS</span><h2>Médias</h2><span class="line"><i class="trail"></i><i class="cycle"></i></span></div>
+        <div class="viewer" data-viewer tabindex="0" aria-label="Lecteur de médias, flèches gauche et droite pour changer">
+            <div class="viewer-screen hud">
+                <span class="flash">READY?</span>
+                <video autoplay muted loop playsinline></video>
+                <img class="still" alt="" hidden>
+                <button type="button" class="nav-arrow prev" aria-label="Média précédent">◀</button>
+                <button type="button" class="nav-arrow next" aria-label="Média suivant">▶</button>
+            </div>
+            <div class="readout"><span data-viewer-label></span><span class="live">● NOW PLAYING</span></div>
+            <div class="clips">
+                <button type="button" class="clip on" data-label="BENCHMARK" data-img="../Assets/Projects/Lebon/benchmark.png" data-alt="Comparatif des temps du Tree Walking, de la VM à registres et du JIT sur fibo et cordes"><img src="../Assets/Projects/Lebon/benchmark.png" alt=""><span>01</span></button>
+                <button type="button" class="clip" data-label="CODE LEBON" data-img="../Assets/Projects/Lebon/code.png" data-alt="Exemple de code écrit en langage Lebon"><img src="../Assets/Projects/Lebon/code.png" alt="" loading="lazy"><span>02</span></button>
+                <button type="button" class="clip" data-label="PIPELINE" data-src="../Assets/Projects/Lebon/pipeline-compressed.mp4" data-poster="../Assets/Projects/Lebon/pipeline.jpg"><img src="../Assets/Projects/Lebon/pipeline.jpg" alt="" loading="lazy"><span>03</span></button>
+                <button type="button" class="clip" data-label="MODES" data-src="../Assets/Projects/Lebon/modes-compressed.mp4" data-poster="../Assets/Projects/Lebon/modes.jpg"><img src="../Assets/Projects/Lebon/modes.jpg" alt="" loading="lazy"><span>04</span></button>
             </div>
         </div>
     </div>
 </section>
 
-<section class="section" id="demo">
+<section class="section">
     <div class="container">
-        <div class="viewport carousel reveal">
-            <span class="vp-label">// LEBON_MAIN</span>
-            <span class="vp-status">[stable]</span>
-
-            <div class="carousel-track">
-                <div class="carousel-slide active">
-                    <img src="../Assets/Projects/Lebon/benchmark.png" alt="Comparatif des temps du Tree Walking, de la VM à registres et du JIT sur fibo et cordes" style="object-fit: contain;">
-                </div>
-                <div class="carousel-slide">
-                    <img src="../Assets/Projects/Lebon/code.png" alt="Exemple de code écrit en langage Lebon">
-                </div>
-                <div class="carousel-slide">
-                    <video muted loop playsinline poster="../Assets/Projects/Lebon/pipeline.jpg">
-                        <source src="../Assets/Projects/Lebon/pipeline-compressed.mp4" type="video/mp4">
-                    </video>
-                </div>
-                <div class="carousel-slide">
-                    <video muted loop playsinline poster="../Assets/Projects/Lebon/modes.jpg">
-                        <source src="../Assets/Projects/Lebon/modes-compressed.mp4" type="video/mp4">
-                    </video>
-                </div>
-            </div>
-
-            <button class="carousel-btn prev"><</button>
-            <button class="carousel-btn next">></button>
-            <div class="carousel-dots">
-                <span class="carousel-dot active"></span>
-                <span class="carousel-dot"></span>
-                <span class="carousel-dot"></span>
-                <span class="carousel-dot"></span>
-            </div>
-            <span class="carousel-counter">1 / 4</span>
-        </div>
-    </div>
-</section>
-
-<section class="section" id="about">
-    <div class="container">
-        <div class="section-head reveal">
-            <h2>A propos</h2>
-        </div>
-
-        <div class="dossier-desc reveal">
-
-            <p class="project-desc">Lebon est un langage avec fonctions, récursion et closures, dont les mots-clés sont en créole :
+        <div class="section-head reveal"><span class="code">MISSION // <b>3</b> OBJECTIFS</span><h2>À propos</h2><span class="line"><i class="trail"></i><i class="cycle"></i></span></div>
+        <div class="objectives">
+            <div class="objective">
+                <small>OBJ. 01</small><h3>Le langage</h3>
+                <p>Lebon est un langage avec fonctions, récursion et closures, dont les mots-clés sont en créole :
                 <em>keksoz</em> déclare une variable, <em>kan</em> ouvre une condition et <em>zafer</em> définit une fonction.
                 Le projet a été réalisé à 3 développeurs.</p>
-            <p class="project-desc">Le code passe par un lexer, un parser qui construit un AST, puis une analyse sémantique.
+            </div>
+            <div class="objective">
+                <small>OBJ. 02</small><h3>La chaîne d'exécution</h3>
+                <p>Le code passe par un lexer, un parser qui construit un AST, puis une analyse sémantique.
                 Il peut ensuite être exécuté de trois façons : un interpréteur Tree Walking, une VM à registres sur bytecode,
                 ou un JIT qui génère du code machine x86-64 en mémoire exécutable. Sur fibo.lbn, en médiane sur 100 exécutions,
                 la VM est 16,6 fois plus rapide que le Tree Walking et le JIT 48,9 fois.</p>
-            <p class="project-desc">J'ai réalisé le lexer, l'analyse sémantique et le compilateur JIT. Le gain du JIT dépend fortement
+            </div>
+            <div class="objective">
+                <small>OBJ. 03</small><h3>Ma contribution</h3>
+                <p>J'ai réalisé le lexer, l'analyse sémantique et le compilateur JIT. Le gain du JIT dépend fortement
                 du programme : il n'est que de 1,3 fois face à la VM sur cordes.lbn, un benchmark centré sur les chaînes.
                 Le langage n'a pas de ramasse-miettes, toute la mémoire vit aussi longtemps que le heap.</p>
+            </div>
         </div>
     </div>
 </section>
 
-<section class="section" id="collaborators" style="border-bottom: none;">
+<section class="section">
     <div class="container">
-        <div class="section-head reveal">
-            <h2>Collaborateurs</h2>
-            <span class="eyebrow">clicker une ligne</span>
-        </div>
-
-        <div class="collaborator-list">
-            <div class="collaborator" tabindex="0">
-                <div class="collab-row">
-                    <span class="collab-name">Baptiste COMBEAU</span>
-                    <span class="collab-role">Développeur</span>
-                </div>
-
-                <ul class="collab-contacts" inert>
-                    <li><a href="https://github.com/baptisteCOMBEAU">github.com/baptisteCOMBEAU</a></li>
-                </ul>
-            </div>
-
-            <div class="collaborator" tabindex="0">
-                <div class="collab-row">
-                    <span class="collab-name">Mael LEMAIRE</span>
-                    <span class="collab-role">Développeur</span>
-                </div>
-
-                <ul class="collab-contacts" inert>
-                    <li><a href="https://github.com/maelLEMAIR">github.com/maelLEMAIR</a></li>
-                </ul>
-            </div>
+        <div class="section-head reveal"><span class="code">CO-OP // <b>3</b> PLAYERS</span><h2>Équipe</h2><span class="line"><i class="trail"></i><i class="cycle"></i></span></div>
+        <div class="players">
+            <details class="player you"><summary><span class="slot">P1</span><span class="name">Vivien Singier</span><span class="role">DEV</span></summary>
+                <ul><li><a href="https://github.com/vivienSINGIER">github.com/vivienSINGIER</a></li></ul></details>
+            <details class="player"><summary><span class="slot">P2</span><span class="name">Baptiste COMBEAU</span><span class="role">DEV</span></summary>
+                <ul><li><a href="https://github.com/baptisteCOMBEAU">github.com/baptisteCOMBEAU</a></li></ul></details>
+            <details class="player"><summary><span class="slot">P3</span><span class="name">Mael LEMAIRE</span><span class="role">DEV</span></summary>
+                <ul><li><a href="https://github.com/maelLEMAIR">github.com/maelLEMAIR</a></li></ul></details>
         </div>
     </div>
 </section>
 
-<footer class="page-footer reveal">
-    Construit pièce par pièce, comme tout le reste
-</footer>
+<section class="section last">
+    <div class="container">
+        <nav class="stage-nav" aria-label="Autres projets">
+            <a class="prev" href="cpu-render.html"><small>◀ PREV STAGE</small><b>CPU Render</b></a>
+            <a class="select" href="../index.html#projects">STAGE<br>SELECT</a>
+            <a class="next" href="babarchive.html"><small>NEXT STAGE ▶</small><b>Babarchive</b></a>
+        </nav>
+    </div>
+</section>
+
+<footer class="container"><span>END OF LINE — <b>BUILT PIECE BY PIECE</b></span><span class="foot-btns">
+    <button type="button" class="foot-btn" id="levelup">LEVEL UP ▲</button>
+    <button type="button" class="foot-btn" id="reboot">REBOOT ↻</button>
+    <button type="button" class="foot-btn team" data-team-toggle>SWITCH TEAM ⇄</button>
+</span></footer>
+<div id="toast" aria-live="polite"></div>
 
 </body>
 </html>

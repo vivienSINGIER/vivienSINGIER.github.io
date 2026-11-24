@@ -1,0 +1,39 @@
+/* =====================================================================
+   PROJECT PAGE · BRIEFING
+   title + STAGE DATA card, full-width clip viewer, objectives, players, stage nav
+   (shared look lives in Core/style.css)
+   ===================================================================== */
+.brief { padding-top: clamp(2.5rem, 6vw, 4.5rem); }
+.brief-grid { display: grid; grid-template-columns: 1.35fr 1fr; gap: 3rem; align-items: start; }
+.brief .code { font-family: var(--pixel); font-size: .55rem; color: var(--text-dim); line-height: 2; }
+.brief .code b { color: var(--orange); font-weight: 400; }
+.brief h1 { font-family: var(--display); font-size: clamp(2rem, 6vw, 4rem); line-height: 1.05; letter-spacing: .06em; text-transform: uppercase; color: var(--white);
+    text-shadow: 0 0 2px #fff, 0 0 18px var(--blue-soft); margin: 1rem 0 1.4rem; }
+.brief .lead { color: var(--text-dim); max-width: 58ch; margin: 0 0 1.6rem; font-size: 1.1rem; }
+.brief .tags { margin-bottom: 2rem; }
+
+.stage-data { background: rgba(1,2,5,.7); padding: 1.4rem 1.6rem 1.6rem; border: 1px solid var(--blue-dim); }
+.stage-data h3 { font-family: var(--pixel); font-size: .6rem; color: var(--yellow); margin-bottom: 1.2rem; }
+.stage-data dl { margin: 0; font-family: var(--pixel); font-size: .5rem; }
+.stage-data dl div { display: flex; justify-content: space-between; gap: 1rem; padding: .85rem 0; border-bottom: 1px solid var(--blue-dim); line-height: 1.6; }
+.stage-data dt { color: var(--text-dim); }
+.stage-data dd { margin: 0; color: var(--white); text-align: right; }
+.stage-data dd.ok { color: var(--blue); }
+
+.objectives { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2rem; }
+.objective { border-top: 2px solid var(--blue); box-shadow: 0 -6px 14px -10px var(--blue); padding: 1.3rem 1.5rem 1.6rem;
+    background: rgba(1,2,5,.6); border-left: 1px solid var(--blue-dim); border-right: 1px solid var(--blue-dim); border-bottom: 1px solid var(--blue-dim); }
+.objective small { font-family: var(--pixel); font-size: .5rem; color: var(--orange); }
+.objective h3 { font-family: var(--display); font-size: .9rem; letter-spacing: .1em; text-transform: uppercase; color: var(--white); margin: .8rem 0; }
+.objective p { margin: 0; color: var(--text-dim); }
+.after { margin-top: 2.6rem; }
+
+@media (min-width: 861px) {
+    html[data-team="orange"] .brief-grid { grid-template-columns: 1fr 1.35fr; }
+    html[data-team="orange"] .brief-grid > :first-child { order: 2; text-align: right; }
+    html[data-team="orange"] .brief .lead { margin-left: auto; }
+    html[data-team="orange"] .brief .tags, html[data-team="orange"] .brief .actions { justify-content: flex-end; }
+}
+@media (max-width: 860px) {
+    .brief-grid { grid-template-columns: 1fr; }
+}
